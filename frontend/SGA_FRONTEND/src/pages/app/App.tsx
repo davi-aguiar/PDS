@@ -1,28 +1,30 @@
 import './App.css'
 import { useNavigate } from 'react-router-dom'
+import alpha from '../../assets/Forma 4.png'
 
 function App() {
   const navigate = useNavigate()
 
-  const handleClick = () => {
-    navigate("/associado");
-  }
+  // const handleClick = () => {
+  //   navigate("/associado");
+  // }
 
   return (
-    <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={handleClick}>
-          associado
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+    <main className={"main"}>
+      <div className={"card"}>
+        <img src={alpha} alt={"logo"} width={120}/>
+        <div className={"inputDiv"}>
+          <p>Seu e-mail</p>
+          <input type="text" className={"input"} />
+        </div>
+        <div className={"inputDiv"}>
+          <p>Sua senha</p>
+          <input type="text" className={"input"} />
+        </div>
+        <button>Acessar</button>
+        <a href="/associado">Esqueci Minha Senha</a>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </main>
   )
 }
 

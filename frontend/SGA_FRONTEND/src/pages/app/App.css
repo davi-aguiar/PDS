@@ -1,42 +1,57 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(-129deg, rgba(0,23,25,1) 0%, rgba(42,72,75,1) 100%);
 }
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.card{
+  background-color: #2A484B;
+  width: 450px;
+  height: 450px;
+  border-radius: 15px;
+  color: white;
+  box-shadow: 0px 7px 19px 3px rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.inputDiv{
+  width: 50%;
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.inputDiv p{
+  margin: 20px 0px 0px 10px;
+  font-size: 12px;
+  text-align: left;
 }
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.input{
+  background-color: transparent;
+  border-radius: 20px;
+  border: 1px solid #547a7c;
+  height: 35px;
+  width: 100%;
+  margin-top: 0;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.card button{
+  background-color: #547a7c;
+  margin-top: 45px;
+  color: white;
+  width: 50%;
+  height: 35px;
+  border-radius: 20px;
+  border: 1px solid #547a7c;
+  box-shadow: 0px 2px 1px 2px rgba(0,0,0,0.45);
+  transition: all .3s;
 }
-
-.card {
-  padding: 2em;
+.card button:hover{
+  background-color: #2A484B;
+  cursor: pointer;
 }
-
-.read-the-docs {
-  color: #888;
+.card a{
+  text-decoration: none;
+  color: #547a7c;
+  margin-top: 20px;
+  font-size: 14px;
 }
