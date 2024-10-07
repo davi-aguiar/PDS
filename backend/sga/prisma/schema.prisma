@@ -1,0 +1,168 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Associado {
+  matricula       String         @id
+  nome            String?
+  end_cep         String?
+  end_logradouro  String?
+  end_cidade      String?
+  end_bairro      String?
+  end_numero      String?
+  end_complemento String?
+  cnh             String?
+  tipo            TipoAssociado?
+
+  fisica             Fisica?
+  juridica           Juridica?
+  associadocadastros AssociadoCadastro[]
+}
+
+enum TipoAssociado {
+  FISICA
+  JURIDICA
+}
+
+model Funcionario {
+  matriculaFuncionario String           @id
+  nome                 String?
+  tipo                 TipoFuncionario?
+
+  atendimento FuncionarioAtendimento?
+  eventos     FuncionarioEventos?
+}
+
+enum TipoFuncionario {
+  EVENTOS
+  ATENDIMENTO
+}
+
+model FuncionarioAtendimento {
+  matriculaFuncionario String  @id
+  rg                   String?
+
+  funcionario        Funcionario         @relation(fields: [matriculaFuncionario], references: [matriculaFuncionario], onDelete: Cascade)
+  associadocadastros AssociadoCadastro[]
+}
+
+model Marca {
+  codMarca  Int     @id
+  nomeMarca String?
+
+  modelos Modelo[]
+}
+
+model Modelo {
+  codModelo  Int          @id
+  nomeModelo String?
+  tipo       TipoVeiculo?
+  codMarca   Int?
+
+  marca    Marca?    @relation(fields: [codMarca], references: [codMarca])
+  veiculos Veiculo[]
+}
+
+enum TipoVeiculo {
+  CARRO
+  MOTO
+  CAMINHAO
+}
+
+model Veiculo {
+  chassi           String   @id
+  placa            String?
+  esp_renavam      String?
+  esp_cor          String?
+  esp_numero_motor String?
+  cod_fipe         String?
+  codModelo        Int?
+  mensalidade      Decimal?
+
+  modelo            Modelo?             @relation(fields: [codModelo], references: [codModelo])
+  sinistros         Sinistro[]
+  AssociadoCadastro AssociadoCadastro[]
+}
+
+model AssociadoCadastro {
+  matricula            String
+  matriculaFuncionario String
+  chassi               String
+  taxa_adesao          Decimal?
+
+  associado              Associado              @relation(fields: [matricula], references: [matricula])
+  funcionarioAtendimento FuncionarioAtendimento @relation(fields: [matriculaFuncionario], references: [matriculaFuncionario])
+  veiculo                Veiculo                @relation(fields: [chassi], references: [chassi])
+
+  @@id([matricula, matriculaFuncionario, chassi])
+}
+
+model Fisica {
+  matricula String  @id
+  cpf       String? @unique
+
+  associado Associado @relation(fields: [matricula], references: [matricula], onDelete: Cascade)
+}
+
+model Juridica {
+  matricula String  @id
+  cnpj      String? @unique
+
+  associado Associado @relation(fields: [matricula], references: [matricula], onDelete: Cascade)
+}
+
+model FuncionarioEventos {
+  matriculaFuncionario String  @id
+  cnh                  String?
+
+  funcionario Funcionario  @relation(fields: [matriculaFuncionario], references: [matriculaFuncionario], onDelete: Cascade)
+  ocorrencias Ocorrencia[]
+  oficinas    Oficina[]
+}
+
+model Ocorrencia {
+  protocolo            Int      @id
+  tipo_ocorrencia      String?
+  endereco_atual       String?
+  matriculaFuncionario String?
+  participacao         Decimal?
+
+  funcionarioEventos   FuncionarioEventos?  @relation(fields: [matriculaFuncionario], references: [matriculaFuncionario], onDelete: Cascade)
+  sinistros            Sinistro[]
+  individuosEnvolvidos IndividuoEnvolvido[]
+}
+
+model IndividuoEnvolvido {
+  individuos          Int     @id
+  individuo_envolvido String?
+  protocolo           Int?
+
+  ocorrencia Ocorrencia? @relation(fields: [protocolo], references: [protocolo], onDelete: Cascade)
+}
+
+model Oficina {
+  oficina_credenciada  String  @id
+  pecas                String?
+  qtd_veiculos_atuais  Int?
+  matriculaFuncionario String?
+
+  funcionarioEventos FuncionarioEventos? @relation(fields: [matriculaFuncionario], references: [matriculaFuncionario], onDelete: Cascade)
+}
+
+model Sinistro {
+  chassi    String
+  protocolo Int
+  dia       Int?
+  mes       Int?
+  ano       Int?
+
+  veiculo    Veiculo    @relation(fields: [chassi], references: [chassi])
+  ocorrencia Ocorrencia @relation(fields: [protocolo], references: [protocolo])
+
+  @@id([chassi, protocolo])
+}
