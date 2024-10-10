@@ -72,18 +72,16 @@ const rows = [
 export default function DenseTable() {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 950 }} size="small" aria-label="a dense table">
+      <Table sx={{ minWidth: 950, maxHeight:100 }} size="small">
         <TableHead>
           <TableRow className={styles.headRow}>
-            <TableCell align="right">
-              <input type="checkbox" name="" id="" />
-            </TableCell>
+            <TableCell  align="right"></TableCell>
             <TableCell style={{fontWeight:"bold"}}>Nome</TableCell>
             <TableCell style={{fontWeight:"bold"}} align="right">Telefone</TableCell>
             <TableCell style={{fontWeight:"bold"}} align="right">E-mail</TableCell>
             <TableCell style={{fontWeight:"bold"}} align="right">Matrícula</TableCell>
             <TableCell align="right">
-              <FaTrash size={18} color="black" />
+            <FaTrash size={18} color="black" />
             </TableCell>
           </TableRow>
         </TableHead>
