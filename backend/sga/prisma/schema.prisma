@@ -30,12 +30,15 @@ enum TipoAssociado {
 }
 
 model Funcionario {
-  matriculaFuncionario String           @id
+  matriculaFuncionario String                  @id
   nome                 String?
   tipo                 TipoFuncionario?
-
-  atendimento FuncionarioAtendimento?
-  eventos     FuncionarioEventos?
+  email                String?                 @unique
+  senha                String?
+  criadoEm             DateTime                @default(now())
+  atualizadoEm         DateTime                @updatedAt
+  atendimento          FuncionarioAtendimento?
+  eventos              FuncionarioEventos?
 }
 
 enum TipoFuncionario {

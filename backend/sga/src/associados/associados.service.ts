@@ -1,8 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { CreateAssociadoDTO } from './dto/create-associado.dto';
-import { assert } from 'console';
 import { v4 as uuidv4 } from 'uuid';
+
 @Injectable()
 export class AssociadosService {
   private prisma = new PrismaClient();
@@ -30,10 +34,22 @@ export class AssociadosService {
         associado: novoAssociado,
       };
     } catch (error) {
-      return {
-        message: 'Erro ao criar associado',
-        error: error,
-      };
+      throw new InternalServerErrorException(
+        'Erro ao criar associado',
+        error.message,
+      );
     }
+  }
+
+  async findById(id: string) {
+    const associado = await this.prisma.associado.findUnique({
+      where: { matricula: id },
+    });
+
+    if (!associado) {
+      throw new NotFoundException(`Associado com ID ${id} não encontrado`);
+    }
+
+    return associado;
   }
 }

@@ -9,6 +9,9 @@ export class AssociadosController {
   constructor(private readonly associadosService: AssociadosService) {}
 
   @Post('cadastrar')
+  @ApiOperation({ summary: 'Cria um novo associado' })
+  @ApiResponse({ status: 201, description: 'Associado criado com sucesso.' })
+  @ApiResponse({ status: 400, description: 'Dados inválidos.' })
   async create(@Body() createAssociadoDto: CreateAssociadoDTO) {
     return await this.associadosService.create(createAssociadoDto);
   }
