@@ -7,6 +7,7 @@
     flex-direction: column;
     flex-grow: 1;
     height: 100vh;
+    width: 100vw;
 }
 .inside{
     display: flex;
@@ -15,7 +16,6 @@
 .filter{
     background-color: #a9bcbd;
     width: 225px;
-    height: 100%;
     padding: 20px;
 }
 input{
@@ -59,4 +59,15 @@ p{
 }
 .pLabel{
     margin-bottom: 2px;
+}
+.newBtn{
+    height: 50px;
+    background-color: #507878;
+    color: white;
+    border-radius: 15px;
+    border: none;
+    width: 180px;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 20px;
 }

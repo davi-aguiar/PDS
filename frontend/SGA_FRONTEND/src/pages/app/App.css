@@ -33,6 +33,8 @@
   height: 35px;
   width: 100%;
   margin-top: 0;
+  color: white;
+  padding-left: 10px;
 }
 .card button{
   background-color: #547a7c;
@@ -41,7 +43,7 @@
   width: 50%;
   height: 35px;
   border-radius: 20px;
-  border: 1px solid #547a7c;
+  border: none;
   box-shadow: 0px 2px 1px 2px rgba(0,0,0,0.45);
   transition: all .3s;
 }
@@ -54,4 +56,7 @@
   color: #547a7c;
   margin-top: 20px;
   font-size: 14px;
+}
+.label{
+  color: white;
 }

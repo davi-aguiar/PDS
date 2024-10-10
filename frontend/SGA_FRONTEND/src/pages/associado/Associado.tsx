@@ -1,5 +1,6 @@
 import Dash from "../../components/dashboard/page";
 import Search from "../../components/search/page";
+import DenseTable from "../../components/table/page";
 import "./styles.css";
 import { FaUsers, FaCar, FaBullhorn } from "react-icons/fa6";
 
@@ -32,7 +33,11 @@ function Associado() {
               <input type="text" placeholder="DD/MM/YYYY" />
             </div>
             <p className="pLabel">Cidade</p>
-            <input type="text" placeholder="Vitória da Conquista" style={{height:"25px",width:"100%"}}/>
+            <input
+              type="text"
+              placeholder="Vitória da Conquista"
+              style={{ height: "25px", width: "100%" }}
+            />
             <div className="lastInputs">
               <div>
                 <p className="pLabel">Categoria</p>
@@ -43,6 +48,10 @@ function Associado() {
                 <input type="text" placeholder="Carro" />
               </div>
             </div>
+          </div>
+          <div>
+            <button className="newBtn">NOVO ASSOCIADO</button>
+            <DenseTable />
           </div>
         </div>
       </div>

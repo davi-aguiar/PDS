@@ -1,0 +1,11 @@
+Table{
+    background-color: #ebebeb;
+}
+.headRow >*{
+    font-weight: bold;
+    font-size: 20px;
+    border: 1px solid #cdcfd2;
+}
+.BodyRow >*{
+    border: 1px solid #cdcfd2;
+}

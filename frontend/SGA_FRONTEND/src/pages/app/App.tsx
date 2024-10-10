@@ -14,11 +14,11 @@ function App() {
       <div className={"card"}>
         <img src={alpha} alt={"logo"} width={120}/>
         <div className={"inputDiv"}>
-          <p>Seu e-mail</p>
+          <p className='label'>Seu e-mail</p>
           <input type="text" className={"input"} />
         </div>
         <div className={"inputDiv"}>
-          <p>Sua senha</p>
+          <p className='label'>Sua senha</p>
           <input type="text" className={"input"} />
         </div>
         <button>Acessar</button>
