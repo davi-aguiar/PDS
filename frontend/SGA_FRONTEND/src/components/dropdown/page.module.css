@@ -1,0 +1,36 @@
+.dropDown{
+    margin-top: 2%;
+    width: 100%;
+    background-color: #A5B9B9;
+    height: 2.5em;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+}
+
+p{
+    margin-left: 2%;
+}
+
+
+.form{
+    margin-left: 1%;
+    height: 70%;
+    width: 98%;
+    background-color: #F5F5F5;
+    border: 2px solid #A5B9B9 ;
+    border-radius: 10px;
+    transition: max-height 0.3s ease;
+}
+
+.show {
+    max-height: 500px; 
+    opacity: 1; 
+    transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out; 
+}
+
+.hide{
+    max-height: 0; 
+    opacity: 0; 
+    transition: max-height 0.3s ease-in-out, opacity 0.45s ease-in-out;
+}

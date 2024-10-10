@@ -5,9 +5,9 @@ import alpha from '../../assets/Forma 4.png'
 function App() {
   const navigate = useNavigate()
 
-  // const handleClick = () => {
-  //   navigate("/associado");
-  // }
+  const handleClick = () => {
+    navigate("/novo-associado");
+  }
 
   return (
     <main className={"main"}>
@@ -22,7 +22,7 @@ function App() {
           <input type="text" className={"input"} />
         </div>
         <button>Acessar</button>
-        <a href="/associado">Esqueci Minha Senha</a>
+        <p onClick={handleClick}>Esqueci Minha Senha</p>
       </div>
     </main>
   )
