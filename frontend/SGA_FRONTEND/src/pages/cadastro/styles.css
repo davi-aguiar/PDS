@@ -1,0 +1,73 @@
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(-129deg, rgba(0,23,25,1) 0%, rgba(42,72,75,1) 100%);
+  }
+  .cardd{
+    background-color: #2A484B;
+    width: 850px;
+    height: 450px;
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0px 7px 19px 3px rgba(0,0,0,0.45);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+  }
+  .inputDiv{
+    width: 80%;
+  }
+  .solidao{
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .inputDiv p{
+    margin: 20px 0px 0px 10px;
+    font-size: 12px;
+    text-align: left;
+  }
+  .input{
+    background-color: transparent;
+    border-radius: 20px;
+    border: 1px solid #547a7c;
+    height: 35px;
+    width: 100%;
+    margin-top: 0;
+    color: white;
+    padding-left: 10px;
+  }
+  .cardd button{
+    background-color: #547a7c;
+    margin-top: 45px;
+    color: white;
+    width: 50%;
+    height: 35px;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0px 2px 1px 2px rgba(0,0,0,0.45);
+    transition: all .3s;
+  }
+  .card button:hover{
+    background-color: #2A484B;
+    cursor: pointer;
+  }
+  .cardd a{
+    text-decoration: none;
+    color: #547a7c;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  .label{
+    color: white;
+  }
+  .cardd img{
+    width: 200px;
+    margin: 90px;
+  }

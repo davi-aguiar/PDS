@@ -4,6 +4,7 @@ import App from './pages/app/App.tsx'
 import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Associado from './pages/associado/Associado.tsx';
+import Cadastro from './pages/cadastro/cadastro.tsx';
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
   {
     path: "/associado",
     element: <Associado/>,
+  },
+  {
+    path: "/cadastro",
+    element: <Cadastro/>,
   },
 ]);
 

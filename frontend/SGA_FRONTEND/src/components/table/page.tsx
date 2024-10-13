@@ -67,14 +67,122 @@ const rows = [
     "lipe.reidelas@teste.com",
     1241742671
   ),
+  createData(
+    "Gustavo Meira",
+    "(77)98833-2794",
+    "gustavo.meira@teste.com",
+    8763663212
+  ),
+  createData(
+    "Davi Aguiar",
+    "(77)98847-2794",
+    "gatin.santos@teste.com",
+    324234234
+  ),
+  createData(
+    "Felipe Silva",
+    "(77)98833-2124",
+    "lipe.reidelas@teste.com",
+    1241742671
+  ),
+  createData(
+    "Gustavo Meira",
+    "(77)98833-2794",
+    "gustavo.meira@teste.com",
+    8763663212
+  ),
+  createData(
+    "Davi Aguiar",
+    "(77)98847-2794",
+    "gatin.santos@teste.com",
+    324234234
+  ),
+  createData(
+    "Felipe Silva",
+    "(77)98833-2124",
+    "lipe.reidelas@teste.com",
+    1241742671
+  ),
+  createData(
+    "Gustavo Meira",
+    "(77)98833-2794",
+    "gustavo.meira@teste.com",
+    8763663212
+  ),
+  createData(
+    "Davi Aguiar",
+    "(77)98847-2794",
+    "gatin.santos@teste.com",
+    324234234
+  ),
+  createData(
+    "Felipe Silva",
+    "(77)98833-2124",
+    "lipe.reidelas@teste.com",
+    1241742671
+  ),
+  createData(
+    "Gustavo Meira",
+    "(77)98833-2794",
+    "gustavo.meira@teste.com",
+    8763663212
+  ),
+  createData(
+    "Davi Aguiar",
+    "(77)98847-2794",
+    "gatin.santos@teste.com",
+    324234234
+  ),
+  createData(
+    "Felipe Silva",
+    "(77)98833-2124",
+    "lipe.reidelas@teste.com",
+    1241742671
+  ),
+  createData(
+    "Gustavo Meira",
+    "(77)98833-2794",
+    "gustavo.meira@teste.com",
+    8763663212
+  ),
+  createData(
+    "Davi Aguiar",
+    "(77)98847-2794",
+    "gatin.santos@teste.com",
+    324234234
+  ),
+  createData(
+    "Felipe Silva",
+    "(77)98833-2124",
+    "lipe.reidelas@teste.com",
+    1241742671
+  ),
+  createData(
+    "Gustavo Meira",
+    "(77)98833-2794",
+    "gustavo.meira@teste.com",
+    8763663212
+  ),
+  createData(
+    "Davi Aguiar",
+    "(77)98847-2794",
+    "gatin.santos@teste.com",
+    324234234
+  ),
+  createData(
+    "Felipe Silva",
+    "(77)98833-2124",
+    "lipe.reidelas@teste.com",
+    1241742671
+  ),
 ];
 
 export default function DenseTable() {
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 950, maxHeight:100 }} size="small">
+    <TableContainer component={Paper} style={{ maxHeight: '60vh', overflowY: 'auto'}}>
+      <Table size="small" style={{width:"60vw"}}>
         <TableHead>
-          <TableRow className={styles.headRow}>
+          <TableRow className={styles.headRow} style={{ position: 'sticky', top: 0, zIndex: 1, backgroundColor: '#ebebeb' }}>
             <TableCell  align="right"></TableCell>
             <TableCell style={{fontWeight:"bold"}}>Nome</TableCell>
             <TableCell style={{fontWeight:"bold"}} align="right">Telefone</TableCell>

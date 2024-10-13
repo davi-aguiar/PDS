@@ -23,6 +23,7 @@ function App() {
         </div>
         <button>Acessar</button>
         <a href="/associado">Esqueci Minha Senha</a>
+        <a href="/cadastro">Criar conta</a>
       </div>
     </main>
   )
