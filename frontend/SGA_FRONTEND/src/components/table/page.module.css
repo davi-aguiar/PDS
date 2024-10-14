@@ -1,0 +1,22 @@
+Table{
+    background-color: #ebebeb;
+}
+.headRow >*{
+    font-weight: bold;
+    font-size: 20px;
+    border: 1px solid #cdcfd2;
+}
+.headRow :first-child{
+    width: 20px;
+}
+.headRow :last-child{
+    width: 20px;
+}
+.BodyRow >*{
+    border: 1px solid #cdcfd2;
+}
+input[type="checkbox"]{
+    background-color: aqua;
+    width: 15px;
+    height: 15px;
+}

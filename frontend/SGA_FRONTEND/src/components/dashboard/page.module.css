@@ -1,0 +1,24 @@
+.menu{
+    background-color: #2a484b;
+    width: 250px;
+    display: flex;
+    align-items: center;
+    padding-top: 30px;
+    flex-direction: column;
+}
+.button{
+    background: linear-gradient(90deg, #53797b 0%, transparent 90%);
+    width: 70%;
+    height: 40px;
+    border: 0px;
+    color: white;
+    border-radius: 25px;
+    margin: 10px;
+    cursor: pointer;   
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+.button :first-child{
+    margin-right: 10px;
+}

@@ -1,0 +1,23 @@
+
+.searchDiv{
+    background-color: white;
+    height: 55px;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 10px 0 10px;
+    align-items: center;
+    border-bottom: 1px solid rgb(129, 129, 129);
+}
+.searchBar{
+    height: 30px;
+    width: 40%;
+    border-radius: 20px;
+    border: 1px solid #7f7f7f;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.searchBar input{
+    border: 0px;
+    width: 90%;
+}
