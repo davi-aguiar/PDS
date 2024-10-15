@@ -5,6 +5,7 @@ import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Associado from './pages/associado/Associado.tsx';
 import NovoAssociado from './pages/novoAssociado/NovoAssociado.tsx';
+import EditarAssociado from './pages/editarAssociado/EditarAssociado.tsx';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/novo-associado",
     element: <NovoAssociado/>
+  },
+  {
+    path: "/editar-associado",
+    element: <EditarAssociado/>
   }
 ]);
 

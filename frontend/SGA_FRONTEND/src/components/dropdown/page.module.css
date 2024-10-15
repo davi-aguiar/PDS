@@ -6,6 +6,7 @@
     border-radius: 20px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 p{
@@ -24,13 +25,60 @@ p{
 }
 
 .show {
-    max-height: 500px; 
+    display: flex;
+    max-height: 550px; 
     opacity: 1; 
     transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out; 
 }
 
 .hide{
+    display: none;
     max-height: 0; 
     opacity: 0; 
-    transition: max-height 0.3s ease-in-out, opacity 0.45s ease-in-out;
+    transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+.inputsFlex{
+    margin: 1%;
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px; 
+}
+
+.inputsFlex div{
+    flex: 0 0 calc(50% - 10px); 
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputsFlex div:nth-child(2n+1):last-child {
+    flex: 0 0 100%; /* Última div ocupa 100% do espaço */
+}
+
+.info input{
+    border-radius: 5px;
+    height: 2em;
+    width: 100%;
+}
+
+.info p{
+    margin: 0;
+}
+
+.info2 input{
+    display: none;
+}
+
+.info2 p{
+    margin: 0;
+}
+
+.uploadInput{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
 }
