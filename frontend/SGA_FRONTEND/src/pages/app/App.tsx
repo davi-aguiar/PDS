@@ -7,7 +7,6 @@ import axios from "axios"; // Importando o Axios
 function App() {
   const navigate = useNavigate();
 
-<<<<<<< HEAD
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -29,11 +28,9 @@ function App() {
       setError("Erro ao realizar login");
     }
   };
-=======
   const handleClick = () => {
     navigate("/associado");
-  }
->>>>>>> 553ed980378d7f56eec4532d9b497b772fb57370
+  };
 
   return (
     <main className={"main"}>
@@ -57,15 +54,12 @@ function App() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-<<<<<<< HEAD
         <button onClick={handleLogin}>Acessar</button>
         {error && <p className="error">{error}</p>}
         <a href="/associado">Esqueci Minha Senha</a>
         <a href="/cadastro">Criar conta</a>
-=======
         <button>Acessar</button>
         <p onClick={handleClick}>Esqueci Minha Senha</p>
->>>>>>> 553ed980378d7f56eec4532d9b497b772fb57370
       </div>
     </main>
   );

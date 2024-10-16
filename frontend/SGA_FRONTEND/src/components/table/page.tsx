@@ -6,12 +6,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import styles from "./page.module.css";
 import Paper from "@mui/material/Paper";
-<<<<<<< HEAD
 import Popup from "../remove/page";
-=======
-import { FaTrash } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
->>>>>>> 553ed980378d7f56eec4532d9b497b772fb57370
 
 function createData(name: string, number: string, email: string, id: number) {
   return { name, number, email, id };
@@ -179,27 +175,44 @@ const rows = [
     "(77)98833-2124",
     "lipe.reidelas@teste.com",
     1241742671
-  ),
+  )
 ];
 
 export default function DenseTable() {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("/editar-associado")
-  }
+    navigate("/editar-associado");
+  };
 
   return (
-    <TableContainer component={Paper} style={{ maxHeight: '60vh', overflowY: 'auto'}}>
-      <Table size="small" style={{width:"60vw"}}>
+    <TableContainer
+      component={Paper}
+      style={{ maxHeight: "60vh", overflowY: "auto" }}
+    >
+      <Table size="small" style={{ width: "60vw" }}>
         <TableHead>
-          <TableRow className={styles.headRow} style={{ position: 'sticky', top: 0, zIndex: 1, backgroundColor: '#ebebeb' }}>
+          <TableRow
+            className={styles.headRow}
+            style={{
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+              backgroundColor: "#ebebeb"
+            }}
+          >
             <TableCell className={styles.abc} align="right"></TableCell>
-            <TableCell style={{fontWeight:"bold"}}>Nome</TableCell>
-            <TableCell style={{fontWeight:"bold"}} align="right">Telefone</TableCell>
-            <TableCell style={{fontWeight:"bold"}} align="right">E-mail</TableCell>
-            <TableCell style={{fontWeight:"bold"}} align="right">Matrícula</TableCell>
+            <TableCell style={{ fontWeight: "bold" }}>Nome</TableCell>
+            <TableCell style={{ fontWeight: "bold" }} align="right">
+              Telefone
+            </TableCell>
+            <TableCell style={{ fontWeight: "bold" }} align="right">
+              E-mail
+            </TableCell>
+            <TableCell style={{ fontWeight: "bold" }} align="right">
+              Matrícula
+            </TableCell>
             <TableCell className={styles.abc} align="right">
-              <Popup/>
+              <Popup />
             </TableCell>
           </TableRow>
         </TableHead>
@@ -216,7 +229,7 @@ export default function DenseTable() {
               <TableCell align="right">{row.email}</TableCell>
               <TableCell align="right">{row.id}</TableCell>
               <TableCell align="right">
-              <Popup/>
+                <Popup />
               </TableCell>
             </TableRow>
           ))}

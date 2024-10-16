@@ -1,31 +1,29 @@
-Table{
-    background-color: #ebebeb;
+Table {
+  background-color: #ebebeb;
 }
-.headRow >*{
-    font-weight: bold;
-    font-size: 20px;
-    border: 1px solid #cdcfd2;
+.headRow > * {
+  font-weight: bold;
+  font-size: 20px;
+  border: 1px solid #cdcfd2;
 }
-<<<<<<< HEAD
-.abc{
-=======
-.headRow :first-child{
+.abc {
+  .headRow :first-child {
     width: 20px;
-}
-.BodyRow :nth-child(2){
+  }
+  .BodyRow :nth-child(2) {
     cursor: pointer;
-}
-.headRow :last-child{
->>>>>>> 553ed980378d7f56eec4532d9b497b772fb57370
+  }
+  .headRow :last-child {
     width: 20px;
-}
-.BodyRow >*{
+  }
+  .BodyRow > * {
     border: 1px solid #cdcfd2;
-}
-input[type="checkbox"]{
+  }
+  input[type="checkbox"] {
     width: 15px;
     height: 15px;
-}
-input[type="checkbox"]:hover{
+  }
+  input[type="checkbox"]:hover {
     cursor: pointer;
+  }
 }
