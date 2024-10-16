@@ -6,7 +6,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import styles from "./page.module.css";
 import Paper from "@mui/material/Paper";
+<<<<<<< HEAD
 import Popup from "../remove/page";
+=======
+import { FaTrash } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+>>>>>>> 553ed980378d7f56eec4532d9b497b772fb57370
 
 function createData(name: string, number: string, email: string, id: number) {
   return { name, number, email, id };
@@ -178,6 +183,11 @@ const rows = [
 ];
 
 export default function DenseTable() {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/editar-associado")
+  }
+
   return (
     <TableContainer component={Paper} style={{ maxHeight: '60vh', overflowY: 'auto'}}>
       <Table size="small" style={{width:"60vw"}}>
@@ -199,7 +209,7 @@ export default function DenseTable() {
               <TableCell align="right">
                 <input type="checkbox" name="" id="" />
               </TableCell>
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" onClick={handleClick}>
                 {row.name}
               </TableCell>
               <TableCell align="right">{row.number}</TableCell>

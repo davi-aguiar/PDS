@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Dash from "../../components/dashboard/page";
 import Search from "../../components/search/page";
 import DenseTable from "../../components/table/page";
@@ -5,6 +6,13 @@ import "./styles.css";
 import { FaUsers, FaCar, FaBullhorn } from "react-icons/fa6";
 
 function Associado() {
+
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate("/novo-associado");
+  }
+
   return (
     <div className="container">
       <Dash />
@@ -50,7 +58,7 @@ function Associado() {
             </div>
           </div>
           <div>
-            <button className="newBtn">NOVO ASSOCIADO</button>
+            <button className="newBtn" onClick={handleNavigate}>NOVO ASSOCIADO</button>
             <DenseTable />
           </div>
         </div>

@@ -6,7 +6,17 @@ Table{
     font-size: 20px;
     border: 1px solid #cdcfd2;
 }
+<<<<<<< HEAD
 .abc{
+=======
+.headRow :first-child{
+    width: 20px;
+}
+.BodyRow :nth-child(2){
+    cursor: pointer;
+}
+.headRow :last-child{
+>>>>>>> 553ed980378d7f56eec4532d9b497b772fb57370
     width: 20px;
 }
 .BodyRow >*{
