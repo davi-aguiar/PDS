@@ -58,8 +58,6 @@ function App() {
         {error && <p className="error">{error}</p>}
         <a href="/associado">Esqueci Minha Senha</a>
         <a href="/cadastro">Criar conta</a>
-        <button>Acessar</button>
-        <p onClick={handleClick}>Esqueci Minha Senha</p>
       </div>
     </main>
   );
