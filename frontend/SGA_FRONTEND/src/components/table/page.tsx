@@ -212,7 +212,7 @@ export default function DenseTable() {
               Matrícula
             </TableCell>
             <TableCell className={styles.abc} align="right">
-              <Popup />
+              <Popup type="icon"/>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -229,7 +229,7 @@ export default function DenseTable() {
               <TableCell align="right">{row.email}</TableCell>
               <TableCell align="right">{row.id}</TableCell>
               <TableCell align="right">
-                <Popup />
+                <Popup type="icon"/>
               </TableCell>
             </TableRow>
           ))}

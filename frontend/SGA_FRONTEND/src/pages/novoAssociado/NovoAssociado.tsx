@@ -4,7 +4,6 @@ import "./styles.css";
 import DropDown from "../../components/dropdown/page";
 
 function NovoAssociado() {
-
   return (
     <div className="container">
       <Dash />
@@ -12,10 +11,14 @@ function NovoAssociado() {
         <Search />
         <div className="register">
           <h1>Cadastrar Novo Associado</h1>
-          <DropDown title="Dados do Associado" type="associado"/>
-          <DropDown title="Dados do Veículo" type=""/>
-          <DropDown title="Dados do Seguro" type="associado"/>
-          <DropDown title="Informações Financeiras" type="associado"/>
+          <DropDown title="Dados do Associado" type="associado" />
+          <DropDown title="Dados do Veículo" type="" />
+          <DropDown title="Dados do Seguro" type="associado" />
+          <DropDown title="Informações Financeiras" type="associado" />
+        </div>
+        <div className="divButtons">
+          <button>CANCELAR</button>
+          <button>SALVAR</button>
         </div>
       </div>
     </div>

@@ -5,14 +5,14 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5) !important;
     display: flex;
     justify-content: center;
     align-items: center;
   }
   
   .popupContent {
-    background: white;
+    background: white !important;
     padding: 20px;
     border-radius: 8px;
     width: 500px;
@@ -21,6 +21,7 @@
   .buttonsDiv{
     display: flex;
     justify-content: right;
+    background: white !important;
   }
   .buttonsDiv :first-child{
     background-color: white;
@@ -37,7 +38,7 @@
     font-weight: bold;
     color: white;
   }
-  button {
+  .buttonsDiv button {
     margin: 5px;
   }
   .buttonsDiv :hover{
@@ -49,3 +50,9 @@
   .dependencies{
     margin-left: 20px;
   }
+  .dependencies p{
+    background-color: white !important;
+  }
+h2{
+  background-color: white !important;
+}

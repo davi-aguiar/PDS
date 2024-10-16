@@ -7,14 +7,10 @@ Table {
   border: 1px solid #cdcfd2;
 }
 .abc {
-  .headRow :first-child {
     width: 20px;
   }
   .BodyRow :nth-child(2) {
     cursor: pointer;
-  }
-  .headRow :last-child {
-    width: 20px;
   }
   .BodyRow > * {
     border: 1px solid #cdcfd2;
@@ -26,4 +22,3 @@ Table {
   input[type="checkbox"]:hover {
     cursor: pointer;
   }
-}

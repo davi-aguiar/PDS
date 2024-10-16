@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import styles from "./page.module.css";
 import { FaCar, FaNewspaper, FaTrash } from "react-icons/fa6";
 
-const Popup = () => {
+interface Props {
+  type: string;
+}
+
+const Popup = ({ type }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopup = () => {
@@ -11,7 +15,11 @@ const Popup = () => {
 
   return (
     <div>
-      <FaTrash onClick={togglePopup} size={18} color="black" className={styles.icon}/>
+      {type === "icon" ? (
+        <FaTrash onClick={togglePopup} size={18} color="black" className={styles.icon}/>
+      ):(
+        <button onClick={togglePopup}>EXCLUIR</button>
+      )}
 
       {isOpen && (
         <div className={styles.popupOverlay} onClick={togglePopup}>
@@ -27,10 +35,10 @@ const Popup = () => {
             <p>x está ligado a:</p>
             <div className={styles.dependencies}>
               <p>
-                <FaCar size={22} color="black" /> x Veículos
+                <FaCar size={22} color="black" className="icon" style={{backgroundColor:"white"}}/> x Veículos
               </p>
               <p>
-                <FaNewspaper size={22} color="black" /> x Faturas
+                <FaNewspaper size={22} color="black" style={{backgroundColor:"white"}}/> x Faturas
               </p>
             </div>
             <div className={styles.buttonsDiv}>

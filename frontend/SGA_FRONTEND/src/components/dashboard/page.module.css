@@ -1,6 +1,6 @@
 .menu{
     background-color: #2a484b;
-    width: 250px;
+    min-width: 250px;
     display: flex;
     align-items: center;
     padding-top: 30px;
@@ -21,4 +21,7 @@
 }
 .button :first-child{
     margin-right: 10px;
+}
+img:hover{
+    cursor: pointer;
 }
