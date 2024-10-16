@@ -1,0 +1,51 @@
+.popupOverlay {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popupContent {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 500px;
+    text-align: left;
+  }
+  .buttonsDiv{
+    display: flex;
+    justify-content: right;
+  }
+  .buttonsDiv :first-child{
+    background-color: white;
+    padding: 5px 8px 5px 8px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.274);
+    font-weight: bold;
+  }
+  .buttonsDiv :last-child{
+    background-color: #B91400;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+    color: white;
+  }
+  button {
+    margin: 5px;
+  }
+  .buttonsDiv :hover{
+    cursor: pointer;
+  }
+  .icon :hover{
+    cursor: pointer;
+  }
+  .dependencies{
+    margin-left: 20px;
+  }

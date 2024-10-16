@@ -6,7 +6,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import styles from "./page.module.css";
 import Paper from "@mui/material/Paper";
-import { FaTrash } from "react-icons/fa6";
+import Popup from "../remove/page";
 
 function createData(name: string, number: string, email: string, id: number) {
   return { name, number, email, id };
@@ -183,13 +183,13 @@ export default function DenseTable() {
       <Table size="small" style={{width:"60vw"}}>
         <TableHead>
           <TableRow className={styles.headRow} style={{ position: 'sticky', top: 0, zIndex: 1, backgroundColor: '#ebebeb' }}>
-            <TableCell  align="right"></TableCell>
+            <TableCell className={styles.abc} align="right"></TableCell>
             <TableCell style={{fontWeight:"bold"}}>Nome</TableCell>
             <TableCell style={{fontWeight:"bold"}} align="right">Telefone</TableCell>
             <TableCell style={{fontWeight:"bold"}} align="right">E-mail</TableCell>
             <TableCell style={{fontWeight:"bold"}} align="right">Matrícula</TableCell>
-            <TableCell align="right">
-            <FaTrash size={18} color="black" />
+            <TableCell className={styles.abc} align="right">
+              <Popup/>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -206,7 +206,7 @@ export default function DenseTable() {
               <TableCell align="right">{row.email}</TableCell>
               <TableCell align="right">{row.id}</TableCell>
               <TableCell align="right">
-                <FaTrash size={18} color="black" />
+              <Popup/>
               </TableCell>
             </TableRow>
           ))}
