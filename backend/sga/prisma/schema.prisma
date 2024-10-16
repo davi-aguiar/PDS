@@ -30,7 +30,7 @@ enum TipoAssociado {
 }
 
 model Funcionario {
-  matriculaFuncionario String                  @id
+  matriculaFuncionario Int                     @id @default(autoincrement())
   nome                 String?
   tipo                 TipoFuncionario?
   email                String?                 @unique
@@ -47,7 +47,7 @@ enum TipoFuncionario {
 }
 
 model FuncionarioAtendimento {
-  matriculaFuncionario String  @id
+  matriculaFuncionario Int     @id
   rg                   String?
 
   funcionario        Funcionario         @relation(fields: [matriculaFuncionario], references: [matriculaFuncionario], onDelete: Cascade)
@@ -94,7 +94,7 @@ model Veiculo {
 
 model AssociadoCadastro {
   matricula            String
-  matriculaFuncionario String
+  matriculaFuncionario Int
   chassi               String
   taxa_adesao          Decimal?
 
@@ -120,7 +120,7 @@ model Juridica {
 }
 
 model FuncionarioEventos {
-  matriculaFuncionario String  @id
+  matriculaFuncionario Int     @id
   cnh                  String?
 
   funcionario Funcionario  @relation(fields: [matriculaFuncionario], references: [matriculaFuncionario], onDelete: Cascade)
@@ -132,7 +132,7 @@ model Ocorrencia {
   protocolo            Int      @id
   tipo_ocorrencia      String?
   endereco_atual       String?
-  matriculaFuncionario String?
+  matriculaFuncionario Int?
   participacao         Decimal?
 
   funcionarioEventos   FuncionarioEventos?  @relation(fields: [matriculaFuncionario], references: [matriculaFuncionario], onDelete: Cascade)
@@ -152,7 +152,7 @@ model Oficina {
   oficina_credenciada  String  @id
   pecas                String?
   qtd_veiculos_atuais  Int?
-  matriculaFuncionario String?
+  matriculaFuncionario Int?
 
   funcionarioEventos FuncionarioEventos? @relation(fields: [matriculaFuncionario], references: [matriculaFuncionario], onDelete: Cascade)
 }

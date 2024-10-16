@@ -15,13 +15,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any) {
-    const funcionario = await this.funcionariosService.findById(payload.sub);
+  // async validate(payload: any) {
+  //   const funcionario = await this.funcionariosService.findById(payload.sub);
 
-    if (!funcionario) {
-      throw new UnauthorizedException('Funcionário não encontrado');
-    }
+  //   if (!funcionario) {
+  //     throw new UnauthorizedException('Funcionário não encontrado');
+  //   }
 
-    return funcionario;
-  }
+  //   return funcionario;
+  // }
 }
