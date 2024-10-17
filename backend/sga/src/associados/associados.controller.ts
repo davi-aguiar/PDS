@@ -53,7 +53,7 @@ export class AssociadosController {
     return await this.associadosService.delete(id);
   }
 
-  @Get('listar/:id')
+  @Get('listar')
   @ApiOperation({ summary: 'Lista um associado' })
   @ApiResponse({ status: 200, description: 'Associado encontrado.' })
   @ApiResponse({ status: 404, description: 'Associado não encontrado.' })
