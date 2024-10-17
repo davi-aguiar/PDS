@@ -52,4 +52,65 @@ export class AssociadosService {
 
     return associado;
   }
+
+  async update(id: string, updateAssociadoDTO: CreateAssociadoDTO) {
+    try {
+      const associado = await this.prisma.associado.update({
+        where: { matricula: id },
+        data: {
+          nome: updateAssociadoDTO.nome,
+          end_cep: updateAssociadoDTO.end_cep,
+          end_logradouro: updateAssociadoDTO.end_logradouro,
+          end_cidade: updateAssociadoDTO.end_cidade,
+          end_bairro: updateAssociadoDTO.end_bairro,
+          end_numero: updateAssociadoDTO.end_numero,
+          end_complemento: updateAssociadoDTO.end_complemento,
+          cnh: updateAssociadoDTO.cnh,
+          tipo: updateAssociadoDTO.tipo,
+        },
+      });
+      return {
+        message: 'Associado atualizado com sucesso',
+        associado,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Erro ao atualizar associado',
+        error.message,
+      );
+    }
+  }
+
+  async delete(id: string) {
+    try {
+      const associado = await this.prisma.associado.delete({
+        where: { matricula: id },
+      });
+      return {
+        message: 'Associado deletado com sucesso',
+        associado,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Erro ao deletar associado',
+        error.message,
+      );
+    }
+  }
+
+  async findAll() {
+    try {
+      const associados = await this.prisma.associado.findMany();
+
+      return {
+        message: 'Lista de associados',
+        associados,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Erro ao buscar associados',
+        error.message,
+      );
+    }
+  }
 }
