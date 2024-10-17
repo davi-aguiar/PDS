@@ -6,8 +6,11 @@ import {
   Put,
   Delete,
   Get,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AssociadosService } from './associados.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateAssociadoDTO } from './dto/create-associado.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
@@ -20,8 +23,12 @@ export class AssociadosController {
   @ApiOperation({ summary: 'Cria um novo associado' })
   @ApiResponse({ status: 201, description: 'Associado criado com sucesso.' })
   @ApiResponse({ status: 400, description: 'Dados inválidos.' })
-  async create(@Body() createAssociadoDto: CreateAssociadoDTO) {
-    return await this.associadosService.create(createAssociadoDto);
+  @UseInterceptors(FileInterceptor('imagem'))
+  async create(
+    @Body() createAssociadoDto: CreateAssociadoDTO,
+    @UploadedFile() imageFile: Express.Multer.File,
+  ) {
+    return await this.associadosService.create(createAssociadoDto, imageFile);
   }
 
   @Put('atualizar/:id')

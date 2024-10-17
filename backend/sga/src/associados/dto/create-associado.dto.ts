@@ -63,4 +63,31 @@ export class CreateAssociadoDTO {
     example: 'FISICA',
   })
   tipo: 'FISICA' | 'JURIDICA';
+
+  @ApiProperty({
+    description: 'Número do RG (opcional)',
+    example: '1234567890',
+    required: false,
+  })
+  rg?: string;
+
+  @ApiProperty({
+    description: 'Número de telefone',
+    example: '(11) 91234-5678',
+  })
+  telefone: string;
+
+  @ApiProperty({
+    description: 'Data de nascimento no formato ISO 8601',
+    example: '2000-05-13',
+  })
+  data_nascimento: string;
+
+  @ApiProperty({
+    description: 'Imagem do associado (base64 ou blob)',
+    type: 'string',
+    format: 'binary',
+    required: false,
+  })
+  imagem?: any;
 }

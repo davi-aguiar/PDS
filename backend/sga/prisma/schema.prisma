@@ -18,6 +18,10 @@ model Associado {
   end_complemento String?
   cnh             String?
   tipo            TipoAssociado?
+  rg              String?
+  telefone        String?
+  data_nascimento DateTime?
+  imagem          Bytes?
 
   fisica             Fisica?
   juridica           Juridica?

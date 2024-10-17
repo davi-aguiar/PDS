@@ -11,9 +11,18 @@ import { v4 as uuidv4 } from 'uuid';
 export class AssociadosService {
   private prisma = new PrismaClient();
 
-  async create(createAssociadoDTO: CreateAssociadoDTO) {
+  async create(
+    createAssociadoDTO: CreateAssociadoDTO,
+    imageFile: Express.Multer.File,
+  ) {
     try {
       const matricula = uuidv4();
+
+      let imageBuffer: Buffer | null = null;
+      if (imageFile) {
+        imageBuffer = imageFile.buffer;
+      }
+
       const novoAssociado = await this.prisma.associado.create({
         data: {
           matricula: matricula,
@@ -26,6 +35,9 @@ export class AssociadosService {
           end_complemento: createAssociadoDTO.end_complemento,
           cnh: createAssociadoDTO.cnh,
           tipo: createAssociadoDTO.tipo,
+          rg: createAssociadoDTO.rg,
+          telefone: createAssociadoDTO.telefone,
+          data_nascimento: new Date(createAssociadoDTO.data_nascimento),
         },
       });
 
@@ -34,6 +46,7 @@ export class AssociadosService {
         associado: novoAssociado,
       };
     } catch (error) {
+      console.error('Erro ao criar associado:', error);
       throw new InternalServerErrorException(
         'Erro ao criar associado',
         error.message,
