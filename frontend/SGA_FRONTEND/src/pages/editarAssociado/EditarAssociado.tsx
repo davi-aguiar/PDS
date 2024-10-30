@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Dash from "../../components/dashboard/page";
 import Search from "../../components/search/page";
 import DropDown from "../../components/dropdown/page";
@@ -11,6 +11,7 @@ function EditAssociado() {
   const { associado: associadoData } = location.state; // Pega os dados passados pela navegação
   const [associado, setAssociado] = useState(associadoData);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   // Carrega dados do associado ao montar o componente
   useEffect(() => {
@@ -31,6 +32,10 @@ function EditAssociado() {
   const handleAssociadoChange = (field: string, value: string) => {
     setAssociado({ ...associado, [field]: value });
   };
+
+  const handleCancel = () => {
+    navigate("/associado");
+  }
 
   const handleSubmit = async () => {
     try {
@@ -64,7 +69,7 @@ function EditAssociado() {
           {message && <p>{message}</p>}
         </div>
         <div className="divButtons">
-          <button>CANCELAR</button>
+          <button onClick={handleCancel}>CANCELAR</button>
           <button onClick={handleSubmit}>SALVAR</button>
         </div>
       </div>
