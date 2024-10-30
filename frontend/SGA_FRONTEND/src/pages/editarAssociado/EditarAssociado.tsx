@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Dash from "../../components/dashboard/page";
 import Search from "../../components/search/page";
 import DropDown from "../../components/dropdown/page";
@@ -7,30 +7,18 @@ import "./styles.css";
 import axios from "axios";
 
 function EditAssociado() {
-  const { id } = useParams(); // Obter o id do associado da URL
-  const [associado, setAssociado] = useState({
-    nome: "",
-    cpf_cnpj: "",
-    end_cep: "",
-    end_logradouro: "",
-    end_cidade: "",
-    end_bairro: "",
-    end_numero: "",
-    end_complemento: "",
-    cnh: "",
-    tipo: "FISICA",
-    rg: "",
-    telefone: "",
-    data_nascimento: "",
-  });
-  
+  const location = useLocation();
+  const { associado: associadoData } = location.state; // Pega os dados passados pela navegação
+  const [associado, setAssociado] = useState(associadoData);
   const [message, setMessage] = useState("");
 
-  // Carregar dados do associado ao montar o componente
+  // Carrega dados do associado ao montar o componente
   useEffect(() => {
     async function fetchAssociado() {
       try {
-        const response = await axios.get(`http://localhost:3000/associados/${id}`);
+        const response = await axios.get(
+          `http://localhost:3000/associados/${associadoData.matricula}`
+        );
         setAssociado(response.data);
       } catch (error) {
         setMessage("Erro ao carregar os dados do associado.");
@@ -38,7 +26,7 @@ function EditAssociado() {
       }
     }
     fetchAssociado();
-  }, [id]);
+  }, [associadoData.matricula]);
 
   const handleAssociadoChange = (field: string, value: string) => {
     setAssociado({ ...associado, [field]: value });
@@ -47,14 +35,14 @@ function EditAssociado() {
   const handleSubmit = async () => {
     try {
       await axios.put(
-        `http://localhost:3000/associados/atualizar/${id}`,
+        `http://localhost:3000/associados/atualizar/${associadoData.matricula}`,
         associado,
         { headers: { "Content-Type": "application/json" } }
       );
       setMessage("Associado atualizado com sucesso!");
     } catch (error) {
       setMessage("Erro ao atualizar associado. Tente novamente.");
-      console.error("Error details: ", error);
+      console.error("Detalhes do erro: ", error);
     }
   };
 
