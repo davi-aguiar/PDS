@@ -37,14 +37,12 @@
     border: none;
     font-weight: bold;
     color: white;
+    cursor: pointer;
   }
   .buttonsDiv button {
     margin: 5px;
   }
-  .buttonsDiv :hover{
-    cursor: pointer;
-  }
-  .icon :hover{
+  .icon{
     cursor: pointer;
   }
   .dependencies{

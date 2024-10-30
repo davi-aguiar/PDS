@@ -5,12 +5,15 @@ import Search from "../../components/search/page";
 import DropDown from "../../components/dropdown/page";
 import "./styles.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function EditAssociado() {
   const location = useLocation();
   const { associado: associadoData } = location.state; // Pega os dados passados pela navegação
   const [associado, setAssociado] = useState(associadoData);
   const [message, setMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
 
   // Carrega dados do associado ao montar o componente
   useEffect(() => {
@@ -39,11 +42,15 @@ function EditAssociado() {
         associado,
         { headers: { "Content-Type": "application/json" } }
       );
-      setMessage("Associado atualizado com sucesso!");
+      setShowModal(true);
     } catch (error) {
       setMessage("Erro ao atualizar associado. Tente novamente.");
       console.error("Detalhes do erro: ", error);
     }
+  };
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/associado");
   };
 
   return (
@@ -64,10 +71,30 @@ function EditAssociado() {
           {message && <p>{message}</p>}
         </div>
         <div className="divButtons">
-          <button>CANCELAR</button>
+          <button onClick={() => setShowModal2(true)}>CANCELAR</button>
           <button onClick={handleSubmit}>SALVAR</button>
         </div>
       </div>
+      {showModal && (
+        <div className="modal">
+          <div className="modalContent">
+            <p>{message}</p>
+            <h2>Associado atualizado com sucesso!</h2>
+            <button onClick={handleNavigate}>Voltar à Página Inicial</button>
+          </div>
+        </div>
+      )}
+      {showModal2 && (
+        <div className="modal">
+          <div className="modalContent2">
+            <p>{message}</p>
+            <h2>Certeza que deseja sair?</h2>
+            <p>Qualquer mudança não salva será perdida!</p>
+            <button onClick={() => setShowModal2(false)}>Cancelar</button>
+            <button onClick={handleNavigate}>Voltar à Página Inicial</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
