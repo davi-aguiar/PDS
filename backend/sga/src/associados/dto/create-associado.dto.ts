@@ -14,6 +14,12 @@ export class CreateAssociadoDTO {
   nome: string;
 
   @ApiProperty({
+    description: 'CPF',
+    example: '000.000.000-00',
+  })
+  cpf_cnpj: string;
+
+  @ApiProperty({
     description: 'CEP do endereço',
     example: '12345-678',
   })

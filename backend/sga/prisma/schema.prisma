@@ -10,6 +10,7 @@ generator client {
 model Associado {
   matricula       String         @id
   nome            String?
+  cpf_cnpj        String?
   end_cep         String?
   end_logradouro  String?
   end_cidade      String?

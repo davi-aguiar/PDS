@@ -38,8 +38,8 @@ export default function DenseTable() {
     fetchAssociados();
   }, []);
 
-  const handleClick = () => {
-    navigate(`/editar-associado`);
+  const handleClick = (associado: Associado) => {
+    navigate(`/editar-associado`, { state: { associado } });
   };
 
   const handleDelete = async (matricula: string) => {
@@ -94,7 +94,7 @@ export default function DenseTable() {
               <TableCell
                 component="th"
                 scope="row"
-                onClick={handleClick}
+                onClick={() => handleClick(associado)}
               >
                 {associado.nome}
               </TableCell>

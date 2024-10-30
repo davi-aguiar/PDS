@@ -8,6 +8,7 @@ import axios from "axios";
 function NovoAssociado() {
   const [associado, setAssociado] = useState({
     nome: "",
+    cpf_cnpj: "",
     end_cep: "",
     end_logradouro: "",
     end_cidade: "",
@@ -18,7 +19,7 @@ function NovoAssociado() {
     tipo: "FISICA",
     rg: "",
     telefone: "",
-    data_nascimento: ""
+    data_nascimento: "",
   });
 
   const [message, setMessage] = useState("");
@@ -55,11 +56,14 @@ function NovoAssociado() {
             title="Dados do Associado"
             type="associado"
             onChange={handleAssociadoChange}
+            formData={associado}
           />
 
-          <button onClick={handleSubmit}>Cadastrar Associado</button>
-
           {message && <p>{message}</p>}
+        </div>
+        <div className="divButtons">
+          <button>CANCELAR</button>
+          <button onClick={handleSubmit}>SALVAR</button>
         </div>
       </div>
     </div>

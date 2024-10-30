@@ -27,6 +27,7 @@ export class AssociadosService {
         data: {
           matricula: matricula,
           nome: createAssociadoDTO.nome,
+          cpf_cnpj: createAssociadoDTO.cpf_cnpj,
           end_cep: createAssociadoDTO.end_cep,
           end_logradouro: createAssociadoDTO.end_logradouro,
           end_cidade: createAssociadoDTO.end_cidade,
@@ -72,6 +73,7 @@ export class AssociadosService {
         where: { matricula: id },
         data: {
           nome: updateAssociadoDTO.nome,
+          cpf_cnpj: updateAssociadoDTO.cpf_cnpj,
           end_cep: updateAssociadoDTO.end_cep,
           end_logradouro: updateAssociadoDTO.end_logradouro,
           end_cidade: updateAssociadoDTO.end_cidade,
@@ -80,6 +82,9 @@ export class AssociadosService {
           end_complemento: updateAssociadoDTO.end_complemento,
           cnh: updateAssociadoDTO.cnh,
           tipo: updateAssociadoDTO.tipo,
+          rg: updateAssociadoDTO.rg,
+          telefone: updateAssociadoDTO.telefone,
+          data_nascimento: new Date(updateAssociadoDTO.data_nascimento),
         },
       });
       return {

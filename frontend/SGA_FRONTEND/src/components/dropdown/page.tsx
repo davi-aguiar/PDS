@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import { IoCloudUploadOutline } from "react-icons/io5";
 
@@ -6,9 +6,23 @@ interface Props {
   title: string;
   type: string;
   onChange: (field: string, value: string) => void;
+  formData: {
+    nome: string;
+    cpf_cnpj: string;
+    data_nascimento: string;
+    cnh: string;
+    rg: string;
+    telefone: string;
+    end_cep: string;
+    end_complemento: string;
+    end_logradouro: string;
+    end_cidade: string;
+    end_bairro: string;
+    end_numero: string;
+  };
 }
 
-export default function DropDown({ title, type, onChange }: Props) {
+export default function DropDown({ title, type, onChange, formData }: Props) {
   const [clicked, setClicked] = useState(false);
 
   const handleClick = () => {
@@ -35,6 +49,7 @@ export default function DropDown({ title, type, onChange }: Props) {
                   name="nome"
                   placeholder="Ex: Antônio Nunes"
                   onChange={handleInputChange}
+                  value={formData.nome || ""}
                 />
               </div>
               <div className={styles.info}>
@@ -43,6 +58,7 @@ export default function DropDown({ title, type, onChange }: Props) {
                   name="cpf_cnpj"
                   placeholder="Ex: 897.234.123-32"
                   onChange={handleInputChange}
+                  value={formData.cpf_cnpj || ""}
                 />
               </div>
               <div className={styles.info}>
@@ -51,6 +67,7 @@ export default function DropDown({ title, type, onChange }: Props) {
                   name="data_nascimento"
                   placeholder="Ex: 13/05/2000"
                   onChange={handleInputChange}
+                  value={formData.data_nascimento || ""}
                 />
               </div>
               <div className={styles.info}>
@@ -59,6 +76,7 @@ export default function DropDown({ title, type, onChange }: Props) {
                   name="cnh"
                   placeholder="Ex: 38348213128"
                   onChange={handleInputChange}
+                  value={formData.cnh || ""}
                 />
               </div>
               <div className={styles.info}>
@@ -67,6 +85,7 @@ export default function DropDown({ title, type, onChange }: Props) {
                   name="rg"
                   placeholder="Ex: 8839992341"
                   onChange={handleInputChange}
+                  value={formData.rg || ""}
                 />
               </div>
               <div className={styles.info}>
@@ -75,6 +94,7 @@ export default function DropDown({ title, type, onChange }: Props) {
                   name="telefone"
                   placeholder="Ex: (77) 98832-3243"
                   onChange={handleInputChange}
+                  value={formData.telefone || ""}
                 />
               </div>
               <div className={styles.info}>
@@ -83,6 +103,7 @@ export default function DropDown({ title, type, onChange }: Props) {
                   name="end_cep"
                   placeholder="Ex: 45077-100"
                   onChange={handleInputChange}
+                  value={formData.end_cep || ""}
                 />
               </div>
               <div className={styles.info}>
@@ -91,6 +112,7 @@ export default function DropDown({ title, type, onChange }: Props) {
                   name="end_complemento"
                   placeholder="Ex: Casa"
                   onChange={handleInputChange}
+                  value={formData.end_complemento || ""}
                 />
               </div>
               <div className={styles.info}>
@@ -99,6 +121,7 @@ export default function DropDown({ title, type, onChange }: Props) {
                   name="end_logradouro"
                   placeholder="Ex: Rua das Flores"
                   onChange={handleInputChange}
+                  value={formData.end_logradouro || ""}
                 />
               </div>
               <div className={styles.info}>
@@ -107,6 +130,7 @@ export default function DropDown({ title, type, onChange }: Props) {
                   name="end_cidade"
                   placeholder="Ex: Brumado"
                   onChange={handleInputChange}
+                  value={formData.end_cidade || ""}
                 />
               </div>
               <div className={styles.info}>
@@ -115,6 +139,7 @@ export default function DropDown({ title, type, onChange }: Props) {
                   name="end_bairro"
                   placeholder="Ex: Vila Serrana"
                   onChange={handleInputChange}
+                  value={formData.end_bairro || ""}
                 />
               </div>
               <div className={styles.info}>
@@ -123,6 +148,7 @@ export default function DropDown({ title, type, onChange }: Props) {
                   name="end_numero"
                   placeholder="Ex: 28"
                   onChange={handleInputChange}
+                  value={formData.end_numero || ""}
                 />
               </div>
               <div className={styles.info2}>
