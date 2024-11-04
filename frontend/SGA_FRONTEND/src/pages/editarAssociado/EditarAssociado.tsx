@@ -6,6 +6,7 @@ import DropDown from "../../components/dropdown/page";
 import "./styles.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Popup from "../../components/remove/page";
 
 function EditAssociado() {
   const location = useLocation();
@@ -43,6 +44,7 @@ function EditAssociado() {
         { headers: { "Content-Type": "application/json" } }
       );
       setShowModal(true);
+      setMessage("");
     } catch (error) {
       setMessage("Erro ao atualizar associado. Tente novamente.");
       console.error("Detalhes do erro: ", error);
@@ -72,6 +74,11 @@ function EditAssociado() {
         </div>
         <div className="divButtons">
           <button onClick={() => setShowModal2(true)}>CANCELAR</button>
+          <Popup
+            type="!icon"
+            matricula={associado.matricula}
+            name={associado.nome}
+          />
           <button onClick={handleSubmit}>SALVAR</button>
         </div>
       </div>
@@ -87,7 +94,6 @@ function EditAssociado() {
       {showModal2 && (
         <div className="modal">
           <div className="modalContent2">
-            <p>{message}</p>
             <h2>Certeza que deseja sair?</h2>
             <p>Qualquer mudança não salva será perdida!</p>
             <button onClick={() => setShowModal2(false)}>Cancelar</button>

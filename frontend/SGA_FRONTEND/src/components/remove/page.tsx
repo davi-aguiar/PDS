@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import styles from "./page.module.css";
 import { FaCar, FaNewspaper, FaTrash } from "react-icons/fa6";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   type: string;
   matricula: string;
+  name: string;
 }
 
-const Popup = ({ type, matricula }: Props) => {
+const Popup = ({ type, matricula, name }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const navigate = useNavigate();
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
@@ -20,8 +22,8 @@ const Popup = ({ type, matricula }: Props) => {
       await axios.delete(
         `http://localhost:3000/associados/deletar/${matricula}`
       );
-      alert("Associado excluído com sucesso!");
       togglePopup();
+      navigate("/associado");
     } catch (error) {
       console.error("Erro ao excluir associado:", error);
       alert("Erro ao excluir o associado. Tente novamente.");
@@ -47,12 +49,12 @@ const Popup = ({ type, matricula }: Props) => {
             className={styles.popupContent}
             onClick={(e) => e.stopPropagation()}
           >
-            <h2>Tem certeza que deseja excluir x?</h2>
+            <h2>Tem certeza que deseja excluir {name}?</h2>
             <p>
               Todas as atividades, notas, arquivos, documentos e faturas desta
               pessoa também serão excluídos.
             </p>
-            <p>x está ligado a:</p>
+            <p>{name} está ligado a:</p>
             <div className={styles.dependencies}>
               <p>
                 <FaCar

@@ -40,6 +40,7 @@ function NovoAssociado() {
         { headers: { "Content-Type": "application/json" } }
       );
       setShowModal(true);
+      setMessage("");
     } catch (error) {
       console.log("Error details: ", error);
       setMessage("Erro ao cadastrar associado. Tente novamente.");
@@ -68,7 +69,7 @@ function NovoAssociado() {
           {message && <p>{message}</p>}
         </div>
         <div className="divButtons">
-        <button onClick={() => setShowModal2(true)}>CANCELAR</button>
+          <button onClick={() => setShowModal2(true)}>CANCELAR</button>
           <button onClick={handleSubmit}>SALVAR</button>
         </div>
       </div>
@@ -76,13 +77,12 @@ function NovoAssociado() {
       {showModal && (
         <div className="modal">
           <div className="modalContent">
-            <p>{message}</p>
             <h2>Associado cadastrado com sucesso!</h2>
             <button onClick={handleNavigate}>Voltar à Página Inicial</button>
           </div>
         </div>
       )}
-            {showModal2 && (
+      {showModal2 && (
         <div className="modal">
           <div className="modalContent2">
             <p>{message}</p>

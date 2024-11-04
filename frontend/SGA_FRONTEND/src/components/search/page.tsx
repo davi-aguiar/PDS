@@ -16,7 +16,6 @@ interface Associado {
   telefone: string;
   email: string;
   matricula: string;
-  onDelete: (matricula: string) => Promise<void>;
 }
 
 export default function Search() {
@@ -43,7 +42,9 @@ export default function Search() {
     navigate(`/editar-associado`, { state: { associado } });
   };
 
-  const handleInputChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+  const handleInputChange = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
     setInputValue(e.target.value);
   };
 
@@ -66,7 +67,7 @@ export default function Search() {
         <div className={styles.suggestionBox}>
           <TableContainer
             component={Paper}
-            style={{ maxHeight: "60vh", overflowY: "auto" }}
+            style={{ maxHeight: "40vh", overflowY: "auto", width: "550px" }}
           >
             <Table size="small">
               <TableHead>
@@ -86,22 +87,32 @@ export default function Search() {
                 </TableRow>
               </TableHead>
               <TableBody className={styles.TableBody}>
-                {associados.map((associado) => (
-                  <TableRow
-                    key={associado.matricula}
-                    className={styles.BodyRow}
-                  >
-                    <TableCell
-                      component="th"
-                      scope="row"
+                {associados
+                  .filter((associado) =>
+                    associado.nome
+                      .toLowerCase()
+                      .includes(inputValue.toLowerCase())
+                  )
+                  .map((associado) => (
+                    <TableRow
+                      key={associado.matricula}
+                      className={styles.BodyRow}
                       onClick={() => handleClick(associado)}
+                      style={{
+                        cursor: "pointer",
+                      }}
                     >
-                      {associado.nome}
-                    </TableCell>
-                    <TableCell align="right">{associado.matricula}</TableCell>
-                    <TableCell align="right"></TableCell>
-                  </TableRow>
-                ))}
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        onClick={() => handleClick(associado)}
+                      >
+                        {associado.nome}
+                      </TableCell>
+                      <TableCell align="right">{associado.matricula}</TableCell>
+                      <TableCell align="right"></TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
