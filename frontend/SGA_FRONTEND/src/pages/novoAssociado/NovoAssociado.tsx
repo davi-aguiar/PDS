@@ -4,6 +4,7 @@ import Search from "../../components/search/page";
 import DropDown from "../../components/dropdown/page";
 import "./styles.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function NovoAssociado() {
   const [associado, setAssociado] = useState({
@@ -23,6 +24,9 @@ function NovoAssociado() {
   });
 
   const [message, setMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
+  const navigate = useNavigate();
 
   const handleAssociadoChange = (field: string, value: string) => {
     setAssociado({ ...associado, [field]: value });
@@ -35,13 +39,16 @@ function NovoAssociado() {
         associado,
         { headers: { "Content-Type": "application/json" } }
       );
-      setMessage("Associado cadastrado com sucesso!");
+      setShowModal(true);
+      setMessage("");
     } catch (error) {
-      console.log(associado);
       console.log("Error details: ", error);
-
       setMessage("Erro ao cadastrar associado. Tente novamente.");
     }
+  };
+
+  const handleNavigate = () => {
+    navigate("/associado");
   };
 
   return (
@@ -62,10 +69,30 @@ function NovoAssociado() {
           {message && <p>{message}</p>}
         </div>
         <div className="divButtons">
-          <button>CANCELAR</button>
+          <button onClick={() => setShowModal2(true)}>CANCELAR</button>
           <button onClick={handleSubmit}>SALVAR</button>
         </div>
       </div>
+
+      {showModal && (
+        <div className="modal">
+          <div className="modalContent">
+            <h2>Associado cadastrado com sucesso!</h2>
+            <button onClick={handleNavigate}>Voltar à Página Inicial</button>
+          </div>
+        </div>
+      )}
+      {showModal2 && (
+        <div className="modal">
+          <div className="modalContent2">
+            <p>{message}</p>
+            <h2>Certeza que deseja sair?</h2>
+            <p>Qualquer mudança não salva será perdida!</p>
+            <button onClick={() => setShowModal2(false)}>Cancelar</button>
+            <button onClick={handleNavigate}>Voltar à Página Inicial</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

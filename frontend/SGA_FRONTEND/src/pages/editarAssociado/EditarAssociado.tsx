@@ -5,6 +5,8 @@ import Search from "../../components/search/page";
 import DropDown from "../../components/dropdown/page";
 import "./styles.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Popup from "../../components/remove/page";
 
 function EditAssociado() {
   const location = useLocation();
@@ -35,7 +37,7 @@ function EditAssociado() {
 
   const handleCancel = () => {
     navigate("/associado");
-  }
+  };
 
   const handleSubmit = async () => {
     try {
@@ -44,11 +46,16 @@ function EditAssociado() {
         associado,
         { headers: { "Content-Type": "application/json" } }
       );
-      setMessage("Associado atualizado com sucesso!");
+      setShowModal(true);
+      setMessage("");
     } catch (error) {
       setMessage("Erro ao atualizar associado. Tente novamente.");
       console.error("Detalhes do erro: ", error);
     }
+  };
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/associado");
   };
 
   return (
@@ -73,6 +80,25 @@ function EditAssociado() {
           <button onClick={handleSubmit}>SALVAR</button>
         </div>
       </div>
+      {showModal && (
+        <div className="modal">
+          <div className="modalContent">
+            <p>{message}</p>
+            <h2>Associado atualizado com sucesso!</h2>
+            <button onClick={handleNavigate}>Voltar à Página Inicial</button>
+          </div>
+        </div>
+      )}
+      {showModal2 && (
+        <div className="modal">
+          <div className="modalContent2">
+            <h2>Certeza que deseja sair?</h2>
+            <p>Qualquer mudança não salva será perdida!</p>
+            <button onClick={() => setShowModal2(false)}>Cancelar</button>
+            <button onClick={handleNavigate}>Voltar à Página Inicial</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

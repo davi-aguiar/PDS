@@ -36,27 +36,27 @@ export default function DenseTable() {
     };
 
     fetchAssociados();
-  }, []);
+  }, [associados]);
 
   const handleClick = (associado: Associado) => {
     navigate(`/editar-associado`, { state: { associado } });
   };
 
-  const handleDelete = async (matricula: string) => {
-    try {
-      await axios.delete(
-        `http://localhost:3000/associados/deletar/${matricula}`
-      );
+  // const handleDelete = async (matricula: string) => {
+  //   try {
+  //     await axios.delete(
+  //       `http://localhost:3000/associados/deletar/${matricula}`
+  //     );
 
-      setAssociados(
-        associados.filter((associado) => associado.matricula !== matricula)
-      );
-      alert("Associado excluído com sucesso!");
-    } catch (error) {
-      console.error("Erro ao excluir associado:", error);
-      alert("Erro ao excluir associado. Tente novamente.");
-    }
-  };
+  //     setAssociados(
+  //       associados.filter((associado) => associado.matricula !== matricula)
+  //     );
+  //     alert("Associado excluído com sucesso!");
+  //   } catch (error) {
+  //     console.error("Erro ao excluir associado:", error);
+  //     alert("Erro ao excluir associado. Tente novamente.");
+  //   }
+  // };
 
   return (
     <TableContainer
@@ -71,7 +71,7 @@ export default function DenseTable() {
               position: "sticky",
               top: 0,
               zIndex: 1,
-              backgroundColor: "#ebebeb"
+              backgroundColor: "#ebebeb",
             }}
           >
             <TableCell className={styles.abc} align="right"></TableCell>
@@ -104,7 +104,7 @@ export default function DenseTable() {
                 <Popup
                   type="icon"
                   matricula={associado.matricula}
-                  onDelete={handleDelete}
+                  name={associado.nome}
                 />
               </TableCell>
             </TableRow>
