@@ -7,6 +7,8 @@ import Associado from "./pages/associado/Associado.tsx";
 import Cadastro from "./pages/cadastro/cadastro.tsx";
 import NovoAssociado from "./pages/novoAssociado/NovoAssociado.tsx";
 import EditarAssociado from "./pages/editarAssociado/EditarAssociado.tsx";
+import ModeloVeiculo from "./pages/modeloVeiculo/ModeloVeiculo.tsx";
+import NovoModeloVeiculo from "./pages/novoModeloVeiculo/NovoModeloVeiculo.tsx";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
   {
     path: "/editar-associado",
     element: <EditarAssociado />
+  },
+  {
+    path: "/modelos-veiculos",
+    element: <ModeloVeiculo />
+  },
+  {
+    path: "/novo-modelo",
+    element: <NovoModeloVeiculo />
   }
 ]);
 

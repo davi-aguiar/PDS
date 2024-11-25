@@ -19,6 +19,15 @@ interface Props {
     end_cidade: string;
     end_bairro: string;
     end_numero: string;
+
+    //modelo_veiculo
+    modelo_nome?: string;
+    modelo_marca?: string;
+    modelo_fipe?: string;
+    modelo_ano?: string;
+    modelo_combustivel?: string;
+    modelo_transmissao?: string;
+    modelo_portas?: string;
   };
 }
 
@@ -159,6 +168,74 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
                     <IoCloudUploadOutline size={60} />
                   </label>
                 </div>
+              </div>
+            </div>
+          )}
+          {type === "modelo_veiculo" && (
+            <div className={styles.inputsFlex}>
+              {/* Novo dropdown para modelo de veículo */}
+              <div className={styles.info}>
+                <p>Nome do Modelo</p>
+                <input
+                  name="modelo_nome"
+                  placeholder="Ex: Corolla"
+                  onChange={handleInputChange}
+                  value={formData.modelo_nome || ""}
+                />
+              </div>
+              <div className={styles.info}>
+                <p>Marca</p>
+                <input
+                  name="modelo_marca"
+                  placeholder="Ex: Toyota"
+                  onChange={handleInputChange}
+                  value={formData.modelo_marca || ""}
+                />
+              </div>
+              <div className={styles.info}>
+                <p>Código FIPE</p>
+                <input
+                  name="modelo_fipe"
+                  placeholder="Ex: 001234-5"
+                  onChange={handleInputChange}
+                  value={formData.modelo_fipe || ""}
+                />
+              </div>
+              <div className={styles.info}>
+                <p>Ano</p>
+                <input
+                  name="modelo_ano"
+                  placeholder="Ex: 2024"
+                  onChange={handleInputChange}
+                  value={formData.modelo_ano || ""}
+                />
+              </div>
+              <div className={styles.info}>
+                <p>Combustível</p>
+                <input
+                  name="modelo_combustivel"
+                  placeholder="Ex: Gasolina"
+                  onChange={handleInputChange}
+                  value={formData.modelo_combustivel || ""}
+                />
+              </div>
+              <div className={styles.info}>
+                <p>Transmissão</p>
+                <input
+                  name="modelo_transmissao"
+                  placeholder="Ex: Automático"
+                  onChange={handleInputChange}
+                  value={formData.modelo_transmissao || ""}
+                />
+              </div>
+              <div className={styles.info}>
+                <p>Portas</p>
+                <input
+                  name="modelo_portas"
+                  placeholder="Ex: 4"
+                  onChange={handleInputChange}
+                  value={formData.modelo_portas || ""}
+                />
               </div>
             </div>
           )}
