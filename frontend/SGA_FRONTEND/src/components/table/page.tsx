@@ -42,22 +42,6 @@ export default function DenseTable() {
     navigate(`/editar-associado`, { state: { associado } });
   };
 
-  // const handleDelete = async (matricula: string) => {
-  //   try {
-  //     await axios.delete(
-  //       `http://localhost:3000/associados/deletar/${matricula}`
-  //     );
-
-  //     setAssociados(
-  //       associados.filter((associado) => associado.matricula !== matricula)
-  //     );
-  //     alert("Associado excluído com sucesso!");
-  //   } catch (error) {
-  //     console.error("Erro ao excluir associado:", error);
-  //     alert("Erro ao excluir associado. Tente novamente.");
-  //   }
-  // };
-
   return (
     <TableContainer
       component={Paper}

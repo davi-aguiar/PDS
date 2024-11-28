@@ -19,6 +19,11 @@
     align-items: center;
     padding-left: 10px;
 }
+.active{
+    width: 80%;
+    height: 50px;
+    background: linear-gradient(90deg, #659180 0%, transparent 90%);
+}
 .button :first-child{
     margin-right: 10px;
 }
