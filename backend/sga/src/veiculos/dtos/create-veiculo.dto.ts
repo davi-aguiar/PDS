@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, IsDecimal } from 'class-validator';
+import { IsString, IsOptional, IsInt, IsDecimal } from 'class-validator';
 
 export class CreateVeiculoDTO {
   @ApiProperty({
@@ -53,8 +53,8 @@ export class CreateVeiculoDTO {
     description: 'Código do modelo do veículo',
     example: 123,
   })
-  @IsOptional()
-  codModelo?: number;
+  @IsInt()
+  codModelo: number;
 
   @ApiProperty({
     description: 'Valor da mensalidade associada ao veículo',

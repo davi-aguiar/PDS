@@ -67,9 +67,9 @@ model Marca {
 }
 
 model Modelo {
-  codModelo  Int          @id
+  codModelo  Int         @id
   nomeModelo String?
-  tipo       TipoVeiculo?
+  tipo       TipoVeiculo
   codMarca   Int?
 
   marca    Marca?    @relation(fields: [codMarca], references: [codMarca])

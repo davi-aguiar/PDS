@@ -5,10 +5,21 @@ import { AssociadosModule } from './associados/associados.module';
 import { AuthModule } from './auth/auth.module';
 import { FuncionariosModule } from './funcionarios/funcionarios.module';
 import { VeiculosModule } from './veiculos/veiculos.module';
+import { ModeloVeiculoModule } from './modelo-veiculo/modelo-veiculo.module';
+import { ModelosController } from './modelo-veiculo/modelo-veiculo.controller';
+import { ModelosService } from './modelo-veiculo/modelo-veiculo.service';
+import { MarcaModule } from './marca/marca.module';
 
 @Module({
-  imports: [AssociadosModule, AuthModule, FuncionariosModule, VeiculosModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    AssociadosModule,
+    AuthModule,
+    FuncionariosModule,
+    VeiculosModule,
+    ModeloVeiculoModule,
+    MarcaModule,
+  ],
+  controllers: [AppController, ModelosController],
+  providers: [AppService, ModelosService],
 })
 export class AppModule {}
