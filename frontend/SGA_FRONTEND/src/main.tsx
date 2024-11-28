@@ -7,28 +7,38 @@ import Associado from "./pages/associado/Associado.tsx";
 import Cadastro from "./pages/cadastro/cadastro.tsx";
 import NovoAssociado from "./pages/novoAssociado/NovoAssociado.tsx";
 import EditarAssociado from "./pages/editarAssociado/EditarAssociado.tsx";
+import ModeloVeiculo from "./pages/modeloVeiculo/ModeloVeiculo.tsx";
+import NovoModeloVeiculo from "./pages/novoModeloVeiculo/NovoModeloVeiculo.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />
+    element: <App />,
   },
   {
     path: "/associado",
-    element: <Associado />
+    element: <Associado />,
   },
   {
     path: "/cadastro",
-    element: <Cadastro />
+    element: <Cadastro />,
   },
   {
     path: "/novo-associado",
-    element: <NovoAssociado />
+    element: <NovoAssociado />,
   },
   {
     path: "/editar-associado",
-    element: <EditarAssociado />
-  }
+    element: <EditarAssociado />,
+  },
+  {
+    path: "/modelos-veiculos",
+    element: <ModeloVeiculo />,
+  },
+  {
+    path: "/novo-modelo",
+    element: <NovoModeloVeiculo />,
+  },
 ]);
 
 createRoot(document.getElementById("root")!).render(

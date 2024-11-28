@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Dash from "../../components/dashboard/page";
 import Search from "../../components/search/page";
 import DropDown from "../../components/dropdown/page";
@@ -13,7 +13,8 @@ function EditAssociado() {
   const { associado: associadoData } = location.state; // Pega os dados passados pela navegação
   const [associado, setAssociado] = useState(associadoData);
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
 
   // Carrega dados do associado ao montar o componente
   useEffect(() => {
@@ -33,10 +34,6 @@ function EditAssociado() {
 
   const handleAssociadoChange = (field: string, value: string) => {
     setAssociado({ ...associado, [field]: value });
-  };
-
-  const handleCancel = () => {
-    navigate("/associado");
   };
 
   const handleSubmit = async () => {
@@ -76,7 +73,12 @@ function EditAssociado() {
           {message && <p>{message}</p>}
         </div>
         <div className="divButtons">
-          <button onClick={handleCancel}>CANCELAR</button>
+          <button onClick={() => setShowModal2(true)}>CANCELAR</button>
+          <Popup
+            type="!icon"
+            matricula={associado.matricula}
+            name={associado.nome}
+          />
           <button onClick={handleSubmit}>SALVAR</button>
         </div>
       </div>
