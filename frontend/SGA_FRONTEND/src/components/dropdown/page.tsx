@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styles from "./page.module.css";
 import { IoCloudUploadOutline } from "react-icons/io5";
+import DropDownInput from "../dropdownInput/page";
 
 interface Props {
   title: string;
@@ -43,6 +44,51 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
     onChange(name, value);
   };
 
+  const associadosData = [
+    { label: "Nome", name: "nome", placeholder: "Ex: Antônio Nunes" },
+    { label: "CPF/CNPJ", name: "cpf_cnpj", placeholder: "Ex: 897.234.123-32" },
+    {
+      label: "Data de Nascimento",
+      name: "data_nascimento",
+      placeholder: "Ex: 13/05/2000",
+    },
+    { label: "CNH", name: "cnh", placeholder: "Ex: 38348213128" },
+    { label: "RG", name: "rg", placeholder: "Ex: 8839992341" },
+    { label: "Telefone", name: "telefone", placeholder: "Ex: (77) 98832-3243" },
+    { label: "CEP", name: "end_cep", placeholder: "Ex: 45077-100" },
+    { label: "Complemento", name: "end_complemento", placeholder: "Ex: Casa" },
+    {
+      label: "Logradouro",
+      name: "end_logradouro",
+      placeholder: "Ex: Rua das Flores",
+    },
+    { label: "Cidade", name: "end_cidade", placeholder: "Ex: Brumado" },
+    { label: "Bairro", name: "end_bairro", placeholder: "Ex: Vila Serrana" },
+    { label: "N°", name: "end_numero", placeholder: "Ex: 28" },
+  ];
+
+  const modVeiculosData = [
+    {
+      label: "Nome do Modelo",
+      name: "modelo_nome",
+      placeholder: "Ex: Corolla",
+    },
+    { label: "Marca", name: "modelo_marca", placeholder: "Ex: Toyota" },
+    { label: "Código FIPE", name: "modelo_fipe", placeholder: "Ex: 001234-5" },
+    { label: "Ano", name: "modelo_ano", placeholder: "Ex: 2024" },
+    {
+      label: "Combustível",
+      name: "modelo_combustivel",
+      placeholder: "Ex: Gasolina",
+    },
+    {
+      label: "Transmissão",
+      name: "modelo_transmissao",
+      placeholder: "Ex: Automático",
+    },
+    { label: "Portas", name: "modelo_portas", placeholder: "Ex: 4" },
+  ];
+
   return (
     <>
       <div className={styles.dropDown} onClick={handleClick}>
@@ -52,114 +98,16 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
         <div>
           {type === "associado" && (
             <div className={styles.inputsFlex}>
-              <div className={styles.info}>
-                <p>Nome</p>
-                <input
-                  name="nome"
-                  placeholder="Ex: Antônio Nunes"
+              {associadosData.map((field, index) => (
+                <DropDownInput
+                  key={index}
+                  title={field.label}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  value={formData[field.name as keyof typeof formData] || ""}
                   onChange={handleInputChange}
-                  value={formData.nome || ""}
                 />
-              </div>
-              <div className={styles.info}>
-                <p>CPF/CNPJ</p>
-                <input
-                  name="cpf_cnpj"
-                  placeholder="Ex: 897.234.123-32"
-                  onChange={handleInputChange}
-                  value={formData.cpf_cnpj || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>Data de Nascimento</p>
-                <input
-                  name="data_nascimento"
-                  placeholder="Ex: 13/05/2000"
-                  onChange={handleInputChange}
-                  value={formData.data_nascimento || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>CNH</p>
-                <input
-                  name="cnh"
-                  placeholder="Ex: 38348213128"
-                  onChange={handleInputChange}
-                  value={formData.cnh || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>RG</p>
-                <input
-                  name="rg"
-                  placeholder="Ex: 8839992341"
-                  onChange={handleInputChange}
-                  value={formData.rg || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>Telefone</p>
-                <input
-                  name="telefone"
-                  placeholder="Ex: (77) 98832-3243"
-                  onChange={handleInputChange}
-                  value={formData.telefone || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>CEP</p>
-                <input
-                  name="end_cep"
-                  placeholder="Ex: 45077-100"
-                  onChange={handleInputChange}
-                  value={formData.end_cep || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>Complemento</p>
-                <input
-                  name="end_complemento"
-                  placeholder="Ex: Casa"
-                  onChange={handleInputChange}
-                  value={formData.end_complemento || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>Logradouro</p>
-                <input
-                  name="end_logradouro"
-                  placeholder="Ex: Rua das Flores"
-                  onChange={handleInputChange}
-                  value={formData.end_logradouro || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>Cidade</p>
-                <input
-                  name="end_cidade"
-                  placeholder="Ex: Brumado"
-                  onChange={handleInputChange}
-                  value={formData.end_cidade || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>Bairro</p>
-                <input
-                  name="end_bairro"
-                  placeholder="Ex: Vila Serrana"
-                  onChange={handleInputChange}
-                  value={formData.end_bairro || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>N°</p>
-                <input
-                  name="end_numero"
-                  placeholder="Ex: 28"
-                  onChange={handleInputChange}
-                  value={formData.end_numero || ""}
-                />
-              </div>
+              ))}
               <div className={styles.info2}>
                 <p>Upload</p>
                 <div className={styles.uploadInput}>
@@ -173,70 +121,16 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
           )}
           {type === "modelo_veiculo" && (
             <div className={styles.inputsFlex}>
-              {/* Novo dropdown para modelo de veículo */}
-              <div className={styles.info}>
-                <p>Nome do Modelo</p>
-                <input
-                  name="modelo_nome"
-                  placeholder="Ex: Corolla"
+              {modVeiculosData.map((field, index) => (
+                <DropDownInput
+                  key={index}
+                  title={field.label}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  value={formData[field.name as keyof typeof formData] || ""}
                   onChange={handleInputChange}
-                  value={formData.modelo_nome || ""}
                 />
-              </div>
-              <div className={styles.info}>
-                <p>Marca</p>
-                <input
-                  name="modelo_marca"
-                  placeholder="Ex: Toyota"
-                  onChange={handleInputChange}
-                  value={formData.modelo_marca || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>Código FIPE</p>
-                <input
-                  name="modelo_fipe"
-                  placeholder="Ex: 001234-5"
-                  onChange={handleInputChange}
-                  value={formData.modelo_fipe || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>Ano</p>
-                <input
-                  name="modelo_ano"
-                  placeholder="Ex: 2024"
-                  onChange={handleInputChange}
-                  value={formData.modelo_ano || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>Combustível</p>
-                <input
-                  name="modelo_combustivel"
-                  placeholder="Ex: Gasolina"
-                  onChange={handleInputChange}
-                  value={formData.modelo_combustivel || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>Transmissão</p>
-                <input
-                  name="modelo_transmissao"
-                  placeholder="Ex: Automático"
-                  onChange={handleInputChange}
-                  value={formData.modelo_transmissao || ""}
-                />
-              </div>
-              <div className={styles.info}>
-                <p>Portas</p>
-                <input
-                  name="modelo_portas"
-                  placeholder="Ex: 4"
-                  onChange={handleInputChange}
-                  value={formData.modelo_portas || ""}
-                />
-              </div>
+              ))}
             </div>
           )}
         </div>
