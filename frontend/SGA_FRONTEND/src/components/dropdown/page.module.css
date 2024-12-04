@@ -24,7 +24,6 @@ p{
 }
 
 .show {
-    display: flex;
     max-height: 550px; 
     opacity: 1; 
     transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out; 
@@ -55,16 +54,6 @@ p{
     flex: 0 0 100%; /* Última div ocupa 100% do espaço */
 }
 
-.info input{
-    border-radius: 5px;
-    height: 2em;
-    width: 100%;
-}
-
-.info p{
-    margin: 0;
-}
-
 .info2 input{
     display: none;
 }
@@ -80,4 +69,6 @@ p{
     background-color: white;
     border: 1px solid black;
     border-radius: 5px;
+    margin: 0 !important;
+    padding: 0;
 }

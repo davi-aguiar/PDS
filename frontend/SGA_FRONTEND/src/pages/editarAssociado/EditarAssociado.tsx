@@ -12,6 +12,8 @@ function EditAssociado() {
   const location = useLocation();
   const { associado: associadoData } = location.state; // Pega os dados passados pela navegação
   const [associado, setAssociado] = useState(associadoData);
+  // const { veiculo: veiculoData } = location.state;
+  // const [veiculo, setVeiculo] = useState(veiculoData);
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
@@ -35,6 +37,9 @@ function EditAssociado() {
   const handleAssociadoChange = (field: string, value: string) => {
     setAssociado({ ...associado, [field]: value });
   };
+  // const handleVeiculoChange = (field: string, value: string) => {
+  //   setVeiculo({ ...veiculo, [field]: value });
+  // };
 
   const handleSubmit = async () => {
     try {
@@ -69,6 +74,12 @@ function EditAssociado() {
             onChange={handleAssociadoChange}
             formData={associado}
           />
+          {/* <DropDown
+            title="Dados do Veículo"
+            type="veiculo"
+            onChange={handleVeiculoChange}
+            formData={veiculo}
+          /> */}
 
           {message && <p>{message}</p>}
         </div>

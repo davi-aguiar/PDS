@@ -21,6 +21,7 @@ interface Associado {
 
 export default function DenseTable() {
   const [associados, setAssociados] = useState<Associado[]>([]);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,14 +30,30 @@ export default function DenseTable() {
         const response = await axios.get(
           "http://localhost:3000/associados/listar"
         );
-        setAssociados(response.data.associados);
+
+        // Ordena os associados por nome em ordem ascendente
+        const sortedAssociados = response.data.associados.sort(
+          (a: Associado, b: Associado) => a.nome.localeCompare(b.nome)
+        );
+
+        setAssociados(sortedAssociados);
       } catch (error) {
         console.error("Erro ao buscar associados:", error);
       }
     };
 
     fetchAssociados();
-  }, [associados]);
+  }, []);
+
+  const handleSort = () => {
+    const sorted = [...associados].sort((a, b) =>
+      sortOrder === "desc"
+        ? a.nome.localeCompare(b.nome)
+        : b.nome.localeCompare(a.nome)
+    );
+    setAssociados(sorted);
+    setSortOrder(sortOrder === "desc" ? "asc" : "desc");
+  };
 
   const handleClick = (associado: Associado) => {
     navigate(`/editar-associado`, { state: { associado } });
@@ -59,7 +76,12 @@ export default function DenseTable() {
             }}
           >
             <TableCell className={styles.abc} align="right"></TableCell>
-            <TableCell style={{ fontWeight: "bold" }}>Nome</TableCell>
+            <TableCell
+              style={{ fontWeight: "bold", cursor: "pointer" }}
+              onClick={handleSort}
+            >
+              <span>Nome {sortOrder === "asc" ? "▼" : "▲"}</span>
+            </TableCell>
             <TableCell style={{ fontWeight: "bold" }} align="right">
               Telefone
             </TableCell>

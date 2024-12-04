@@ -8,18 +8,18 @@ interface Props {
   type: string;
   onChange: (field: string, value: string) => void;
   formData: {
-    nome: string;
-    cpf_cnpj: string;
-    data_nascimento: string;
-    cnh: string;
-    rg: string;
-    telefone: string;
-    end_cep: string;
-    end_complemento: string;
-    end_logradouro: string;
-    end_cidade: string;
-    end_bairro: string;
-    end_numero: string;
+    nome?: string;
+    cpf_cnpj?: string;
+    data_nascimento?: string;
+    cnh?: string;
+    rg?: string;
+    telefone?: string;
+    end_cep?: string;
+    end_complemento?: string;
+    end_logradouro?: string;
+    end_cidade?: string;
+    end_bairro?: string;
+    end_numero?: string;
 
     //modelo_veiculo
     modelo_nome?: string;
@@ -29,6 +29,15 @@ interface Props {
     modelo_combustivel?: string;
     modelo_transmissao?: string;
     modelo_portas?: string;
+
+    //veiculo
+    chassi?: string;
+    renavam?: string;
+    placa?: string;
+    categoria?: string;
+    modelo?: string;
+    ano_fab?: string;
+    depreciacao?: string;
   };
 }
 
@@ -65,6 +74,28 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
     { label: "Cidade", name: "end_cidade", placeholder: "Ex: Brumado" },
     { label: "Bairro", name: "end_bairro", placeholder: "Ex: Vila Serrana" },
     { label: "N°", name: "end_numero", placeholder: "Ex: 28" },
+  ];
+
+  const veiculosData = [
+    {
+      label: "Chassi",
+      name: "chassi",
+      placeholder: "Ex: 4aDsu5mZLFRyz3353",
+    },
+    { label: "Renavam", name: "renavam", placeholder: "Ex: 144003058" },
+    { label: "Placa", name: "placa", placeholder: "Ex: BRA2E19" },
+    { label: "Categoria", name: "categoria", placeholder: "Ex: Passeio" },
+    {
+      label: "Modelo",
+      name: "modelo",
+      placeholder: "Ex: Fiat Uno",
+    },
+    {
+      label: "Ano Fab",
+      name: "ano_fab",
+      placeholder: "Ex: 2012",
+    },
+    { label: "Depreciação", name: "depreciacao", placeholder: "Ex: Novo" },
   ];
 
   const modVeiculosData = [
@@ -109,7 +140,7 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
                 />
               ))}
               <div className={styles.info2}>
-                <p>Upload</p>
+                <p>Upload Documentação</p>
                 <div className={styles.uploadInput}>
                   <input type="file" id="file-input" />
                   <label htmlFor="file-input">
@@ -131,6 +162,29 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
                   onChange={handleInputChange}
                 />
               ))}
+            </div>
+          )}
+          {type === "veiculo" && (
+            <div className={styles.inputsFlex}>
+              {veiculosData.map((field, index) => (
+                <DropDownInput
+                  key={index}
+                  title={field.label}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  value={formData[field.name as keyof typeof formData] || ""}
+                  onChange={handleInputChange}
+                />
+              ))}
+              <div className={styles.info2}>
+                <p>Imagens</p>
+                <div className={styles.uploadInput}>
+                  <input type="file" id="file-input" />
+                  <label htmlFor="file-input">
+                    <IoCloudUploadOutline size={60} />
+                  </label>
+                </div>
+              </div>
             </div>
           )}
         </div>
