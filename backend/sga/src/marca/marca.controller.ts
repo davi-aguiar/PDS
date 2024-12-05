@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { MarcaService } from './marca.service';
 import { CreateMarcaDTO } from './dtos/marca.dto';
 
@@ -9,5 +9,10 @@ export class MarcaController {
   @Post()
   async create(@Body() createMarcaDTO: CreateMarcaDTO) {
     return this.marcaService.create(createMarcaDTO);
+  }
+
+  @Get('buscar')
+  findAll() {
+    return this.marcaService.findAll();
   }
 }

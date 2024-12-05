@@ -26,4 +26,9 @@ export class MarcaService {
       marca: novaMarca,
     };
   }
+
+  async findAll() {
+    return this.prisma.marca.findMany(
+    );
+  }
 }

@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsEnum, IsInt } from 'class-validator';
-import { TipoVeiculo } from '@prisma/client'; // Importando o enum gerado pelo Prisma
 
 export class CreateModeloDTO {
   @ApiProperty({
@@ -19,12 +18,10 @@ export class CreateModeloDTO {
 
   @ApiProperty({
     description: 'Tipo do veículo',
-    example: 'CARRO', // Deve ser um valor do enum TipoVeiculo
-    enum: TipoVeiculo,
+    example: 'Sedan', 
   })
   @IsOptional()
-  @IsEnum(TipoVeiculo)
-  tipo?: TipoVeiculo;
+  tipo?: string;
 
   @ApiProperty({
     description: 'Código da marca associada ao modelo',

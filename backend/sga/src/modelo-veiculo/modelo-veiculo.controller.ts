@@ -11,26 +11,26 @@ import { ModelosService } from './modelo-veiculo.service';
 import { CreateModeloDTO } from './dtos/modelo-veiculo.dto';
 import { UpdateModeloDTO } from './dtos/update-modelo.dto';
 
-@Controller('modelos')
+@Controller('modelo')
 export class ModelosController {
   constructor(private readonly modelosService: ModelosService) {}
 
-  @Post()
+  @Post('cadastrar')
   create(@Body() createModeloDto: CreateModeloDTO) {
     return this.modelosService.create(createModeloDto);
   }
 
-  @Get()
+  @Get('buscar')
   findAll() {
     return this.modelosService.findAll();
   }
 
-  @Get(':id')
+  @Get('buscar/:id')
   findOne(@Param('id') id: string) {
     return this.modelosService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('atualizar/:id')
   update(@Param('id') id: string, @Body() updateModeloDto: UpdateModeloDTO) {
     return this.modelosService.update(+id, updateModeloDto);
   }

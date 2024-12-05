@@ -9,14 +9,21 @@ export class ModelosService {
   private prisma = new PrismaClient();
 
   async create(data: CreateModeloDTO) {
-    return this.prisma.modelo.create({
-      data: {
-        codModelo: data.codModelo,
-        nomeModelo: data.nomeModelo,
-        tipo: data.tipo,
-        codMarca: data.codMarca,
-      },
-    });
+    try {
+      
+      console.log(data);
+      return this.prisma.modelo.create({
+        data: {
+          codModelo: data.codModelo,
+          nomeModelo: data.nomeModelo,
+          tipo: data.tipo,
+          codMarca: data.codMarca,
+        },
+      });
+    } catch (error) {
+      console.log(error)
+    }
+    
   }
 
   async findAll() {

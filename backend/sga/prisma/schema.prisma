@@ -69,17 +69,11 @@ model Marca {
 model Modelo {
   codModelo  Int         @id
   nomeModelo String?
-  tipo       TipoVeiculo
+  tipo       String?
   codMarca   Int?
 
   marca    Marca?    @relation(fields: [codMarca], references: [codMarca])
   veiculos Veiculo[]
-}
-
-enum TipoVeiculo {
-  CARRO
-  MOTO
-  CAMINHAO
 }
 
 model Veiculo {

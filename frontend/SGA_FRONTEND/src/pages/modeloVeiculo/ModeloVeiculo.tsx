@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Dash from "../../components/dashboard/page";
+import ModeloTable from "../../components/modeloTable/page";
 function ModeloVeiculo() {
   const navigate = useNavigate();
   const handleNavigate = (path: string) => {
@@ -15,6 +16,7 @@ function ModeloVeiculo() {
         >
           NOVO MODELO
         </button>
+        <ModeloTable />
       </div>
     </div>
   );
