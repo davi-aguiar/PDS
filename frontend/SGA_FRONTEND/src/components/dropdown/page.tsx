@@ -1,7 +1,9 @@
 import { useState } from "react";
-import styles from "./page.module.css";
+import "./styles.css";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import DropDownInput from "../dropdownInput/page";
+import React from "react";
+import Autocomplete from "../select/page";
 
 interface Props {
   title: string;
@@ -32,12 +34,13 @@ interface Props {
 
     //veiculo
     chassi?: string;
-    renavam?: string;
+    esp_renavam?: string;
     placa?: string;
-    categoria?: string;
-    modelo?: string;
-    ano_fab?: string;
-    depreciacao?: string;
+    esp_cor?: string;
+    codModelo?: string;
+    esp_numero_motor?: string;
+    cod_fipe?: string;
+    mensalidade?: string;
   };
 }
 
@@ -82,20 +85,16 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
       name: "chassi",
       placeholder: "Ex: 4aDsu5mZLFRyz3353",
     },
-    { label: "Renavam", name: "renavam", placeholder: "Ex: 144003058" },
+    { label: "Renavam", name: "esp_renavam", placeholder: "Ex: 144003058" },
     { label: "Placa", name: "placa", placeholder: "Ex: BRA2E19" },
-    { label: "Categoria", name: "categoria", placeholder: "Ex: Passeio" },
+    { label: "Cor", name: "esp_cor", placeholder: "Ex: Azul" },
     {
-      label: "Modelo",
-      name: "modelo",
-      placeholder: "Ex: Fiat Uno",
+      label: "Num. Motor",
+      name: "esp_numero_motor",
+      placeholder: "Ex: 52WVC10338",
     },
-    {
-      label: "Ano Fab",
-      name: "ano_fab",
-      placeholder: "Ex: 2012",
-    },
-    { label: "Depreciação", name: "depreciacao", placeholder: "Ex: Novo" },
+    { label: "Cod. Fipe", name: "cod_fipe", placeholder: "Ex: 005418-6" },
+    { label: "Mensalidade", name: "mensalidade", placeholder: "Ex: R$ 120,00" },
   ];
 
   const modVeiculosData = [
@@ -119,16 +118,21 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
     },
     { label: "Portas", name: "modelo_portas", placeholder: "Ex: 4" },
   ];
+  const data = ["Apple", "Banana", "Cherry", "Date", "Fig", "Grapes", "Orange"];
+
+  const handleSelect = (value: string) => {
+    console.log("Valor selecionado:", value);
+  };
 
   return (
     <>
-      <div className={styles.dropDown} onClick={handleClick}>
+      <div className="dropDown" onClick={handleClick}>
         <h1>{title}</h1>
       </div>
-      <div className={`${styles.form} ${clicked ? styles.show : styles.hide}`}>
+      <div className={`form ${clicked ? "show" : "hide"}`}>
         <div>
           {type === "associado" && (
-            <div className={styles.inputsFlex}>
+            <div className="inputsFlex">
               {associadosData.map((field, index) => (
                 <DropDownInput
                   key={index}
@@ -139,9 +143,9 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
                   onChange={handleInputChange}
                 />
               ))}
-              <div className={styles.info2}>
+              <div className="info2">
                 <p>Upload Documentação</p>
-                <div className={styles.uploadInput}>
+                <div className="uploadInput">
                   <input type="file" id="file-input" />
                   <label htmlFor="file-input">
                     <IoCloudUploadOutline size={60} />
@@ -151,7 +155,7 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
             </div>
           )}
           {type === "modelo_veiculo" && (
-            <div className={styles.inputsFlex}>
+            <div className="inputsFlex">
               {modVeiculosData.map((field, index) => (
                 <DropDownInput
                   key={index}
@@ -165,27 +169,35 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
             </div>
           )}
           {type === "veiculo" && (
-            <div className={styles.inputsFlex}>
-              {veiculosData.map((field, index) => (
-                <DropDownInput
-                  key={index}
-                  title={field.label}
-                  name={field.name}
-                  placeholder={field.placeholder}
-                  value={formData[field.name as keyof typeof formData] || ""}
-                  onChange={handleInputChange}
+            <>
+              <div className="inputsFlex">
+                {veiculosData.map((field, index) => (
+                  <DropDownInput
+                    key={index}
+                    title={field.label}
+                    name={field.name}
+                    placeholder={field.placeholder}
+                    value={formData[field.name as keyof typeof formData] || ""}
+                    onChange={handleInputChange}
+                  />
+                ))}
+                <Autocomplete
+                  data={data}
+                  title="Modelo"
+                  placeholder="Digite o Modelo"
+                  onSelect={handleSelect}
                 />
-              ))}
-              <div className={styles.info2}>
-                <p>Imagens</p>
-                <div className={styles.uploadInput}>
-                  <input type="file" id="file-input" />
-                  <label htmlFor="file-input">
-                    <IoCloudUploadOutline size={60} />
-                  </label>
+                <div className="info2">
+                  <p>Imagens</p>
+                  <div className="uploadInput">
+                    <input type="file" id="file-input" />
+                    <label htmlFor="file-input">
+                      <IoCloudUploadOutline size={60} />
+                    </label>
+                  </div>
                 </div>
               </div>
-            </div>
+            </>
           )}
         </div>
       </div>

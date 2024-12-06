@@ -14,6 +14,7 @@ import Cadastros from "./pages/cadastros/Cadastros.tsx";
 import Eventos from "./pages/eventos/Eventos.tsx";
 import Ferramentas from "./pages/ferramentas/Ferramentas.tsx";
 import Financeiros from "./pages/financeiros/Financeiros.tsx";
+import NovoVeiculo from "./pages/novoVeiculo/NovoVeiculo.tsx";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
   {
     path: "/veiculos",
     element: <Veiculos />,
+  },
+  {
+    path: "/novo-veiculo",
+    element: <NovoVeiculo />,
   },
   {
     path: "/cadastros",

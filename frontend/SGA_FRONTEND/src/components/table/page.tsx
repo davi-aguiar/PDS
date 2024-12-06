@@ -31,7 +31,6 @@ export default function DenseTable() {
           "http://localhost:3000/associados/listar"
         );
 
-        // Ordena os associados por nome em ordem ascendente
         const sortedAssociados = response.data.associados.sort(
           (a: Associado, b: Associado) => a.nome.localeCompare(b.nome)
         );
@@ -43,7 +42,7 @@ export default function DenseTable() {
     };
 
     fetchAssociados();
-  }, []);
+  }, [associados]);
 
   const handleSort = () => {
     const sorted = [...associados].sort((a, b) =>
