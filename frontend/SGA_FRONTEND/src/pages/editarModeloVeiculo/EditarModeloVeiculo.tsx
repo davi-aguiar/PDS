@@ -36,10 +36,18 @@ function EditarModeloVeiculo() {
   };
 
   const handleSubmit = async () => {
+    // Filtra apenas os dados necessários para a rota PATCH
+    const modeloFiltrado = {
+      codModelo: modelo.codModelo,
+      nomeModelo: modelo.nomeModelo,
+      tipo: modelo.tipo,
+      codMarca: modelo.codMarca,
+    };
+
     try {
       await axios.patch(
         `http://localhost:3000/modelo/atualizar/${modeloData.codModelo}`,
-        modelo,
+        modeloFiltrado,
         { headers: { "Content-Type": "application/json" } }
       );
       setShowModal(true);

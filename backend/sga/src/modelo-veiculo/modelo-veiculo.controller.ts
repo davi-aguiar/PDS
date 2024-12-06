@@ -35,7 +35,7 @@ export class ModelosController {
     return this.modelosService.update(+id, updateModeloDto);
   }
 
-  @Delete(':id')
+  @Delete('deletar/:id')
   remove(@Param('id') id: string) {
     return this.modelosService.remove(+id);
   }

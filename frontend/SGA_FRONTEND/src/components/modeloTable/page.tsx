@@ -7,9 +7,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Popup from "../remove/page";
 import { useNavigate } from "react-router-dom";
 import styles from "./page.module.css";
+import PopupModelo from "../removeModelo/page";
 
 interface ModeloVeiculo {
   codModelo: number;
@@ -113,7 +113,7 @@ export default function DenseTable() {
               <TableCell align="right">{modelo.marca.nomeMarca}</TableCell>
               <TableCell align="right">{modelo.codModelo}</TableCell>
               <TableCell align="right">
-                <Popup
+                <PopupModelo
                   type="icon"
                   codModelo={modelo.codModelo}
                   nomeModelo={modelo.nomeModelo}
