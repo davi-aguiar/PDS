@@ -60,8 +60,8 @@
 }
 .suggestionBox {
     position: absolute;
-    top: 50px; /* ajuste conforme necessário */
-    left: 42%; /* ajuste conforme necessário */
+    top: 50px;
+    left: 42%;
     background-color: white;
     border: 1px solid #ddd;
     padding: 10px;
@@ -72,10 +72,17 @@
   }
   .searchAssDiv{
     display: flex;
+    background-color: #a5b9b9;
     align-items: center;
+    border-radius: 20px;
+    height: 3em;
   }
   .searchAssDiv input{
     border-radius: 5px;
     height: 2em;
-    width: 200px;
+    width: 400px;
+  }
+  .searchAssDiv p{
+    font-weight: bold;
+    color: black;
   }

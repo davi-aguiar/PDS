@@ -41,10 +41,21 @@ interface Props {
     mensalidade?: string;
   };
 }
+interface ModeloVeiculo {
+  codModelo: number;
+  nomeModelo: string;
+  tipo: string;
+  marca: {
+    codMarca: number;
+    nomeMarca: string;
+  };
+  onDelete: (codModelo: number) => Promise<void>;
+}
 
 export default function DropDown({ title, type, onChange, formData }: Props) {
   const [clicked, setClicked] = useState(false);
   const [marcas, setMarcas] = useState<{ value: number; label: string }[]>([]);
+  const [modelos, setModelos] = useState<ModeloVeiculo[]>([]);
 
   const handleClick = () => {
     setClicked(!clicked);
@@ -55,11 +66,14 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
     onChange(name, value);
   };
 
-  const handleSelectChange = (
-    selectedOption: { value: number; label: string } | null
-  ) => {
-    if (selectedOption) {
-      onChange("codMarca", selectedOption.value);
+  const marcasLabels = marcas.map((marca) => marca.label);
+  const nomesModelos = modelos.map((modelo) => modelo.nomeModelo);
+
+  const handleSelectMarca = (value: string) => {
+    const selectedMarca = marcas.find((marca) => marca.label === value);
+
+    if (selectedMarca) {
+      onChange("codMarca", selectedMarca.value);
     }
   };
 
@@ -81,6 +95,26 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
         .catch((error) => console.error("Erro ao buscar marcas:", error));
     }
   }, [type]);
+
+  useEffect(() => {
+    const fetchModelos = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/modelo/buscar");
+        const modelosData = response.data;
+
+        const sortedModelos = modelosData.sort(
+          (a: ModeloVeiculo, b: ModeloVeiculo) =>
+            a.nomeModelo.localeCompare(b.nomeModelo)
+        );
+
+        setModelos(sortedModelos);
+      } catch (error) {
+        console.error("Erro ao buscar modelos:", error);
+      }
+    };
+
+    fetchModelos();
+  }, []);
 
   const associadosData = [
     {
@@ -176,12 +210,6 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
     { label: "Tipo", name: "tipo", placeholder: "Ex: Carro", type: "text" },
   ];
 
-  const data = ["Apple", "Banana", "Cherry", "Date", "Fig", "Grapes", "Orange"];
-
-  const handleSelect = (value: string) => {
-    console.log("Valor selecionado:", value);
-  };
-
   return (
     <>
       <div className="dropDown" onClick={handleClick}>
@@ -226,16 +254,12 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
                   onChange={handleInputChange}
                 />
               ))}
-              <div className="selectContainer">
-                <label htmlFor="marca-select">Marca</label>
-                <Select
-                  id="marca-select"
-                  options={marcas}
-                  onChange={handleSelectChange}
-                  placeholder="Selecione uma marca"
-                  isClearable
-                />
-              </div>
+              <Autocomplete
+                data={marcasLabels}
+                title="Marca"
+                placeholder="Selecione uma marca"
+                onSelect={handleSelectMarca}
+              />
             </div>
           )}
           {type === "veiculo" && (
@@ -253,10 +277,10 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
                   />
                 ))}
                 <Autocomplete
-                  data={data}
+                  data={nomesModelos}
                   title="Modelo"
                   placeholder="Digite o Modelo"
-                  onSelect={handleSelect}
+                  // onSelect={handleSelect}a
                 />
                 <div className="info2">
                   <p>Imagens</p>

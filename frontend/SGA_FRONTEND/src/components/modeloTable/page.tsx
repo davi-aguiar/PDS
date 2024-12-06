@@ -33,9 +33,9 @@ export default function DenseTable() {
         const response = await axios.get("http://localhost:3000/modelo/buscar");
         const modelosData = response.data;
 
-        // Ordena os modelos por nome em ordem ascendente
-        const sortedModelos = modelosData.sort((a: ModeloVeiculo, b: ModeloVeiculo) =>
-          a.nomeModelo.localeCompare(b.nomeModelo)
+        const sortedModelos = modelosData.sort(
+          (a: ModeloVeiculo, b: ModeloVeiculo) =>
+            a.nomeModelo.localeCompare(b.nomeModelo)
         );
 
         setModelos(sortedModelos);
@@ -45,7 +45,7 @@ export default function DenseTable() {
     };
 
     fetchModelos();
-  }, []);
+  }, [modelos]);
 
   const handleSort = () => {
     const sorted = [...modelos].sort((a, b) =>

@@ -1,4 +1,10 @@
-import React, { useState, ChangeEvent, KeyboardEvent } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+} from "react";
 import "./styles.css";
 
 interface AutocompleteProps {
@@ -19,6 +25,8 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState<number>(0);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
 
+  const autocompleteRef = useRef<HTMLDivElement>(null);
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const userInput = e.target.value;
     setQuery(userInput);
@@ -28,11 +36,23 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         suggestion.toLowerCase().includes(userInput.toLowerCase())
       );
       setFilteredSuggestions(filtered);
-      setShowSuggestions(true);
-      setActiveSuggestionIndex(0);
     } else {
-      setShowSuggestions(false);
+      setFilteredSuggestions(data);
     }
+
+    setShowSuggestions(true);
+    setActiveSuggestionIndex(0);
+  };
+
+  const handleInputFocus = (): void => {
+    setShowSuggestions(true);
+    setFilteredSuggestions(
+      query
+        ? data.filter((suggestion) =>
+            suggestion.toLowerCase().includes(query.toLowerCase())
+          )
+        : data
+    );
   };
 
   const handleSuggestionClick = (suggestion: string): void => {
@@ -64,17 +84,35 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     }
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        autocompleteRef.current &&
+        !autocompleteRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="autocomplete">
+    <div className="autocomplete" ref={autocompleteRef}>
       <p>{title}</p>
       <input
         type="text"
         value={query}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
+        onFocus={handleInputFocus}
         placeholder={placeholder}
       />
-      {showSuggestions && query && (
+      {showSuggestions && (
         <ul className="suggestions-list">
           {filteredSuggestions.length > 0 ? (
             filteredSuggestions.map((suggestion, index) => (

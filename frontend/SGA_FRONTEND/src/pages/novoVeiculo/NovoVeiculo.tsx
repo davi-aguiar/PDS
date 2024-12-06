@@ -57,12 +57,15 @@ function NovoVeiculo() {
       <div className="content">
         <div className="register">
           <h1>Cadastrar Novo Modelo de Veículo</h1>
-          <Autocomplete
-            data={data}
-            title="Selecione um associado."
-            placeholder="Digite para buscar..."
-            onSelect={handleAssociado}
-          />
+          <div className="searchAssDiv">
+            <p>Selecione um associado.</p>
+            <Autocomplete
+              data={data}
+              title=""
+              placeholder="Digite para buscar..."
+              onSelect={handleAssociado}
+            />
+          </div>
           <DropDown
             title="Dados do Veículo"
             type="veiculo"
