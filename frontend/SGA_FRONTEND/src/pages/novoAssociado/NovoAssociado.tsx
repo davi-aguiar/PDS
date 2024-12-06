@@ -24,12 +24,13 @@ function NovoAssociado() {
   });
   const [veiculo, setVeiculo] = useState({
     chassi: "",
-    renavam: "",
+    esp_renavam: "",
     placa: "",
-    categoria: "",
-    modelo: "",
-    ano_fab: "",
-    depreciacao: "",
+    esp_cor: "",
+    codModelo: "",
+    esp_numero_motor: "",
+    cod_fipe: "",
+    mensalidade: "",
   });
 
   const [message, setMessage] = useState("");

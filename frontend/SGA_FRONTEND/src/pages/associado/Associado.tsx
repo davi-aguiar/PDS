@@ -6,12 +6,11 @@ import "./styles.css";
 import { FaUsers, FaCar, FaBullhorn } from "react-icons/fa6";
 
 function Associado() {
-
   const navigate = useNavigate();
 
   const handleNavigate = () => {
     navigate("/novo-associado");
-  }
+  };
 
   return (
     <div className="container">
@@ -58,7 +57,9 @@ function Associado() {
             </div>
           </div>
           <div>
-            <button className="newBtn" onClick={handleNavigate}>NOVO ASSOCIADO</button>
+            <button className="newBtn" onClick={handleNavigate}>
+              NOVO ASSOCIADO
+            </button>
             <DenseTable />
           </div>
         </div>
