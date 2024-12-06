@@ -28,25 +28,28 @@ const NovoModeloVeiculo: React.FC = () => {
 
   const handleSubmit = async () => {
     console.log("Dados enviados antes da conversão:", formData);
-  
+
     // Converte campos específicos para números
     const convertedData = {
       ...formData,
       codModelo: formData.codModelo ? Number(formData.codModelo) : undefined,
       codMarca: formData.codMarca ? Number(formData.codMarca) : undefined,
     };
-  
+
     console.log("Dados enviados após conversão:", convertedData);
-  
+
     try {
-      const response = await axios.post("http://localhost:3000/modelo/cadastrar", convertedData);
-  
+      const response = await axios.post(
+        "http://localhost:3000/modelo/cadastrar",
+        convertedData
+      );
+
       if (response.status !== 201) {
         console.error("Erro na resposta do servidor:", response.data);
         alert(`Erro ao criar modelo: ${response.data.message}`);
         return;
       }
-  
+
       console.log("Resposta do servidor:", response.data);
       alert("Modelo criado com sucesso!");
       setFormData({
@@ -60,7 +63,6 @@ const NovoModeloVeiculo: React.FC = () => {
       alert("Erro ao se conectar com o servidor.");
     }
   };
-  
 
   return (
     <div className="container">
