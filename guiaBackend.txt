@@ -1,0 +1,37 @@
+Basicamente para voces criarem o backend vcs vão precisar de 3 arquivos principais para cada rota, que são:
+
+1. Module
+   nest generate module nomeDoModulo
+2. Controller
+   nest generate controller nomeDoController
+3. Service
+   nest generate service nomeDoService
+
+Onde o module é o arquivo que vai conter as rotas, o controller é o arquivo que vai conter as funções que vão ser chamadas pelas rotas e o service é o arquivo que vai conter as funções que vão ser chamadas pelo controller.
+
+Basicamente é isso, vcs criam estes 3 arquivos no terminal e vão desenvolvendo a lógico dentro de Service, recomendo utilizarem o postman ou insomnia para testarem as rotas. para testar lá é tranquilo também é só colocar o endereço da rota e o método que ela aceita, se for um post ou put vcs podem passar um json no body da requisição.
+
+Exemplo:
+http://localhost:3000/veiculos/register
+
+JSON:
+{
+"chassi": "1HGCM82633A123456",
+"placa": "ABC-1234",
+"esp_renavam": "12345678901",
+"esp_cor": "Preto",
+"esp_numero_motor": "12345678ABC",
+"cod_fipe": "001267-0",
+"codModelo": 123,
+"mensalidade": 250.75,
+"matriculaAssociado": "123456",
+"taxaAdesao": 150.00x
+}
+
+Esqueci de mencionar anteriormente, mas um outro aspecto importante na criação são os DTOS, caso surja a necessidade de utilizar determinados atributos de uma tabela ai vcs configuram o dto certinho, em veiculos e associados eu acabo usando todos os atributos da tabela( basicamente dto definem a estrutura dos dados)
+
+Existem alguns imports no código que são coisa do SWAGGER(podem pular essa parte caso queiram , swagger serve para documentar a API e testar)
+
+Junto do swagger tem um import chamado class validator que basicamente valida objetos em classes.
+
+Alguns metodos ai só lendo a documentação do nodejs/nestjs. Em suma é isso.
