@@ -62,4 +62,43 @@ export class VeiculosService {
       );
     }
   }
+
+  async update(id: string, updateVeiculoDto: CreateVeiculoDTO) {
+    try {
+      const veiculoExistente = await this.prisma.veiculo.findUnique({
+        where: { chassi: id },
+      });
+
+      if (!veiculoExistente) {
+        throw new NotFoundException('Veículo não encontrado.');
+      }
+
+      const veiculoAtualizado = await this.prisma.veiculo.update({
+        where: { chassi: id },
+
+        data: {
+          placa: updateVeiculoDto.placa,
+          esp_renavam: updateVeiculoDto.esp_renavam,
+          esp_cor: updateVeiculoDto.esp_cor,
+          esp_numero_motor: updateVeiculoDto.esp_numero_motor,
+          cod_fipe: updateVeiculoDto.cod_fipe,
+          codModelo: updateVeiculoDto.codModelo,
+          mensalidade: updateVeiculoDto.mensalidade,
+        },
+      });
+      return {
+        message: 'Veículo atualizado com sucesso.',
+        veiculo: veiculoAtualizado,
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+
+      throw new InternalServerErrorException(
+        'Erro ao atualizar veículo.',
+        error.message,
+      );
+    }
+  }
 }
