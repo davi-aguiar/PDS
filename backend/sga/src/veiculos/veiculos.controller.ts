@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+  Get,
+} from '@nestjs/common';
 import { VeiculosService } from './veiculos.service';
 import { CreateVeiculoDTO } from './dtos/create-veiculo.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -24,5 +32,25 @@ export class VeiculosController {
     @Body() updateVeiculoDto: CreateVeiculoDTO,
   ) {
     return await this.veiculosService.update(id, updateVeiculoDto);
+  }
+  @Delete('deletar/:id')
+  @ApiOperation({ summary: 'Exclui um veículo' })
+  @ApiResponse({
+    status: 200,
+    description: 'Veículo excluído com sucesso.',
+  })
+  @ApiResponse({ status: 404, description: 'Veículo não encontrado.' })
+  async delete(@Param('id') id: string) {
+    return await this.veiculosService.delete(id);
+  }
+
+  @Get('listar')
+  @ApiOperation({ summary: 'Lista todos os veículos' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de veículos obtida com sucesso.',
+  })
+  async findAll() {
+    return await this.veiculosService.findAll();
   }
 }

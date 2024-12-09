@@ -63,6 +63,8 @@ export class VeiculosService {
     }
   }
 
+  // editar
+
   async update(id: string, updateVeiculoDto: CreateVeiculoDTO) {
     try {
       const veiculoExistente = await this.prisma.veiculo.findUnique({
@@ -97,6 +99,52 @@ export class VeiculosService {
 
       throw new InternalServerErrorException(
         'Erro ao atualizar veículo.',
+        error.message,
+      );
+    }
+  }
+
+  async delete(id: string) {
+    try {
+      const veiculoExistente = await this.prisma.veiculo.findUnique({
+        where: { chassi: id },
+      });
+
+      if (!veiculoExistente) {
+        throw new NotFoundException('Veículo não encontrado.');
+      }
+
+      await this.prisma.veiculo.delete({
+        where: { chassi: id },
+      });
+
+      return {
+        message: 'Veículo deletado com sucesso.',
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+
+      throw new InternalServerErrorException(
+        'Erro ao deletar veículo.',
+        error.message,
+      );
+    }
+  }
+
+  // listar os veiculos
+
+  async findAll() {
+    try {
+      const veiculos = await this.prisma.veiculo.findMany();
+      return {
+        message: 'Veículos listados',
+        veiculos,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Erro ao listar veículos.',
         error.message,
       );
     }
