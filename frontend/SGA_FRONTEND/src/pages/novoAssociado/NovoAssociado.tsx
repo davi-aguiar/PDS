@@ -22,16 +22,6 @@ function NovoAssociado() {
     telefone: "",
     data_nascimento: "",
   });
-  const [veiculo, setVeiculo] = useState({
-    chassi: "",
-    esp_renavam: "",
-    placa: "",
-    esp_cor: "",
-    codModelo: "",
-    esp_numero_motor: "",
-    cod_fipe: "",
-    mensalidade: "",
-  });
 
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -40,9 +30,6 @@ function NovoAssociado() {
 
   const handleAssociadoChange = (field: string, value: string) => {
     setAssociado({ ...associado, [field]: value });
-  };
-  const handleVeiculoChange = (field: string, value: string) => {
-    setVeiculo({ ...veiculo, [field]: value });
   };
 
   const handleSubmit = async () => {
@@ -78,13 +65,6 @@ function NovoAssociado() {
             onChange={handleAssociadoChange}
             formData={associado}
           />
-          <DropDown
-            title="Dados do Veículo"
-            type="veiculo"
-            onChange={handleVeiculoChange}
-            formData={veiculo}
-          />
-
           {message && <p>{message}</p>}
         </div>
         <div className="divButtons">

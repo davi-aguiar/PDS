@@ -215,7 +215,7 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
       <div className="dropDown" onClick={handleClick}>
         <h1>{title}</h1>
       </div>
-      <div className={`form ${clicked ? "show" : "hide"}`}>
+      <div className={`form ${clicked ? "hide" : "show"}`}>
         <div>
           {type === "associado" && (
             <div className="inputsFlex">
@@ -276,12 +276,6 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
                     onChange={handleInputChange}
                   />
                 ))}
-                <Autocomplete
-                  data={nomesModelos}
-                  title="Modelo"
-                  placeholder="Digite o Modelo"
-                  // onSelect={handleSelect}a
-                />
                 <div className="info2">
                   <p>Imagens</p>
                   <div className="uploadInput">

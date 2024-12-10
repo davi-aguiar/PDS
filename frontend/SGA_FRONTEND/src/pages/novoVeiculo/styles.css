@@ -74,15 +74,29 @@
     display: flex;
     background-color: #a5b9b9;
     align-items: center;
+    justify-content: space-around;
     border-radius: 20px;
-    height: 3em;
+    height: 5em;
+    width: 80%;
   }
   .searchAssDiv input{
     border-radius: 5px;
     height: 2em;
-    width: 400px;
+    width: 100%;
   }
   .searchAssDiv p{
     font-weight: bold;
+    margin: 0;
     color: black;
+  }
+  .searchAssDiv div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+  }
+  .VeicCont{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
