@@ -10,6 +10,7 @@ import {
 import { VeiculosService } from './veiculos.service';
 import { CreateVeiculoDTO } from './dtos/create-veiculo.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { AssociateVeiculoDTO } from './dtos/associate-veiculo.dto';
 
 @Controller('veiculos')
 export class VeiculosController {
@@ -52,5 +53,19 @@ export class VeiculosController {
   })
   async findAll() {
     return await this.veiculosService.findAll();
+  }
+
+  @Post('associar')
+  async associateVeiculoToAssociado(
+    @Body() associateVeiculoDto: AssociateVeiculoDTO,
+  ) {
+    return await this.veiculosService.associateVeiculoToAssociado(
+      associateVeiculoDto,
+    );
+  }
+
+  @Get('associados-veiculos')
+  async getAssociadosComVeiculos() {
+    return await this.veiculosService.findAllAssociadosComVeiculos();
   }
 }

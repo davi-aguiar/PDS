@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { CreateVeiculoDTO } from './dtos/create-veiculo.dto';
+import { AssociateVeiculoDTO } from './dtos/associate-veiculo.dto';
 
 @Injectable()
 export class VeiculosService {
@@ -145,6 +146,90 @@ export class VeiculosService {
     } catch (error) {
       throw new InternalServerErrorException(
         'Erro ao listar veículos.',
+        error.message,
+      );
+    }
+  }
+
+  // refatorar no futuro
+  async associateVeiculoToAssociado(data: AssociateVeiculoDTO) {
+    const { matricula, chassi, matriculaFuncionario, taxaAdesao } = data;
+
+    const associado = await this.prisma.associado.findUnique({
+      where: { matricula: matricula },
+    });
+    if (!associado) {
+      throw new NotFoundException('Associado não encontrado.');
+    }
+
+    const veiculo = await this.prisma.veiculo.findUnique({
+      where: { chassi },
+    });
+    if (!veiculo) {
+      throw new NotFoundException('Veículo não encontrado.');
+    }
+
+    const vinculoExistente = await this.prisma.associadoCadastro.findUnique({
+      where: {
+        matricula_matriculaFuncionario_chassi: {
+          matricula,
+          chassi,
+          matriculaFuncionario,
+        },
+      },
+    });
+    if (vinculoExistente) {
+      throw new ConflictException(
+        'Este veículo já está associado a este associado.',
+      );
+    }
+
+    const associadoCadastro = await this.prisma.associadoCadastro.create({
+      data: {
+        matricula,
+        chassi,
+        matriculaFuncionario,
+        taxa_adesao: taxaAdesao,
+      },
+    });
+
+    return {
+      message: 'Veículo associado ao associado com sucesso.',
+      associadoCadastro,
+    };
+  }
+
+  // tem um jeito melhor de fazer isso não?
+  async findAllAssociadosComVeiculos() {
+    try {
+      const associados = await this.prisma.associado.findMany({
+        include: {
+          associadocadastros: {
+            include: {
+              veiculo: true,
+            },
+          },
+        },
+      });
+
+      const resultado = associados.map((associado) => ({
+        matricula: associado.matricula,
+        nome: associado.nome,
+        veiculos: associado.associadocadastros.map((cadastro) => ({
+          chassi: cadastro.veiculo.chassi,
+          placa: cadastro.veiculo.placa,
+          cor: cadastro.veiculo.esp_cor,
+          modelo: cadastro.veiculo.codModelo,
+        })),
+      }));
+
+      return {
+        message: 'Associados e veículos listados com sucesso.',
+        associados: resultado,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Erro ao listar associados e veículos.',
         error.message,
       );
     }
