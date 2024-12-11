@@ -40,6 +40,7 @@ function NovoVeiculo() {
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [message, setMessage] = useState("");
+  const [matricula, setMatricula] = useState("");
   const navigate = useNavigate();
   const [formData, setFormData] = useState<VeiculoForm>({
     chassi: "",
@@ -131,7 +132,7 @@ function NovoVeiculo() {
     );
 
     if (associadoEncontrado) {
-      console.log("Associado encontrado.");
+      setMatricula(associadoEncontrado.matricula);
     } else {
       console.log("Associado não encontrado.");
     }
