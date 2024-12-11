@@ -158,6 +158,7 @@ export class VeiculosService {
     const associado = await this.prisma.associado.findUnique({
       where: { matricula: matricula },
     });
+
     if (!associado) {
       throw new NotFoundException('Associado não encontrado.');
     }
