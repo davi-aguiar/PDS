@@ -1,13 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import Dash from "../../components/dashboard/page";
 import Search from "../../components/search/page";
-import TableVeic from "../../components/tableVeiculos/page";
 import Filter from "../../components/filter/page";
+import TableVeic from "../../components/tableVeiculos/page";
+
 function Veiculos() {
   const navigate = useNavigate();
+
   const handleNavigate = (path: string) => {
     navigate(`/${path}`);
   };
+
   return (
     <div className="container">
       <Dash />
@@ -22,7 +25,7 @@ function Veiculos() {
             >
               NOVO VEICULO
             </button>
-            {/* <TableVeic /> */}
+            <TableVeic />
           </div>
         </div>
       </div>

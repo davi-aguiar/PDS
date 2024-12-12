@@ -11,16 +11,32 @@ import Popup from "../remove/page";
 import { useNavigate } from "react-router-dom";
 import styles from "./page.module.css";
 
+interface Veiculo {
+  chassi: string;
+  placa: string;
+  cor: string;
+  modelo: number;
+}
+
 interface Associado {
-  nome: string;
-  telefone: string;
-  email: string;
   matricula: string;
-  onDelete: (matricula: string) => Promise<void>;
+  nome: string;
+  veiculos: Veiculo[];
+}
+
+interface ModeloVeiculo {
+  codModelo: number;
+  nomeModelo: string;
+  tipo: string;
+  marca: {
+    codMarca: number;
+    nomeMarca: string;
+  };
 }
 
 export default function TableVeic() {
   const [associados, setAssociados] = useState<Associado[]>([]);
+  const [modelos, setModelos] = useState<ModeloVeiculo[]>([]);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const navigate = useNavigate();
 
@@ -28,21 +44,45 @@ export default function TableVeic() {
     const fetchAssociados = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/associados/listar"
+          "http://localhost:3000/veiculos/associados-veiculos"
         );
 
-        const sortedAssociados = response.data.associados.sort(
-          (a: Associado, b: Associado) => a.nome.localeCompare(b.nome)
-        );
+        const associadosComVeiculos = response.data.associados
+          .filter(
+            (associado: { veiculos: any[] }) => associado.veiculos.length > 0
+          )
+          .sort((a: { nome: string }, b: { nome: string }) =>
+            a.nome.localeCompare(b.nome)
+          );
 
-        setAssociados(sortedAssociados);
+        setAssociados(associadosComVeiculos);
       } catch (error) {
         console.error("Erro ao buscar associados:", error);
       }
     };
 
     fetchAssociados();
-  }, [associados]);
+  }, []);
+
+  useEffect(() => {
+    const fetchModelos = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/modelo/buscar");
+        const modelosData = response.data;
+
+        const sortedModelos = modelosData.sort(
+          (a: ModeloVeiculo, b: ModeloVeiculo) =>
+            a.nomeModelo.localeCompare(b.nomeModelo)
+        );
+
+        setModelos(sortedModelos);
+      } catch (error) {
+        console.error("Erro ao buscar modelos:", error);
+      }
+    };
+
+    fetchModelos();
+  }, []);
 
   const handleSort = () => {
     const sorted = [...associados].sort((a, b) =>
@@ -91,29 +131,37 @@ export default function TableVeic() {
           </TableRow>
         </TableHead>
         <TableBody className={styles.TableBody}>
-          {associados.map((associado) => (
-            <TableRow key={associado.matricula} className={styles.BodyRow}>
-              <TableCell align="right">
-                <input type="checkbox" name="" id="" />
-              </TableCell>
-              <TableCell
-                component="th"
-                scope="row"
-                onClick={() => handleClick(associado)}
+          {associados.map((associado) =>
+            associado.veiculos.map((veiculo, index) => (
+              <TableRow
+                key={`${associado.matricula}-${index}`}
+                className={styles.BodyRow}
               >
-                {associado.nome}
-              </TableCell>
-              <TableCell align="right">{associado.telefone}</TableCell>
-              <TableCell align="right">{associado.matricula}</TableCell>
-              <TableCell align="right">
-                <Popup
-                  type="icon"
-                  matricula={associado.matricula}
-                  name={associado.nome}
-                />
-              </TableCell>
-            </TableRow>
-          ))}
+                <TableCell align="right">
+                  <input type="checkbox" name="" id="" />
+                </TableCell>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  onClick={() => handleClick(associado)}
+                >
+                  {associado.nome}
+                </TableCell>
+                <TableCell align="right">
+                  {modelos.find((modelo) => modelo.codModelo === veiculo.modelo)
+                    ?.nomeModelo || "Modelo não encontrado"}
+                </TableCell>
+                <TableCell align="right">{veiculo.placa}</TableCell>
+                <TableCell align="right">
+                  <Popup
+                    type="icon"
+                    matricula={associado.matricula}
+                    name={associado.nome}
+                  />
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </TableContainer>

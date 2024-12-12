@@ -23,6 +23,12 @@ interface VeiculoForm {
   codModelo?: number;
   mensalidade?: string;
 }
+interface VeiculoAssForm {
+  chassi?: string;
+  matricula?: string;
+  matriculaFuncionario?: number;
+  taxaAdesao?: string;
+}
 
 interface ModeloVeiculo {
   codModelo: number;
@@ -40,7 +46,6 @@ function NovoVeiculo() {
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [message, setMessage] = useState("");
-  const [matricula, setMatricula] = useState("");
   const navigate = useNavigate();
   const [formData, setFormData] = useState<VeiculoForm>({
     chassi: "",
@@ -51,6 +56,12 @@ function NovoVeiculo() {
     cod_fipe: "",
     mensalidade: "",
     codModelo: undefined,
+  });
+  const [formDataAss, setFormDataAss] = useState<VeiculoAssForm>({
+    matricula: "",
+    chassi: "",
+    matriculaFuncionario: 1,
+    taxaAdesao: "123",
   });
 
   const handleVeiculoChange = (field: string, value: string) => {
@@ -92,8 +103,6 @@ function NovoVeiculo() {
   }, []);
 
   const handleSubmit = async () => {
-    console.log("Dados enviados antes da conversão:", formData);
-
     try {
       const response = await axios.post(
         "http://localhost:3000/veiculos/register",
@@ -105,17 +114,26 @@ function NovoVeiculo() {
         return;
       }
 
-      console.log("Resposta do servidor:", response.data);
-      setFormData({
-        chassi: "",
-        esp_renavam: "",
-        placa: "",
-        esp_cor: "",
-        esp_numero_motor: "",
-        cod_fipe: "",
-        mensalidade: "",
-        codModelo: undefined,
-      });
+      const updatedFormDataAss = { ...formDataAss, chassi: formData.chassi };
+
+      await associate(updatedFormDataAss);
+    } catch (err) {
+      console.error("Erro ao conectar com o servidor:", err);
+      setMessage("Erro ao cadastrar Veiculo. Tente novamente.");
+    }
+  };
+
+  const associate = async (formData: typeof formDataAss) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/veiculos/associar",
+        formData
+      );
+
+      if (response.status !== 201) {
+        console.error("Erro na resposta do servidor:", response.data);
+        return;
+      }
       setShowModal(true);
     } catch (err) {
       console.error("Erro ao conectar com o servidor:", err);
@@ -132,7 +150,10 @@ function NovoVeiculo() {
     );
 
     if (associadoEncontrado) {
-      setMatricula(associadoEncontrado.matricula);
+      setFormDataAss({
+        ...formDataAss,
+        matricula: associadoEncontrado.matricula,
+      });
     } else {
       console.log("Associado não encontrado.");
     }
