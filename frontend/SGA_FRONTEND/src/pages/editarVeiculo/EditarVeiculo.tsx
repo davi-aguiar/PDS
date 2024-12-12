@@ -4,7 +4,7 @@ import DropDown from "../../components/dropdown/page";
 import { useEffect, useState } from "react";
 import "./styles.css";
 import Autocomplete from "../../components/select/page";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Associado {
   nome: string;
@@ -40,7 +40,9 @@ interface ModeloVeiculo {
   };
 }
 
-function NovoVeiculo() {
+function EditVeiculo() {
+  const location = useLocation();
+  const { chassi } = location.state; // Pega os dados passados pela navegação
   const [associados, setAssociados] = useState<Associado[]>([]);
   const [modelos, setModelos] = useState<ModeloVeiculo[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -87,6 +89,7 @@ function NovoVeiculo() {
 
     fetchModelos();
   }, []);
+
   useEffect(() => {
     const fetchAssociados = async () => {
       try {
@@ -94,6 +97,47 @@ function NovoVeiculo() {
           "http://localhost:3000/associados/listar"
         );
         setAssociados(response.data.associados);
+      } catch (error) {
+        console.error("Erro ao buscar associados:", error);
+      }
+    };
+
+    fetchAssociados();
+  }, []);
+
+  useEffect(() => {
+    const fetchAssociados = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/veiculos/listar"
+        );
+
+        // Verificando a estrutura de response.data
+        console.log(response.data); // Adicione isso para ver a estrutura da resposta
+
+        // Verifique se response.data é um array
+        if (Array.isArray(response.data)) {
+          // Filtra o veículo com o chassi igual a 'x'
+          const veiculoEncontrado = response.data.find(
+            (veiculo: Veiculo) => veiculo.chassi === "x"
+          );
+
+          if (veiculoEncontrado) {
+            // Atualiza o formData com os dados do veículo encontrado
+            setFormData({
+              chassi: veiculoEncontrado.chassi,
+              esp_renavam: veiculoEncontrado.esp_renavam,
+              placa: veiculoEncontrado.placa,
+              esp_cor: veiculoEncontrado.esp_cor,
+              esp_numero_motor: veiculoEncontrado.esp_numero_motor,
+              cod_fipe: veiculoEncontrado.cod_fipe,
+              mensalidade: veiculoEncontrado.mensalidade,
+              codModelo: veiculoEncontrado.codModelo,
+            });
+          }
+        } else {
+          console.error("A resposta não é um array.");
+        }
       } catch (error) {
         console.error("Erro ao buscar associados:", error);
       }
@@ -179,7 +223,7 @@ function NovoVeiculo() {
     <div className="container">
       <Dash />
       <div className="content">
-        <h1>Cadastrar Novo Veículo</h1>
+        <h1>Editar Veículo</h1>
         <div className="register VeicCont">
           <DropDown
             title="Dados do Veículo"
@@ -239,4 +283,4 @@ function NovoVeiculo() {
   );
 }
 
-export default NovoVeiculo;
+export default EditVeiculo;

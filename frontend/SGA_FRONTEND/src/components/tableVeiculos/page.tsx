@@ -94,8 +94,8 @@ export default function TableVeic() {
     setSortOrder(sortOrder === "desc" ? "asc" : "desc");
   };
 
-  const handleClick = (associado: Associado) => {
-    navigate(`/editar-associado`, { state: { associado } });
+  const handleClick = (chassi: string) => {
+    navigate(`/editar-veiculo`, { state: { chassi } });
   };
 
   return (
@@ -143,7 +143,7 @@ export default function TableVeic() {
                 <TableCell
                   component="th"
                   scope="row"
-                  onClick={() => handleClick(associado)}
+                  onClick={() => handleClick(veiculo.chassi)}
                 >
                   {associado.nome}
                 </TableCell>

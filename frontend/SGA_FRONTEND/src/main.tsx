@@ -16,6 +16,7 @@ import Ferramentas from "./pages/ferramentas/Ferramentas.tsx";
 import Financeiros from "./pages/financeiros/Financeiros.tsx";
 import EditarModeloVeiculo from "./pages/editarModeloVeiculo/EditarModeloVeiculo.tsx";
 import NovoVeiculo from "./pages/novoVeiculo/NovoVeiculo.tsx";
+import EditVeiculo from "./pages/editarVeiculo/EditarVeiculo.tsx";
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
   {
     path: "/editar-modelo",
     element: <EditarModeloVeiculo />,
+  },
+  {
+    path: "/editar-veiculo",
+    element: <EditVeiculo />,
   },
 ]);
 
