@@ -9,7 +9,7 @@ import { ModeloVeiculoModule } from './modelo-veiculo/modelo-veiculo.module';
 import { ModelosController } from './modelo-veiculo/modelo-veiculo.controller';
 import { ModelosService } from './modelo-veiculo/modelo-veiculo.service';
 import { MarcaModule } from './marca/marca.module';
-import { EventosModule } from './eventos/eventos.module';
+import { EventoModule } from './evento/evento.module';
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ import { EventosModule } from './eventos/eventos.module';
     VeiculosModule,
     ModeloVeiculoModule,
     MarcaModule,
-    EventosModule,
+    EventoModule,
   ],
   controllers: [AppController, ModelosController],
   providers: [AppService, ModelosService],

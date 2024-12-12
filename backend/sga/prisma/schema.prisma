@@ -27,6 +27,7 @@ model Associado {
   fisica             Fisica?
   juridica           Juridica?
   associadocadastros AssociadoCadastro[]
+  eventos            Evento[]
 }
 
 enum TipoAssociado {
@@ -35,15 +36,16 @@ enum TipoAssociado {
 }
 
 model Funcionario {
-  matriculaFuncionario Int                     @id @default(autoincrement())
+  matriculaFuncionario Int          @id @default(autoincrement())
   nome                 String?
   tipo                 TipoFuncionario?
-  email                String?                 @unique
+  email                String?      @unique
   senha                String?
-  criadoEm             DateTime                @default(now())
-  atualizadoEm         DateTime                @updatedAt
+  criadoEm             DateTime     @default(now())
+  atualizadoEm         DateTime     @updatedAt
+
   atendimento          FuncionarioAtendimento?
-  eventos              FuncionarioEventos?
+  eventos              Evento[]
 }
 
 enum TipoFuncionario {
@@ -87,8 +89,8 @@ model Veiculo {
   mensalidade      Decimal?
 
   modelo            Modelo?             @relation(fields: [codModelo], references: [codModelo])
-  sinistros         Sinistro[]
-  AssociadoCadastro AssociadoCadastro[]
+  associadocadastros AssociadoCadastro[]
+  eventos            Evento[]
 }
 
 model AssociadoCadastro {
@@ -118,53 +120,17 @@ model Juridica {
   associado Associado @relation(fields: [matricula], references: [matricula], onDelete: Cascade)
 }
 
-model FuncionarioEventos {
-  matriculaFuncionario Int     @id
-  cnh                  String?
-
-  funcionario Funcionario  @relation(fields: [matriculaFuncionario], references: [matriculaFuncionario], onDelete: Cascade)
-  ocorrencias Ocorrencia[]
-  oficinas    Oficina[]
-}
-
-model Ocorrencia {
-  protocolo            Int      @id
+model Evento {
+  protocolo            Int      @id @default(autoincrement())
+  data_evento          DateTime
   tipo_ocorrencia      String?
-  endereco_atual       String?
-  matriculaFuncionario Int?
-  participacao         Decimal?
+  endereco_evento      String?
 
-  funcionarioEventos   FuncionarioEventos?  @relation(fields: [matriculaFuncionario], references: [matriculaFuncionario], onDelete: Cascade)
-  sinistros            Sinistro[]
-  individuosEnvolvidos IndividuoEnvolvido[]
-}
+  chassi               String
+  matriculaAssociado   String
+  matriculaFuncionario Int
 
-model IndividuoEnvolvido {
-  individuos          Int     @id
-  individuo_envolvido String?
-  protocolo           Int?
-
-  ocorrencia Ocorrencia? @relation(fields: [protocolo], references: [protocolo], onDelete: Cascade)
-}
-
-model Oficina {
-  oficina_credenciada  String  @id
-  pecas                String?
-  qtd_veiculos_atuais  Int?
-  matriculaFuncionario Int?
-
-  funcionarioEventos FuncionarioEventos? @relation(fields: [matriculaFuncionario], references: [matriculaFuncionario], onDelete: Cascade)
-}
-
-model Sinistro {
-  chassi    String
-  protocolo Int
-  dia       Int?
-  mes       Int?
-  ano       Int?
-
-  veiculo    Veiculo    @relation(fields: [chassi], references: [chassi])
-  ocorrencia Ocorrencia @relation(fields: [protocolo], references: [protocolo])
-
-  @@id([chassi, protocolo])
+  veiculo              Veiculo                @relation(fields: [chassi], references: [chassi], onDelete: Cascade)
+  associado            Associado              @relation(fields: [matriculaAssociado], references: [matricula])
+  funcionario          Funcionario            @relation(fields: [matriculaFuncionario], references: [matriculaFuncionario])
 }
