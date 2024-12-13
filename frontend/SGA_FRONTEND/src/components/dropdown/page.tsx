@@ -39,6 +39,11 @@ interface Props {
     esp_numero_motor?: string;
     cod_fipe?: string;
     mensalidade?: string;
+
+    // evento
+    data_evento?: string;
+    tipo_ocorrencia?: string;
+    endereco_evento?: string;
   };
 }
 interface ModeloVeiculo {
@@ -75,6 +80,10 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
     if (selectedMarca) {
       onChange("codMarca", selectedMarca.value);
     }
+  };
+
+  const handleSelectChange = (field: string, selectedOption: any) => {
+    onChange(field, selectedOption?.value || "");
   };
 
   useEffect(() => {
@@ -210,6 +219,47 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
     { label: "Tipo", name: "tipo", placeholder: "Ex: Carro", type: "text" },
   ];
 
+  const eventoData = [
+    {
+      label: "Data do Evento",
+      name: "data_evento",
+      placeholder: "Selecione a data",
+      type: "datetime-local",
+    },
+    {
+      label: "Endereço do Evento",
+      name: "endereco_evento",
+      placeholder: "Ex: Rua das Palmeiras, 123",
+      type: "text",
+    },
+    {
+      label: "Chassi",
+      name: "chassi",
+      placeholder: "Ex: ABC1234DEF5678GHI",
+      type: "text",
+    },
+    {
+      label: "Matrícula do Associado",
+      name: "matriculaAssociado",
+      placeholder: "Ex: AS123456",
+      type: "text",
+    },
+    {
+      label: "Matrícula do Funcionário",
+      name: "matriculaFuncionario",
+      placeholder: "Ex: 1",
+      type: "number",
+    },
+  ];
+
+  const tiposDeOcorrencia = [
+    { value: "Colisão leve", label: "Colisão leve" },
+    { value: "Colisão grave", label: "Colisão grave" },
+    { value: "Roubo", label: "Roubo" },
+    { value: "Incêndio", label: "Incêndio" },
+  ];
+  
+
   return (
     <>
       <div className="dropDown" onClick={handleClick}>
@@ -287,6 +337,34 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
                 </div>
               </div>
             </>
+          )}
+          {type === "evento" && (
+            <div className="inputsFlex">
+              {eventoData.map((field, index) => (
+                <DropDownInput
+                  key={index}
+                  title={field.label}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  type={field.type}
+                  value={formData[field.name as keyof typeof formData] || ""}
+                  onChange={handleInputChange}
+                />
+              ))}
+              <div className="selectInput">
+                <label>Tipo de Ocorrência</label>
+                <Select
+                  options={tiposDeOcorrencia}
+                  onChange={(option) => handleSelectChange("tipo_ocorrencia", option)}
+                  placeholder="Selecione o tipo de ocorrência"
+                  value={
+                    tiposDeOcorrencia.find(
+                      (option) => option.value === formData.tipo_ocorrencia
+                    ) || null
+                  }
+                />
+              </div>
+            </div>
           )}
         </div>
       </div>

@@ -7,7 +7,7 @@ import { UpdateEventoDto } from './dto/update-evento.dto';
 export class EventoController {
   constructor(private readonly eventosService: EventoService) {}
 
-  @Post()
+  @Post('cadastrar')
   create(@Body() createEventoDto: CreateEventoDto) {
     return this.eventosService.create(createEventoDto);
   }
