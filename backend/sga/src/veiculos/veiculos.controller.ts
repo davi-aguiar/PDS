@@ -68,4 +68,9 @@ export class VeiculosController {
   async getAssociadosComVeiculos() {
     return await this.veiculosService.findAllAssociadosComVeiculos();
   }
+
+  @Get('associados-veiculos/:id')
+  async findOne(@Param('id') id: string) {
+    return await this.veiculosService.findOne(id);
+  }
 }

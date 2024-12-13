@@ -114,6 +114,9 @@ export class VeiculosService {
       if (!veiculoExistente) {
         throw new NotFoundException('Veículo não encontrado.');
       }
+      await this.prisma.associadoCadastro.deleteMany({
+        where: { chassi: id },
+      });
 
       await this.prisma.veiculo.delete({
         where: { chassi: id },
@@ -231,6 +234,78 @@ export class VeiculosService {
     } catch (error) {
       throw new InternalServerErrorException(
         'Erro ao listar associados e veículos.',
+        error.message,
+      );
+    }
+  }
+
+  //caso tu precise só do veiculo cria o endpoint dps
+  async findOneVeiculo(id: string) {
+    try {
+      const veiculo = await this.prisma.veiculo.findUnique({
+        where: { chassi: id },
+      });
+      if (!veiculo) {
+        throw new NotFoundException('Veículo não encontrado.');
+      }
+      return {
+        message: 'Veículo encontrado com sucesso.',
+        veiculo,
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        'Erro ao buscar veículo.',
+        error.message,
+      );
+    }
+  }
+
+  async findOne(id: string) {
+    try {
+      const veiculo = await this.prisma.veiculo.findUnique({
+        where: { chassi: id },
+        include: {
+          associadocadastros: {
+            include: {
+              associado: true,
+            },
+          },
+        },
+      });
+
+      if (!veiculo) {
+        throw new NotFoundException('Veículo não encontrado.');
+      }
+
+      const associadoVinculado = veiculo.associadocadastros.map((vinculo) => ({
+        matricula: vinculo.associado.matricula,
+        nome: vinculo.associado.nome,
+        cpf_cnpj: vinculo.associado.cpf_cnpj,
+      }));
+
+      return {
+        message: 'Veículo encontrado com sucesso.',
+        veiculo: {
+          chassi: veiculo.chassi,
+          placa: veiculo.placa,
+          esp_renavam: veiculo.esp_renavam,
+          esp_cor: veiculo.esp_cor,
+          esp_numero_motor: veiculo.esp_numero_motor,
+          cod_fipe: veiculo.cod_fipe,
+          codModelo: veiculo.codModelo,
+          mensalidade: veiculo.mensalidade,
+          associado: associadoVinculado,
+        },
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        'Erro ao buscar veículo.',
         error.message,
       );
     }
