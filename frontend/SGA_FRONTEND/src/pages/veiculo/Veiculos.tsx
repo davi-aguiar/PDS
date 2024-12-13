@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import Dash from "../../components/dashboard/page";
-import Search from "../../components/search/page";
 import Filter from "../../components/filter/page";
 import TableVeic from "../../components/tableVeiculos/page";
+import SearchVeiculo from "../../components/searchVeiculo/page";
 
 function Veiculos() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ function Veiculos() {
     <div className="container">
       <Dash />
       <div className="content">
-        <Search />
+        <SearchVeiculo />
         <div className="inside">
           <Filter />
           <div>

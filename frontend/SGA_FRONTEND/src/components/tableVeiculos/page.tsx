@@ -7,9 +7,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Popup from "../remove/page";
 import { useNavigate } from "react-router-dom";
 import styles from "./page.module.css";
+import PopupVeiculo from "../removeVeiculo/page";
 
 interface Veiculo {
   chassi: string;
@@ -62,8 +62,7 @@ export default function TableVeic() {
     };
 
     fetchAssociados();
-  }, []);
-
+  }, [associados]);
   useEffect(() => {
     const fetchModelos = async () => {
       try {
@@ -153,10 +152,10 @@ export default function TableVeic() {
                 </TableCell>
                 <TableCell align="right">{veiculo.placa}</TableCell>
                 <TableCell align="right">
-                  <Popup
+                  <PopupVeiculo
                     type="icon"
-                    matricula={associado.matricula}
-                    name={associado.nome}
+                    chassi={veiculo.chassi}
+                    placa={veiculo.placa}
                   />
                 </TableCell>
               </TableRow>

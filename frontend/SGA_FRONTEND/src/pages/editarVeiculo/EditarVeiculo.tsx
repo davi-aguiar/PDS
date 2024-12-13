@@ -13,6 +13,12 @@ interface Associado {
   matricula: string;
 }
 
+interface Associado2 {
+  nome: string;
+  matricula: string;
+  cpf_cnpj: string;
+}
+
 interface VeiculoForm {
   chassi?: string;
   esp_renavam?: string;
@@ -23,6 +29,7 @@ interface VeiculoForm {
   codModelo?: number;
   mensalidade?: string;
 }
+
 interface VeiculoAssForm {
   chassi?: string;
   matricula?: string;
@@ -40,28 +47,30 @@ interface ModeloVeiculo {
   };
 }
 
+interface VeiculoEncontrado {
+  chassi?: string;
+  esp_renavam?: string;
+  placa?: string;
+  esp_cor?: string;
+  esp_numero_motor?: string;
+  cod_fipe?: string;
+  codModelo?: number;
+  mensalidade?: string;
+  associado?: Associado2;
+}
+
 function EditVeiculo() {
   const location = useLocation();
   const { chassi } = location.state; // Pega os dados passados pela navegação
   const [associados, setAssociados] = useState<Associado[]>([]);
   const [modelos, setModelos] = useState<ModeloVeiculo[]>([]);
-  const [showModal, setShowModal] = useState(false);
-  const [showModal2, setShowModal2] = useState(false);
+  const [activeModal, setActiveModal] = useState<
+    "none" | "success" | "confirmExit"
+  >("none");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<VeiculoForm>({
-    chassi: "",
-    esp_renavam: "",
-    placa: "",
-    esp_cor: "",
-    esp_numero_motor: "",
-    cod_fipe: "",
-    mensalidade: "",
-    codModelo: undefined,
-  });
+  const [formData, setFormData] = useState<VeiculoForm>({});
   const [formDataAss, setFormDataAss] = useState<VeiculoAssForm>({
-    matricula: "",
-    chassi: "",
     matriculaFuncionario: 1,
     taxaAdesao: "123",
   });
@@ -70,127 +79,75 @@ function EditVeiculo() {
     setFormData({ ...formData, [field]: value });
   };
 
-  useEffect(() => {
-    const fetchModelos = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/modelo/buscar");
-        const modelosData = response.data;
+  const fetchData = async () => {
+    try {
+      const [modelosResponse, associadosResponse, veiculoResponse] =
+        await Promise.all([
+          axios.get("http://localhost:3000/modelo/buscar"),
+          axios.get("http://localhost:3000/associados/listar"),
+          axios.get(
+            `http://localhost:3000/veiculos/associados-veiculos/${chassi}`
+          ),
+        ]);
 
-        const sortedModelos = modelosData.sort(
-          (a: ModeloVeiculo, b: ModeloVeiculo) =>
-            a.nomeModelo.localeCompare(b.nomeModelo)
-        );
+      setModelos(
+        modelosResponse.data.sort((a: ModeloVeiculo, b: ModeloVeiculo) =>
+          a.nomeModelo.localeCompare(b.nomeModelo)
+        )
+      );
+      setAssociados(associadosResponse.data.associados);
 
-        setModelos(sortedModelos);
-      } catch (error) {
-        console.error("Erro ao buscar modelos:", error);
-      }
-    };
+      const veiculoEncontrado: VeiculoEncontrado = veiculoResponse.data.veiculo;
+      if (veiculoEncontrado) {
+        setFormData({
+          chassi: veiculoEncontrado.chassi,
+          esp_renavam: veiculoEncontrado.esp_renavam,
+          placa: veiculoEncontrado.placa,
+          esp_cor: veiculoEncontrado.esp_cor,
+          esp_numero_motor: veiculoEncontrado.esp_numero_motor,
+          cod_fipe: veiculoEncontrado.cod_fipe,
+          mensalidade: veiculoEncontrado.mensalidade,
+          codModelo: veiculoEncontrado.codModelo,
+        });
 
-    fetchModelos();
-  }, []);
-
-  useEffect(() => {
-    const fetchAssociados = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/associados/listar"
-        );
-        setAssociados(response.data.associados);
-      } catch (error) {
-        console.error("Erro ao buscar associados:", error);
-      }
-    };
-
-    fetchAssociados();
-  }, []);
-
-  useEffect(() => {
-    const fetchAssociados = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/veiculos/listar"
-        );
-
-        // Verificando a estrutura de response.data
-        console.log(response.data); // Adicione isso para ver a estrutura da resposta
-
-        // Verifique se response.data é um array
-        if (Array.isArray(response.data)) {
-          // Filtra o veículo com o chassi igual a 'x'
-          const veiculoEncontrado = response.data.find(
-            (veiculo: Veiculo) => veiculo.chassi === "x"
-          );
-
-          if (veiculoEncontrado) {
-            // Atualiza o formData com os dados do veículo encontrado
-            setFormData({
-              chassi: veiculoEncontrado.chassi,
-              esp_renavam: veiculoEncontrado.esp_renavam,
-              placa: veiculoEncontrado.placa,
-              esp_cor: veiculoEncontrado.esp_cor,
-              esp_numero_motor: veiculoEncontrado.esp_numero_motor,
-              cod_fipe: veiculoEncontrado.cod_fipe,
-              mensalidade: veiculoEncontrado.mensalidade,
-              codModelo: veiculoEncontrado.codModelo,
-            });
-          }
-        } else {
-          console.error("A resposta não é um array.");
+        if (veiculoEncontrado.associado) {
+          setFormDataAss((prevState) => ({
+            ...prevState,
+            matricula: veiculoEncontrado.associado.matricula,
+          }));
         }
-      } catch (error) {
-        console.error("Erro ao buscar associados:", error);
       }
-    };
+    } catch (error) {
+      console.error("Erro ao buscar dados:", error);
+    }
+  };
 
-    fetchAssociados();
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/veiculos/register",
+      const response = await axios.put(
+        `http://localhost:3000/veiculos/atualizar/${chassi}`,
         formData
       );
 
-      if (response.status !== 201) {
+      if (response.status !== 200) {
         console.error("Erro na resposta do servidor:", response.data);
         return;
       }
-
-      const updatedFormDataAss = { ...formDataAss, chassi: formData.chassi };
-
-      await associate(updatedFormDataAss);
+      setActiveModal("success");
     } catch (err) {
       console.error("Erro ao conectar com o servidor:", err);
       setMessage("Erro ao cadastrar Veiculo. Tente novamente.");
     }
   };
-
-  const associate = async (formData: typeof formDataAss) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/veiculos/associar",
-        formData
-      );
-
-      if (response.status !== 201) {
-        console.error("Erro na resposta do servidor:", response.data);
-        return;
-      }
-      setShowModal(true);
-    } catch (err) {
-      console.error("Erro ao conectar com o servidor:", err);
-      setMessage("Erro ao cadastrar Veiculo. Tente novamente.");
-    }
-  };
-
-  const data = associados.map((associado) => associado.nome);
-  const nomesModelos = modelos.map((modelo) => modelo.nomeModelo);
 
   const handleAssociado = (value: string) => {
     const associadoEncontrado = associados.find(
-      (associado) => associado.nome.toLowerCase() === value.toLowerCase()
+      (associado) =>
+        associado.nome.trim().toLowerCase() === value.trim().toLowerCase()
     );
 
     if (associadoEncontrado) {
@@ -205,19 +162,35 @@ function EditVeiculo() {
 
   const handleModelo = (value: string) => {
     const modeloEncontrado = modelos.find(
-      (associado) => associado.nomeModelo.toLowerCase() === value.toLowerCase()
+      (modelo) =>
+        modelo.nomeModelo.trim().toLowerCase() === value.trim().toLowerCase()
     );
 
     if (modeloEncontrado) {
       setFormData({ ...formData, codModelo: modeloEncontrado.codModelo });
     } else {
-      console.log("Associado não encontrado.");
+      console.log("Modelo não encontrado.");
     }
   };
 
   const handleNavigate = () => {
     navigate("/veiculos");
   };
+
+  const hasUnsavedChanges =
+    JSON.stringify(formData) !== JSON.stringify({}) ||
+    JSON.stringify(formDataAss) !== JSON.stringify({});
+
+  const handleCancel = () => {
+    if (hasUnsavedChanges) {
+      setActiveModal("confirmExit");
+    } else {
+      handleNavigate();
+    }
+  };
+
+  const data = associados.map((associado) => associado.nome);
+  const nomesModelos = modelos.map((modelo) => modelo.nomeModelo);
 
   return (
     <div className="container">
@@ -232,48 +205,27 @@ function EditVeiculo() {
             formData={formData}
           />
           <br />
-          <div className="searchAssDiv">
-            <div>
-              <p>Selecione um associado.</p>
-              <Autocomplete
-                data={data}
-                title=""
-                placeholder="Digite para buscar..."
-                onSelect={handleAssociado}
-              />
-            </div>
-            <div>
-              <p>Selecione um modelo.</p>
-              <Autocomplete
-                data={nomesModelos}
-                title=""
-                placeholder="Digite o Modelo"
-                onSelect={handleModelo}
-              />
-            </div>
-          </div>
-          <br />
           {message}
         </div>
         <div className="divButtons">
-          <button onClick={() => setShowModal2(true)}>CANCELAR</button>
+          <button onClick={handleCancel}>CANCELAR</button>
           <button onClick={handleSubmit}>SALVAR</button>
         </div>
 
-        {showModal && (
+        {activeModal === "success" && (
           <div className="modal">
             <div className="modalContent">
-              <h2>Veiculo cadastrado com sucesso!</h2>
+              <h2>Veiculo atualizado com sucesso!</h2>
               <button onClick={handleNavigate}>Voltar à Página Inicial</button>
             </div>
           </div>
         )}
-        {showModal2 && (
+        {activeModal === "confirmExit" && (
           <div className="modal">
             <div className="modalContent2">
               <h2>Certeza que deseja sair?</h2>
               <p>Qualquer mudança não salva será perdida!</p>
-              <button onClick={() => setShowModal2(false)}>Cancelar</button>
+              <button onClick={() => setActiveModal("none")}>Cancelar</button>
               <button onClick={handleNavigate}>Voltar à Página Inicial</button>
             </div>
           </div>
