@@ -61,6 +61,12 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
   const [clicked, setClicked] = useState(false);
   const [marcas, setMarcas] = useState<{ value: number; label: string }[]>([]);
   const [modelos, setModelos] = useState<ModeloVeiculo[]>([]);
+  const [tiposDeOcorrencia] = useState<string[]>([
+    "Colisão leve",
+    "Colisão grave",
+    "Roubo",
+    "Incêndio",
+  ]);
 
   const handleClick = () => {
     setClicked(!clicked);
@@ -82,8 +88,8 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
     }
   };
 
-  const handleSelectChange = (field: string, selectedOption: any) => {
-    onChange(field, selectedOption?.value || "");
+  const handleSelectChange = (field: string, selectedOption: string) => {
+    onChange(field, selectedOption);
   };
 
   useEffect(() => {
@@ -252,14 +258,6 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
     },
   ];
 
-  const tiposDeOcorrencia = [
-    { value: "Colisão leve", label: "Colisão leve" },
-    { value: "Colisão grave", label: "Colisão grave" },
-    { value: "Roubo", label: "Roubo" },
-    { value: "Incêndio", label: "Incêndio" },
-  ];
-  
-
   return (
     <>
       <div className="dropDown" onClick={handleClick}>
@@ -351,17 +349,12 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
                   onChange={handleInputChange}
                 />
               ))}
-              <div className="selectInput">
-                <label>Tipo de Ocorrência</label>
-                <Select
-                  options={tiposDeOcorrencia}
-                  onChange={(option) => handleSelectChange("tipo_ocorrencia", option)}
+             <div className="selectInput">
+                <Autocomplete
+                  data={tiposDeOcorrencia}
+                  title="Tipo de Ocorrência"
                   placeholder="Selecione o tipo de ocorrência"
-                  value={
-                    tiposDeOcorrencia.find(
-                      (option) => option.value === formData.tipo_ocorrencia
-                    ) || null
-                  }
+                  onSelect={(value) => handleSelectChange("tipo_ocorrencia", value)}
                 />
               </div>
             </div>

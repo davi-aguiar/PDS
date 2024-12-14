@@ -45,7 +45,6 @@ p{
 
 .inputsFlex div{
     flex: 0 0 calc(50% - 10px); 
-    margin-top: 10px;
     display: flex;
     flex-direction: column;
 }

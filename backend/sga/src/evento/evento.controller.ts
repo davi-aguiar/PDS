@@ -12,17 +12,17 @@ export class EventoController {
     return this.eventosService.create(createEventoDto);
   }
 
-  @Get()
+  @Get('buscar')
   findAll() {
     return this.eventosService.findAll();
   }
 
-  @Get(':id')
+  @Get('buscar/:id')
   findOne(@Param('id') id: string) {
     return this.eventosService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('atualizar/:id')
   update(@Param('id') id: string, @Body() updateEventoDto: UpdateEventoDto) {
     return this.eventosService.update(+id, updateEventoDto);
   }

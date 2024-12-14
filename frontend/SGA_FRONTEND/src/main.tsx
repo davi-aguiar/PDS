@@ -18,6 +18,7 @@ import EditarModeloVeiculo from "./pages/editarModeloVeiculo/EditarModeloVeiculo
 import NovoVeiculo from "./pages/novoVeiculo/NovoVeiculo.tsx";
 import EditVeiculo from "./pages/editarVeiculo/EditarVeiculo.tsx";
 import NovoEvento from "./pages/novoEvento/NovoEvento.tsx";
+import EditarEvento from "./pages/editarEvento/EditarEvento.tsx";
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
   {
     path: "/novo-evento",
     element: <NovoEvento />,
+  },
+  {
+    path: "/editar-evento",
+    element: <EditarEvento />,
   }
 ]);
 
