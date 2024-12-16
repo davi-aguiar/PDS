@@ -238,24 +238,6 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
       placeholder: "Ex: Rua das Palmeiras, 123",
       type: "text",
     },
-    {
-      label: "Chassi",
-      name: "chassi",
-      placeholder: "Ex: ABC1234DEF5678GHI",
-      type: "text",
-    },
-    {
-      label: "Matrícula do Associado",
-      name: "matriculaAssociado",
-      placeholder: "Ex: AS123456",
-      type: "text",
-    },
-    {
-      label: "Matrícula do Funcionário",
-      name: "matriculaFuncionario",
-      placeholder: "Ex: 1",
-      type: "number",
-    },
   ];
 
   return (
@@ -349,12 +331,14 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
                   onChange={handleInputChange}
                 />
               ))}
-             <div className="selectInput">
+              <div className="selectInput">
                 <Autocomplete
                   data={tiposDeOcorrencia}
                   title="Tipo de Ocorrência"
                   placeholder="Selecione o tipo de ocorrência"
-                  onSelect={(value) => handleSelectChange("tipo_ocorrencia", value)}
+                  onSelect={(value) =>
+                    handleSelectChange("tipo_ocorrencia", value)
+                  }
                 />
               </div>
             </div>

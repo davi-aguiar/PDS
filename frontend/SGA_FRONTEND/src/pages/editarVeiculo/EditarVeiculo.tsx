@@ -3,7 +3,6 @@ import Dash from "../../components/dashboard/page";
 import DropDown from "../../components/dropdown/page";
 import { useEffect, useState } from "react";
 import "./styles.css";
-import Autocomplete from "../../components/select/page";
 import { useLocation, useNavigate } from "react-router-dom";
 
 interface Associado {
@@ -70,6 +69,7 @@ function EditVeiculo() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const [formData, setFormData] = useState<VeiculoForm>({});
+  const [sla, setsla] = useState<VeiculoEncontrado>({});
   const [formDataAss, setFormDataAss] = useState<VeiculoAssForm>({
     matriculaFuncionario: 1,
     taxaAdesao: "123",
@@ -96,7 +96,10 @@ function EditVeiculo() {
         )
       );
       setAssociados(associadosResponse.data.associados);
-
+      await setsla(veiculoResponse.data.veiculo);
+      const selectedMarca = await modelos.find(
+        (marca) => marca.codModelo === sla.codModelo
+      );
       const veiculoEncontrado: VeiculoEncontrado = veiculoResponse.data.veiculo;
       if (veiculoEncontrado) {
         setFormData({
@@ -144,35 +147,6 @@ function EditVeiculo() {
     }
   };
 
-  const handleAssociado = (value: string) => {
-    const associadoEncontrado = associados.find(
-      (associado) =>
-        associado.nome.trim().toLowerCase() === value.trim().toLowerCase()
-    );
-
-    if (associadoEncontrado) {
-      setFormDataAss({
-        ...formDataAss,
-        matricula: associadoEncontrado.matricula,
-      });
-    } else {
-      console.log("Associado não encontrado.");
-    }
-  };
-
-  const handleModelo = (value: string) => {
-    const modeloEncontrado = modelos.find(
-      (modelo) =>
-        modelo.nomeModelo.trim().toLowerCase() === value.trim().toLowerCase()
-    );
-
-    if (modeloEncontrado) {
-      setFormData({ ...formData, codModelo: modeloEncontrado.codModelo });
-    } else {
-      console.log("Modelo não encontrado.");
-    }
-  };
-
   const handleNavigate = () => {
     navigate("/veiculos");
   };
@@ -189,9 +163,6 @@ function EditVeiculo() {
     }
   };
 
-  const data = associados.map((associado) => associado.nome);
-  const nomesModelos = modelos.map((modelo) => modelo.nomeModelo);
-
   return (
     <div className="container">
       <Dash />
@@ -205,6 +176,24 @@ function EditVeiculo() {
             formData={formData}
           />
           <br />
+          <div className="searchAssDiv">
+            <div>
+              <p>
+                Associado responsável pelo veículo:{" "}
+                {sla.chassi ? sla.associado[0].nome : ""}.
+              </p>
+            </div>
+            <div>
+              <p>
+                Modelo do veículo:
+                {
+                  modelos.find((marca) => marca.codModelo === sla.codModelo)
+                    ?.nomeModelo
+                }
+                .
+              </p>
+            </div>
+          </div>
           {message}
         </div>
         <div className="divButtons">

@@ -29,7 +29,9 @@ export default function DenseTableEventos() {
   useEffect(() => {
     const fetchEventos = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/eventos/buscar");
+        const response = await axios.get(
+          "http://localhost:3000/eventos/buscar"
+        );
         const eventosData = response.data;
 
         const sortedEventos = eventosData.sort((a: Evento, b: Evento) =>
@@ -119,11 +121,7 @@ export default function DenseTableEventos() {
               <TableCell align="right">{evento.matriculaAssociado}</TableCell>
               <TableCell align="right">{evento.matriculaFuncionario}</TableCell>
               <TableCell align="right">
-                <PopupEvento
-                  type="icon"
-                  protocolo={evento.protocolo}
-                  data_evento={evento.data_evento}
-                />
+                <PopupEvento type="icon" protocolo={evento.protocolo} />
               </TableCell>
             </TableRow>
           ))}

@@ -7,10 +7,9 @@ import { useNavigate } from "react-router-dom";
 interface Props {
   type: string; // Define se será exibido como ícone ou botão
   protocolo: number; // Identificador único do evento, conforme o banco de dados
-  descricaoEvento: string; // Descrição para exibir no modal
 }
 
-const PopupEvento = ({ type, protocolo, descricaoEvento }: Props) => {
+const PopupEvento = ({ type, protocolo }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -52,7 +51,7 @@ const PopupEvento = ({ type, protocolo, descricaoEvento }: Props) => {
             className={styles.popupContent}
             onClick={(e) => e.stopPropagation()} // Previne o fechamento ao clicar dentro do popup
           >
-            <h2>Tem certeza que deseja excluir o evento "{descricaoEvento}"?</h2>
+            <h2>Tem certeza que deseja excluir o evento?</h2>
             <p>
               Todas as informações associadas a este evento serão excluídas
               permanentemente.

@@ -1,0 +1,102 @@
+
+.searchDiv{
+    background-color: white;
+    height: 55px;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 10px 0 10px;
+    align-items: center;
+    border-bottom: 1px solid rgb(129, 129, 129);
+}
+.searchBar{
+    height: 30px;
+    width: 40%;
+    border-radius: 20px;
+    border: 1px solid #7f7f7f;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.searchBar input{
+    border: 0px;
+    width: 90%;
+    outline: none;
+}
+.suggestionBox {
+    position: absolute;
+    top: 50px; /* ajuste conforme necessário */
+    left: 42%; /* ajuste conforme necessário */
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333;
+    z-index: 1000;
+  }
+  
+.searchDiv{
+    background-color: white;
+    height: 55px;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 10px 0 10px;
+    align-items: center;
+    border-bottom: 1px solid rgb(129, 129, 129);
+}
+.searchBar{
+    height: 30px;
+    width: 40%;
+    border-radius: 20px;
+    border: 1px solid #7f7f7f;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.searchBar input{
+    border: 0px;
+    width: 90%;
+    outline: none;
+}
+.suggestionBox {
+    position: absolute;
+    top: 50px;
+    left: 42%;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333;
+    z-index: 1000;
+  }
+  .searchAssDiv{
+    display: flex;
+    background-color: #a5b9b9;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 20px;
+    height: 5em;
+    width: 80%;
+  }
+  .searchAssDiv input{
+    border-radius: 5px;
+    height: 2em;
+    width: 100%;
+  }
+  .searchAssDiv p{
+    font-weight: bold;
+    margin: 0;
+    color: black;
+  }
+  .searchAssDiv div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+  }
+  .VeicCont{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
