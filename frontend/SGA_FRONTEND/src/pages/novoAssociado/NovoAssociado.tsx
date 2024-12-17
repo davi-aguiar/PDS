@@ -20,7 +20,7 @@ function NovoAssociado() {
     tipo: "FISICA",
     rg: "",
     telefone: "",
-    data_nascimento: "",
+    data_nascimento: "", // Data no formato DD/MM/YYYY
   });
 
   const [message, setMessage] = useState("");
@@ -28,15 +28,27 @@ function NovoAssociado() {
   const [showModal2, setShowModal2] = useState(false);
   const navigate = useNavigate();
 
+  // Função para converter a data para o formato YYYY/MM/DD
+  const convertToServerDate = (date: string) => {
+    const [day, month, year] = date.split("/"); // Divide a data no formato DD/MM/YYYY
+    return `${year}/${month}/${day}`; // Retorna no formato YYYY/MM/DD
+  };
+
   const handleAssociadoChange = (field: string, value: string) => {
     setAssociado({ ...associado, [field]: value });
   };
 
   const handleSubmit = async () => {
     try {
+      // Converte a data de nascimento antes de enviar os dados
+      const associadoParaEnviar = {
+        ...associado,
+        data_nascimento: associado.data_nascimento ? convertToServerDate(associado.data_nascimento) : "",
+      };
+
       await axios.post(
         "http://localhost:3000/associados/cadastrar",
-        associado,
+        associadoParaEnviar,
         { headers: { "Content-Type": "application/json" } }
       );
       setShowModal(true);

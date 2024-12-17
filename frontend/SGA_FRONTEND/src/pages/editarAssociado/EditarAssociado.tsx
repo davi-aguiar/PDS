@@ -12,11 +12,18 @@ function EditAssociado() {
   const location = useLocation();
   const { associado: associadoData } = location.state; // Pega os dados passados pela navegação
   const [associado, setAssociado] = useState(associadoData);
-  // const { veiculo: veiculoData } = location.state;
-  // const [veiculo, setVeiculo] = useState(veiculoData);
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
+
+  // Função para formatar a data para DD/MM/YYYY
+  const formatDateToDDMMYYYY = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Meses começam em 0
+    const year = date.getUTCFullYear();
+    return `${day}/${month}/${year}`;
+  };
 
   // Carrega dados do associado ao montar o componente
   useEffect(() => {
@@ -25,7 +32,14 @@ function EditAssociado() {
         const response = await axios.get(
           `http://localhost:3000/associados/${associadoData.matricula}`
         );
-        setAssociado(response.data);
+
+        // Formata a data_nascimento para DD/MM/YYYY
+        const associadoComDataFormatada = {
+          ...response.data,
+          data_nascimento: formatDateToDDMMYYYY(response.data.data_nascimento),
+        };
+
+        setAssociado(associadoComDataFormatada);
       } catch (error) {
         setMessage("Erro ao carregar os dados do associado.");
         console.error("Erro ao buscar associado:", error);
@@ -34,18 +48,23 @@ function EditAssociado() {
     fetchAssociado();
   }, [associadoData.matricula]);
 
+  // Função de alteração do campo do associado
   const handleAssociadoChange = (field: string, value: string) => {
     setAssociado({ ...associado, [field]: value });
   };
-  // const handleVeiculoChange = (field: string, value: string) => {
-  //   setVeiculo({ ...veiculo, [field]: value });
-  // };
 
   const handleSubmit = async () => {
     try {
+      // Converte a data_nascimento para o formato ISO antes de salvar
+      const [day, month, year] = associado.data_nascimento.split('/');
+      const isoDate = `${year}-${month}-${day}`;
+
+      // Atualiza o estado com a data formatada para ISO
+      const associadoComDataISO = { ...associado, data_nascimento: isoDate };
+
       await axios.put(
         `http://localhost:3000/associados/atualizar/${associadoData.matricula}`,
-        associado,
+        associadoComDataISO,
         { headers: { "Content-Type": "application/json" } }
       );
       setShowModal(true);
@@ -55,6 +74,7 @@ function EditAssociado() {
       console.error("Detalhes do erro: ", error);
     }
   };
+
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate("/associado");
