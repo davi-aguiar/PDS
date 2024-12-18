@@ -23,6 +23,14 @@ export default function SearchEvento() {
   const [inputValue, setInputValue] = useState("");
   const navigate = useNavigate();
 
+  const formatDateToDDMMYYYY = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const year = date.getUTCFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   useEffect(() => {
     const fetchEventos = async () => {
       try {
@@ -106,7 +114,7 @@ export default function SearchEvento() {
                         {evento.tipo_ocorrencia}
                       </TableCell>
                       <TableCell align="right">{evento.protocolo}</TableCell>
-                      <TableCell align="right">{evento.data_evento}</TableCell>
+                      <TableCell align="right">{formatDateToDDMMYYYY(evento.data_evento)}</TableCell>
                     </TableRow>
                   ))}
               </TableBody>
