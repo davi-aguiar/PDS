@@ -12,8 +12,19 @@ function EditarEvento() {
   const { evento: eventoData } = location.state; // Pega os dados passados pela navegação
   const [evento, setEvento] = useState(eventoData);
   const [message, setMessage] = useState("");
+  const [placa, setPlaca] = useState("");
+  const [associado, setAssociado] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
+
+  // Função para formatar a data para DD/MM/YYYY
+  const formatDateToDDMMYYYY = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const year = date.getUTCFullYear();
+    return `${day}/${month}/${year}`;
+  };
 
   // Carrega dados do evento ao montar o componente
   useEffect(() => {
@@ -22,7 +33,17 @@ function EditarEvento() {
         const response = await axios.get(
           `http://localhost:3000/eventos/buscar/${eventoData.protocolo}`
         );
-        setEvento(response.data);
+        console.log(response.data);
+
+        setAssociado(response.data.associado.nome);
+        setPlaca(response.data.veiculo.placa);
+        // Formata a data_evento para DD/MM/YYYY
+        const eventoComDataFormatada = {
+          ...response.data,
+          data_evento: formatDateToDDMMYYYY(response.data.data_evento),
+        };
+
+        setEvento(eventoComDataFormatada);
       } catch (error) {
         setMessage("Erro ao carregar os dados do evento.");
         console.error("Erro ao buscar evento:", error);
@@ -36,23 +57,26 @@ function EditarEvento() {
   };
 
   const handleSubmit = async () => {
-    // Filtra apenas os dados necessários para a rota PATCH
-    const eventoFiltrado = {
-      protocolo: evento.protocolo,
-      data_evento: evento.data_evento,
-      tipo_ocorrencia: evento.tipo_ocorrencia,
-      endereco_evento: evento.endereco_evento,
-      chassi: evento.chassi,
-      matriculaAssociado: evento.matriculaAssociado,
-      matriculaFuncionario: evento.matriculaFuncionario,
-    };
-
     try {
+      // Converte a data_evento para o formato ISO
+      const [day, month, year] = evento.data_evento.split("/");
+      const isoDate = `${year}-${month}-${day}T00:00:00Z`;
+
+      // Filtra apenas os campos aceitos pela API
+      const eventoFiltrado = {
+        data_evento: isoDate,
+        tipo_ocorrencia: evento.tipo_ocorrencia,
+        endereco_evento: evento.endereco_evento,
+        chassi: evento.chassi,
+        matriculaAssociado: evento.matriculaAssociado,
+        matriculaFuncionario: evento.matriculaFuncionario,
+      };
       await axios.patch(
-        `http://localhost:3000/eventos/atualizar/${eventoData.protocolo}`,
-        eventoFiltrado,
+        `http://localhost:3000/eventos/atualizar/${eventoData.protocolo}`, // Protocolo na URL
+        eventoFiltrado, // Dados no corpo
         { headers: { "Content-Type": "application/json" } }
       );
+
       setShowModal(true);
       setMessage("");
     } catch (error) {
@@ -71,15 +95,23 @@ function EditarEvento() {
       <Dash />
       <div className="content">
         <Search />
-        <div className="register">
-          <h1>Editar Evento</h1>
-
+        <h1>Editar Evento</h1>
+        <div className="register VeicCont">
           <DropDown
             title="Dados do Evento"
             type="evento"
             onChange={handleEventoChange}
             formData={evento}
           />
+          <br />
+          <div className="searchAssDiv">
+            <div>
+              <p>Associado responsável pelo veículo: {associado}</p>
+            </div>
+            <div>
+              <p>Placa do Veículo: {placa}.</p>
+            </div>
+          </div>
 
           {message && <p>{message}</p>}
         </div>

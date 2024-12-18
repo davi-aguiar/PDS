@@ -4,6 +4,7 @@ import DropDown from "../../components/dropdown/page";
 import { useEffect, useState } from "react";
 import "./styles.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import PopupVeiculo from "../../components/removeVeiculo/page";
 
 interface Associado {
   nome: string;
@@ -185,7 +186,7 @@ function EditVeiculo() {
             </div>
             <div>
               <p>
-                Modelo do veículo:
+                Modelo do veículo:{" "}
                 {
                   modelos.find((marca) => marca.codModelo === sla.codModelo)
                     ?.nomeModelo
@@ -198,6 +199,7 @@ function EditVeiculo() {
         </div>
         <div className="divButtons">
           <button onClick={handleCancel}>CANCELAR</button>
+          <PopupVeiculo type="button" chassi={sla.chassi} placa={sla.placa} />
           <button onClick={handleSubmit}>SALVAR</button>
         </div>
 
