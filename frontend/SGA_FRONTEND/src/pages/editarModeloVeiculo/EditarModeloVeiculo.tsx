@@ -6,6 +6,7 @@ import DropDown from "../../components/dropdown/page";
 import "./styles.css";
 import axios from "axios";
 import Popup from "../../components/remove/page";
+import PopupModelo from "../../components/removeModelo/page";
 
 function EditarModeloVeiculo() {
   const location = useLocation();
@@ -83,11 +84,12 @@ function EditarModeloVeiculo() {
         </div>
         <div className="divButtons">
           <button onClick={() => setShowModal2(true)}>CANCELAR</button>
-          <Popup
+          <PopupModelo
             type="!icon"
             codModelo={modelo.codModelo}
             nomeModelo={modelo.nomeModelo}
           />
+
           <button onClick={handleSubmit}>SALVAR</button>
         </div>
       </div>

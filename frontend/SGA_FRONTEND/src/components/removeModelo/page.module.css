@@ -24,7 +24,6 @@
     background: white !important;
   }
   .buttonsDiv :first-child{
-    background-color: white;
     padding: 5px 8px 5px 8px;
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.274);
