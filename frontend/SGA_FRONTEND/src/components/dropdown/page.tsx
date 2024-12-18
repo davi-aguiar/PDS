@@ -63,9 +63,11 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
   const [modelos, setModelos] = useState<ModeloVeiculo[]>([]);
   const [tiposDeOcorrencia] = useState<string[]>([
     "Colisão leve",
+    "Colisão média",
     "Colisão grave",
     "Roubo",
     "Incêndio",
+    "Fenômeno natural",
   ]);
 
   const handleClick = () => {
@@ -205,13 +207,12 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
       name: "esp_numero_motor",
       placeholder: "Ex: 52WVC10338",
     },
-    { label: "Cod. Fipe", name: "cod_fipe", placeholder: "Ex: 005418-6" },
     { label: "Mensalidade", name: "mensalidade", placeholder: "Ex: R$ 120,00" },
   ];
 
   const modVeiculosData = [
     {
-      label: "Código do Modelo",
+      label: "Código Fipe",
       name: "codModelo",
       placeholder: "Ex: 1",
       type: "number",

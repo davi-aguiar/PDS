@@ -1,44 +1,93 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { FaBullhorn, FaCar, FaUsers } from "react-icons/fa6";
 
+interface Evento {
+  protocolo: number;
+  tipo_ocorrencia: string;
+  data_evento: string;
+  endereco_evento: string;
+}
+interface Associado {
+  nome: string;
+  telefone: string;
+  email: string;
+  matricula: string;
+}
+interface Veiculo {
+  chassi: string;
+  placa: string;
+  esp_renavam: string;
+  esp_cor: string;
+  esp_numero_motor: string;
+  cod_fipe: string;
+  codModelo: string;
+  mensalidade: string;
+}
+
 export default function Filter() {
+  const [veiculos, setveiculos] = useState<Veiculo[]>([]);
+  const [eventos, setEventos] = useState<Evento[]>([]); // Inicializa com array vazio
+  const [associados, setAssociados] = useState<Associado[]>([]);
+
+  useEffect(() => {
+    const fetchEventos = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/eventos/buscar"
+        );
+        await setEventos(response.data || []); // Confirma que é uma lista
+      } catch (error) {
+        console.error("Erro ao buscar eventos:", error);
+      }
+    };
+
+    fetchEventos();
+  }, []);
+
+  useEffect(() => {
+    const fetchAssociados = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/associados/listar"
+        );
+        await setAssociados(response.data.associados);
+      } catch (error) {
+        console.error("Erro ao buscar associados:", error);
+      }
+    };
+
+    fetchAssociados();
+  }, []);
+  useEffect(() => {
+    const fetchveiculos = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/veiculos/listar"
+        );
+        setveiculos(response.data.veiculos);
+      } catch (error) {
+        console.error("Erro ao buscar veiculos:", error);
+      }
+    };
+
+    fetchveiculos();
+  }, []);
   return (
     <div className="filter">
       <div className="amount">
         <FaUsers size={18} color="black" />
-        <p>232 Associados</p>
+        <p>{associados.length} Associados</p>
       </div>
       <div className="amount">
         <FaCar size={18} color="black" />
-        <p>283 Veículos</p>
+        <p>{veiculos.length} Veículos</p>
       </div>
       <div className="amount">
         <FaBullhorn size={18} color="black" />
-        <p>23 Sinistros</p>
+        <p>{eventos.length} Sinistros</p>
       </div>
       <div className={"line"}></div>
-      <p>Filtrar por:</p>
-      <p className="pLabel">Data de Contrato:</p>
-      <div className="dateFilter">
-        <input type="text" placeholder="DD/MM/YYYY" />
-        <p>Até</p>
-        <input type="text" placeholder="DD/MM/YYYY" />
-      </div>
-      <p className="pLabel">Cidade</p>
-      <input
-        type="text"
-        placeholder="Vitória da Conquista"
-        style={{ height: "25px", width: "100%" }}
-      />
-      <div className="lastInputs">
-        <div>
-          <p className="pLabel">Categoria</p>
-          <input type="text" placeholder="AB" />
-        </div>
-        <div>
-          <p className="pLabel">Automóvel</p>
-          <input type="text" placeholder="Carro" />
-        </div>
-      </div>
     </div>
   );
 }

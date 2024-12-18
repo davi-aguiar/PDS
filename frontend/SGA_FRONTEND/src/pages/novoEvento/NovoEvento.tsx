@@ -126,7 +126,7 @@ const NovoEvento: React.FC = () => {
 
   const handleVeiculo = (value: string) => {
     const veiculoSelecionado = veiculosFiltrados.find(
-      (veiculo) => veiculo.chassi === value
+      (veiculo) => veiculo.placa === value
     );
 
     if (veiculoSelecionado) {
@@ -208,7 +208,7 @@ const NovoEvento: React.FC = () => {
             <div>
               <p>Selecione um veiculo.</p>
               <Autocomplete
-                data={veiculosFiltrados.map((veiculo) => veiculo.chassi)}
+                data={veiculosFiltrados.map((veiculo) => veiculo.placa)}
                 title=""
                 placeholder="Digite o chassi..."
                 onSelect={handleVeiculo}

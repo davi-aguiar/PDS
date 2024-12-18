@@ -4,7 +4,6 @@ import {
   FaUsers,
   FaCar,
   FaNewspaper,
-  FaScrewdriverWrench,
   FaCoins,
   FaBullhorn,
   FaCaravan,
@@ -64,15 +63,6 @@ export default function Dash() {
         >
           <FaNewspaper size={18} color="black" />
           CADASTROS
-        </button>
-        <button
-          className={`${styles.button} ${
-            location.pathname.includes("/ferramentas") ? styles.active : ""
-          }`}
-          onClick={() => handleNavigate("ferramentas")}
-        >
-          <FaScrewdriverWrench size={18} color="black" />
-          FERRAMENTAS
         </button>
         <button
           className={`${styles.button} ${

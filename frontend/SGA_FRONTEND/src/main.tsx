@@ -12,7 +12,6 @@ import NovoModeloVeiculo from "./pages/novoModeloVeiculo/NovoModeloVeiculo.tsx";
 import Veiculos from "./pages/veiculo/Veiculos.tsx";
 import Cadastros from "./pages/cadastros/Cadastros.tsx";
 import Eventos from "./pages/eventos/Eventos.tsx";
-import Ferramentas from "./pages/ferramentas/Ferramentas.tsx";
 import Financeiros from "./pages/financeiros/Financeiros.tsx";
 import EditarModeloVeiculo from "./pages/editarModeloVeiculo/EditarModeloVeiculo.tsx";
 import NovoVeiculo from "./pages/novoVeiculo/NovoVeiculo.tsx";
@@ -66,10 +65,6 @@ const router = createBrowserRouter([
     element: <Eventos />,
   },
   {
-    path: "/ferramentas",
-    element: <Ferramentas />,
-  },
-  {
     path: "/financeiros",
     element: <Financeiros />,
   },
@@ -88,7 +83,7 @@ const router = createBrowserRouter([
   {
     path: "/editar-evento",
     element: <EditarEvento />,
-  }
+  },
 ]);
 
 createRoot(document.getElementById("root")!).render(

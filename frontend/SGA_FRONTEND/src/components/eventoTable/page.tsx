@@ -33,6 +33,7 @@ export default function DenseTableEventos() {
           "http://localhost:3000/eventos/buscar"
         );
         const eventosData = response.data;
+        console.log(eventosData);
 
         const sortedEventos = eventosData.sort((a: Evento, b: Evento) =>
           a.data_evento.localeCompare(b.data_evento)
@@ -45,7 +46,7 @@ export default function DenseTableEventos() {
     };
 
     fetchEventos();
-  }, [eventos]);
+  }, []);
 
   const handleSort = () => {
     const sorted = [...eventos].sort((a, b) =>
@@ -66,11 +67,12 @@ export default function DenseTableEventos() {
       component={Paper}
       style={{ maxHeight: "60vh", overflowY: "auto" }}
     >
-      <Table size="small" style={{ width: "80vw" }}>
+      <Table size="small" style={{ width: "60vw" }}>
         <TableHead>
           <TableRow
             className={styles.headRow}
             style={{
+              width: 10,
               position: "sticky",
               top: 0,
               zIndex: 1,
@@ -91,13 +93,10 @@ export default function DenseTableEventos() {
               Tipo de Ocorrência
             </TableCell>
             <TableCell style={{ fontWeight: "bold" }} align="right">
-              Chassi do Veículo
+              Placa do Veículo
             </TableCell>
             <TableCell style={{ fontWeight: "bold" }} align="right">
-              Matrícula do Associado
-            </TableCell>
-            <TableCell style={{ fontWeight: "bold" }} align="right">
-              Matrícula do Funcionário
+              Associado
             </TableCell>
             <TableCell className={styles.abc} align="right"></TableCell>
           </TableRow>
@@ -117,9 +116,8 @@ export default function DenseTableEventos() {
               </TableCell>
               <TableCell align="right">{evento.endereco_evento}</TableCell>
               <TableCell align="right">{evento.tipo_ocorrencia}</TableCell>
-              <TableCell align="right">{evento.chassi}</TableCell>
-              <TableCell align="right">{evento.matriculaAssociado}</TableCell>
-              <TableCell align="right">{evento.matriculaFuncionario}</TableCell>
+              <TableCell align="right">{evento.veiculo.placa}</TableCell>
+              <TableCell align="right">{evento.associado.nome}</TableCell>
               <TableCell align="right">
                 <PopupEvento type="icon" protocolo={evento.protocolo} />
               </TableCell>
