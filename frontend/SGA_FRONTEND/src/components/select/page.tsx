@@ -11,6 +11,7 @@ interface AutocompleteProps {
   data: string[];
   title: string;
   placeholder: string;
+  initialValue?: string; // Nova prop para valor inicial
   onSelect?: (value: string) => void;
 }
 
@@ -18,9 +19,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   data,
   title,
   placeholder,
+  initialValue = "", // Valor padrão vazio caso não seja passado
   onSelect,
 }) => {
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState<string>(initialValue); // Inicializando com initialValue
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState<number>(0);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
@@ -100,6 +102,16 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    // Atualizar sugestões se o initialValue mudar
+    if (initialValue) {
+      const filtered = data.filter((suggestion) =>
+        suggestion.toLowerCase().includes(initialValue.toLowerCase())
+      );
+      setFilteredSuggestions(filtered);
+    }
+  }, [initialValue, data]);
 
   return (
     <div className="autocomplete" ref={autocompleteRef}>

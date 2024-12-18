@@ -290,6 +290,7 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
                 title="Marca"
                 placeholder="Selecione uma marca"
                 onSelect={handleSelectMarca}
+                initialValue={formData.marca.nomeMarca}
               />
             </div>
           )}
