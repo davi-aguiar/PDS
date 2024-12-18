@@ -76,6 +76,7 @@ function EditarModeloVeiculo() {
             type="modelo_veiculo"
             onChange={handleModeloChange}
             formData={modelo}
+            type2="edit"
           />
 
           {message && <p>{message}</p>}

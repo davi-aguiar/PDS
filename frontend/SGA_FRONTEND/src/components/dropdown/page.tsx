@@ -9,6 +9,7 @@ import axios from "axios";
 
 interface Props {
   title: string;
+  type2?: string;
   type: string;
   onChange: (field: string, value: any) => void;
   formData: {
@@ -57,7 +58,13 @@ interface ModeloVeiculo {
   onDelete: (codModelo: number) => Promise<void>;
 }
 
-export default function DropDown({ title, type, onChange, formData }: Props) {
+export default function DropDown({
+  title,
+  type,
+  type2,
+  onChange,
+  formData,
+}: Props) {
   const [clicked, setClicked] = useState(false);
   const [marcas, setMarcas] = useState<{ value: number; label: string }[]>([]);
   const [modelos, setModelos] = useState<ModeloVeiculo[]>([]);
@@ -285,13 +292,24 @@ export default function DropDown({ title, type, onChange, formData }: Props) {
                   onChange={handleInputChange}
                 />
               ))}
-              <Autocomplete
-                data={marcasLabels}
-                title="Marca"
-                placeholder="Selecione uma marca"
-                onSelect={handleSelectMarca}
-                initialValue={formData.codMarca ? formData.marca.nomeMarca : ""}
-              />
+              {type2 === "edit" ? (
+                <Autocomplete
+                  data={marcasLabels}
+                  title="Marca"
+                  placeholder="Selecione uma marca"
+                  onSelect={handleSelectMarca}
+                  initialValue={
+                    formData.codMarca ? formData.marca.nomeMarca : ""
+                  }
+                />
+              ) : (
+                <Autocomplete
+                  data={marcasLabels}
+                  title="Marca"
+                  placeholder="Selecione uma marca"
+                  onSelect={handleSelectMarca}
+                />
+              )}
             </div>
           )}
           {type === "veiculo" && (

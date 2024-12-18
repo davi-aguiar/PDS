@@ -5,13 +5,7 @@ import { useEffect, useState } from "react";
 import "./styles.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import PopupVeiculo from "../../components/removeVeiculo/page";
-
-interface Associado {
-  nome: string;
-  telefone: string;
-  email: string;
-  matricula: string;
-}
+import Autocomplete from "../../components/select/page";
 
 interface Associado2 {
   nome: string;
@@ -62,7 +56,6 @@ interface VeiculoEncontrado {
 function EditVeiculo() {
   const location = useLocation();
   const { chassi } = location.state; // Pega os dados passados pela navegação
-  const [associados, setAssociados] = useState<Associado[]>([]);
   const [modelos, setModelos] = useState<ModeloVeiculo[]>([]);
   const [activeModal, setActiveModal] = useState<
     "none" | "success" | "confirmExit"
@@ -82,25 +75,19 @@ function EditVeiculo() {
 
   const fetchData = async () => {
     try {
-      const [modelosResponse, associadosResponse, veiculoResponse] =
-        await Promise.all([
-          axios.get("http://localhost:3000/modelo/buscar"),
-          axios.get("http://localhost:3000/associados/listar"),
-          axios.get(
-            `http://localhost:3000/veiculos/associados-veiculos/${chassi}`
-          ),
-        ]);
+      const [modelosResponse, veiculoResponse] = await Promise.all([
+        axios.get("http://localhost:3000/modelo/buscar"),
+        axios.get(
+          `http://localhost:3000/veiculos/associados-veiculos/${chassi}`
+        ),
+      ]);
 
-      setModelos(
+      await setModelos(
         modelosResponse.data.sort((a: ModeloVeiculo, b: ModeloVeiculo) =>
           a.nomeModelo.localeCompare(b.nomeModelo)
         )
       );
-      setAssociados(associadosResponse.data.associados);
       await setsla(veiculoResponse.data.veiculo);
-      const selectedMarca = await modelos.find(
-        (marca) => marca.codModelo === sla.codModelo
-      );
       const veiculoEncontrado: VeiculoEncontrado = veiculoResponse.data.veiculo;
       if (veiculoEncontrado) {
         setFormData({
@@ -164,6 +151,19 @@ function EditVeiculo() {
     }
   };
 
+  const nomesModelos = modelos.map((modelo) => modelo.nomeModelo);
+
+  const handleModelo = (value: string) => {
+    const modeloEncontrado = modelos.find(
+      (associado) => associado.nomeModelo.toLowerCase() === value.toLowerCase()
+    );
+
+    if (modeloEncontrado) {
+      setFormData({ ...formData, codModelo: modeloEncontrado.codModelo });
+    } else {
+      console.log("Associado não encontrado.");
+    }
+  };
   return (
     <div className="container">
       <Dash />
@@ -186,13 +186,19 @@ function EditVeiculo() {
             </div>
             <div>
               <p>
-                Modelo do veículo:{" "}
+                Modelo atual do veículo :{" "}
                 {
                   modelos.find((marca) => marca.codModelo === sla.codModelo)
                     ?.nomeModelo
                 }
                 .
               </p>
+              <Autocomplete
+                data={nomesModelos}
+                title=""
+                placeholder="Digite para alterar o modelo"
+                onSelect={handleModelo}
+              />
             </div>
           </div>
           {message}
