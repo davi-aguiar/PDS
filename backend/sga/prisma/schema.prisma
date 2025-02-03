@@ -90,7 +90,7 @@ model Veiculo {
 
   modelo             Modelo?             @relation(fields: [codModelo], references: [codModelo])
   associadocadastros AssociadoCadastro[] @relation()
-  eventos            Evento[]            @relation()
+  eventos           EventoVeiculo[]
 }
 
 model AssociadoCadastro {
@@ -126,11 +126,21 @@ model Evento {
   tipo_ocorrencia String?
   endereco_evento String?
 
-  chassi               String
   matriculaAssociado   String
   matriculaFuncionario Int
 
-  veiculo     Veiculo     @relation(fields: [chassi], references: [chassi], onDelete: Cascade)
   associado   Associado   @relation(fields: [matriculaAssociado], references: [matricula])
   funcionario Funcionario @relation(fields: [matriculaFuncionario], references: [matriculaFuncionario])
+
+  veiculos EventoVeiculo[]
+}
+
+model EventoVeiculo {
+  eventoId  Int
+  chassi    String
+
+  evento  Evento  @relation(fields: [eventoId], references: [protocolo], onDelete: Cascade)
+  veiculo Veiculo @relation(fields: [chassi], references: [chassi], onDelete: Cascade)
+
+  @@id([eventoId, chassi])
 }

@@ -11,10 +11,11 @@ interface EventoForm {
   data_evento: string;
   tipo_ocorrencia: string;
   endereco_evento: string;
-  chassi: string;
+  chassi: string[]; // <- Agora é um array
   matriculaAssociado: string;
   matriculaFuncionario: number | undefined;
 }
+
 interface Associado {
   nome: string;
   telefone: string;
@@ -44,10 +45,11 @@ const NovoEvento: React.FC = () => {
     data_evento: "",
     tipo_ocorrencia: "",
     endereco_evento: "",
-    chassi: "",
+    chassi: [], // <- Agora é um array
     matriculaAssociado: "",
     matriculaFuncionario: 1,
   });
+  
   const [veiculosFiltrados, setVeiculosFiltrados] = useState<Veiculo[]>([]);
 
   useEffect(() => {
@@ -128,57 +130,63 @@ const NovoEvento: React.FC = () => {
     const veiculoSelecionado = veiculosFiltrados.find(
       (veiculo) => veiculo.placa === value
     );
-
+  
     if (veiculoSelecionado) {
       setFormData((prev) => ({
         ...prev,
-        chassi: veiculoSelecionado.chassi,
+        chassi: [...prev.chassi, veiculoSelecionado.chassi], // <- Agora adiciona ao array
       }));
     }
   };
+  
 
   const handleSubmit = async () => {
     try {
       const [day, month, year] = formData.data_evento.split("/");
       const formattedDate = new Date(`${year}-${month}-${day}`).toISOString();
-
       const matriculaFuncionario = formData.matriculaFuncionario
         ? Number(formData.matriculaFuncionario)
         : undefined;
-
+  
       const convertedData = {
-        ...formData,
         data_evento: formattedDate,
+        tipo_ocorrencia: formData.tipo_ocorrencia,
+        endereco_evento: formData.endereco_evento,
+        veiculos: Array.isArray(formData.chassi) ? formData.chassi : [formData.chassi], // Renomear para 'veiculos'
+        matriculaAssociado: formData.matriculaAssociado,
         matriculaFuncionario,
       };
-
-      console.log("Dados enviados:", convertedData);
-
+  
+      console.log("Dados enviados ao backend:", convertedData); // Adicione este log
+  
       const response = await axios.post(
         "http://localhost:3000/eventos/cadastrar",
         convertedData
       );
-
+  
       if (response.status !== 201) {
         console.error("Erro na resposta do servidor:", response.data);
         return;
       }
-
+  
       console.log("Resposta do servidor:", response.data);
+  
       setFormData({
         data_evento: "",
         tipo_ocorrencia: "",
         endereco_evento: "",
-        chassi: "",
+        chassi: [], // Limpar o campo 'chassi'
         matriculaAssociado: "",
         matriculaFuncionario: 1,
       });
+  
       setShowModal(true);
     } catch (err) {
       console.error("Erro ao conectar com o servidor:", err);
       setMessage("Erro ao cadastrar evento. Tente novamente.");
     }
   };
+  
 
   return (
     <div className="container">

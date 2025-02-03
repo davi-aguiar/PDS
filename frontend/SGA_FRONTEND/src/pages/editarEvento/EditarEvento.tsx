@@ -12,8 +12,8 @@ function EditarEvento() {
   const { evento: eventoData } = location.state; // Pega os dados passados pela navegação
   const [evento, setEvento] = useState(eventoData);
   const [message, setMessage] = useState("");
-  const [placa, setPlaca] = useState("");
-  const [associado, setAssociado] = useState("");
+  const [placa, setPlaca] = useState(""); // Placa do primeiro veículo
+  const [associado, setAssociado] = useState(""); // Nome do associado
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
 
@@ -35,14 +35,21 @@ function EditarEvento() {
         );
         console.log(response.data);
 
+        // Extrair nome do associado
         setAssociado(response.data.associado.nome);
-        setPlaca(response.data.veiculo.placa);
+
+        // Extrair placa do primeiro veículo
+        if (response.data.veiculos && response.data.veiculos.length > 0) {
+          setPlaca(response.data.veiculos[0].veiculo.placa);
+        } else {
+          setPlaca("N/A"); // Caso não haja veículos associados
+        }
+
         // Formata a data_evento para DD/MM/YYYY
         const eventoComDataFormatada = {
           ...response.data,
           data_evento: formatDateToDDMMYYYY(response.data.data_evento),
         };
-
         setEvento(eventoComDataFormatada);
       } catch (error) {
         setMessage("Erro ao carregar os dados do evento.");
@@ -71,6 +78,7 @@ function EditarEvento() {
         matriculaAssociado: evento.matriculaAssociado,
         matriculaFuncionario: evento.matriculaFuncionario,
       };
+
       await axios.patch(
         `http://localhost:3000/eventos/atualizar/${eventoData.protocolo}`, // Protocolo na URL
         eventoFiltrado, // Dados no corpo
@@ -112,7 +120,6 @@ function EditarEvento() {
               <p>Placa do Veículo: {placa}.</p>
             </div>
           </div>
-
           {message && <p>{message}</p>}
         </div>
         <div className="divButtons">

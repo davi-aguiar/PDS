@@ -3,7 +3,7 @@ import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
+import { TableContainer } from "@mui/material";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
@@ -11,14 +11,24 @@ import { useNavigate } from "react-router-dom";
 import styles from "./page.module.css";
 import PopupEvento from "../removeEvento/page";
 
+interface Veiculo {
+  chassi: string;
+  veiculo: {
+    placa: string;
+  };
+}
+
 interface Evento {
   protocolo: number;
   data_evento: string;
   endereco_evento: string;
   tipo_ocorrencia: string;
-  chassi: string;
   matriculaAssociado: string;
   matriculaFuncionario: number;
+  veiculos: Veiculo[];
+  associado: {
+    nome: string;
+  };
 }
 
 export default function DenseTableEventos() {
@@ -37,24 +47,21 @@ export default function DenseTableEventos() {
   useEffect(() => {
     const fetchEventos = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/eventos/buscar"
-        );
+        const response = await axios.get("http://localhost:3000/eventos/buscar");
         const eventosData = response.data;
         console.log(eventosData);
 
+        // Ordenar eventos por data
         const sortedEventos = eventosData.sort((a: Evento, b: Evento) =>
           a.data_evento.localeCompare(b.data_evento)
         );
-
         setEventos(sortedEventos);
       } catch (error) {
         console.error("Erro ao buscar eventos:", error);
       }
     };
-
     fetchEventos();
-  }, [eventos]);
+  }, []);
 
   const handleSort = () => {
     const sorted = [...eventos].sort((a, b) =>
@@ -80,7 +87,6 @@ export default function DenseTableEventos() {
           <TableRow
             className={styles.headRow}
             style={{
-              width: 10,
               position: "sticky",
               top: 0,
               zIndex: 1,
@@ -124,7 +130,11 @@ export default function DenseTableEventos() {
               </TableCell>
               <TableCell align="right">{evento.endereco_evento}</TableCell>
               <TableCell align="right">{evento.tipo_ocorrencia}</TableCell>
-              <TableCell align="right">{evento.veiculo.placa}</TableCell>
+              <TableCell align="right">
+                {evento.veiculos.length > 0
+                  ? evento.veiculos[0].veiculo.placa
+                  : "N/A"}
+              </TableCell>
               <TableCell align="right">{evento.associado.nome}</TableCell>
               <TableCell align="right">
                 <PopupEvento type="icon" protocolo={evento.protocolo} />

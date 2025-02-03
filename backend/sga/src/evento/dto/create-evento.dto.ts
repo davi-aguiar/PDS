@@ -1,4 +1,4 @@
-import { IsDateString, IsInt, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsInt, IsOptional, IsString, IsArray } from 'class-validator';
 
 export class CreateEventoDto {
   @IsDateString()
@@ -13,11 +13,12 @@ export class CreateEventoDto {
   endereco_evento?: string;
 
   @IsString()
-  chassi: string;
-
-  @IsString()
   matriculaAssociado: string;
 
   @IsInt()
   matriculaFuncionario: number;
+
+  @IsArray()
+  @IsString({ each: true }) // Garante que cada item do array seja uma string
+  veiculos: string[]; // Lista de chassis dos veículos
 }
