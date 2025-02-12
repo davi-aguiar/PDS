@@ -39,6 +39,8 @@ const NovoEvento: React.FC = () => {
   const [showModal2, setShowModal2] = useState(false);
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
+  const [chassiTercc, setChassiTercc] = useState("");
+  const [chassisTercc, setChassisTercc] = useState<Veiculo[]>([]);
   const [associados, setAssociados] = useState<Associado[]>([]);
   const [veicAssociados, setVeicAssociados] = useState<VeicAssociados[]>([]);
   const [formData, setFormData] = useState<EventoForm>({
@@ -49,7 +51,7 @@ const NovoEvento: React.FC = () => {
     matriculaAssociado: "",
     matriculaFuncionario: 1,
   });
-  
+
   const [veiculosFiltrados, setVeiculosFiltrados] = useState<Veiculo[]>([]);
 
   useEffect(() => {
@@ -87,8 +89,19 @@ const NovoEvento: React.FC = () => {
         console.error("Erro ao buscar associados:", error);
       }
     };
+    const fetchVeiculos2 = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/veiculos/listar"
+        );
+        setChassisTercc(response.data.veiculos);
+      } catch (error) {
+        console.error("Erro ao buscar associados:", error);
+      }
+    };
 
     fetchVeiculos();
+    fetchVeiculos2();
   }, []);
 
   const handleChange = (field: keyof EventoForm, value: string | number) => {
@@ -130,7 +143,7 @@ const NovoEvento: React.FC = () => {
     const veiculoSelecionado = veiculosFiltrados.find(
       (veiculo) => veiculo.placa === value
     );
-  
+
     if (veiculoSelecionado) {
       setFormData((prev) => ({
         ...prev,
@@ -138,7 +151,9 @@ const NovoEvento: React.FC = () => {
       }));
     }
   };
-  
+  const handleVeiculoTerc = (value: string) => {
+    setChassiTercc(value);
+  };
 
   const handleSubmit = async () => {
     try {
@@ -147,30 +162,32 @@ const NovoEvento: React.FC = () => {
       const matriculaFuncionario = formData.matriculaFuncionario
         ? Number(formData.matriculaFuncionario)
         : undefined;
-  
+
       const convertedData = {
         data_evento: formattedDate,
         tipo_ocorrencia: formData.tipo_ocorrencia,
         endereco_evento: formData.endereco_evento,
-        veiculos: Array.isArray(formData.chassi) ? formData.chassi : [formData.chassi], // Renomear para 'veiculos'
+        veiculos: Array.isArray(formData.chassi)
+          ? formData.chassi
+          : [formData.chassi], // Renomear para 'veiculos'
         matriculaAssociado: formData.matriculaAssociado,
         matriculaFuncionario,
       };
-  
+
       console.log("Dados enviados ao backend:", convertedData); // Adicione este log
-  
+
       const response = await axios.post(
         "http://localhost:3000/eventos/cadastrar",
         convertedData
       );
-  
+
       if (response.status !== 201) {
         console.error("Erro na resposta do servidor:", response.data);
         return;
       }
-  
+
       console.log("Resposta do servidor:", response.data);
-  
+
       setFormData({
         data_evento: "",
         tipo_ocorrencia: "",
@@ -179,14 +196,13 @@ const NovoEvento: React.FC = () => {
         matriculaAssociado: "",
         matriculaFuncionario: 1,
       });
-  
+
       setShowModal(true);
     } catch (err) {
       console.error("Erro ao conectar com o servidor:", err);
       setMessage("Erro ao cadastrar evento. Tente novamente.");
     }
   };
-  
 
   return (
     <div className="container">
@@ -220,6 +236,19 @@ const NovoEvento: React.FC = () => {
                 title=""
                 placeholder="Digite o chassi..."
                 onSelect={handleVeiculo}
+              />
+            </div>
+            <div>
+              <p>Chassi de terceiros associados.</p>
+              <Autocomplete
+                data={
+                  chassisTercc
+                    ? chassisTercc.map((veiculo) => veiculo.chassi)
+                    : []
+                }
+                title=""
+                placeholder="Digite o chassi..."
+                onSelect={handleVeiculoTerc}
               />
             </div>
           </div>
