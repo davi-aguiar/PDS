@@ -90,7 +90,7 @@ model Veiculo {
 
   modelo             Modelo?             @relation(fields: [codModelo], references: [codModelo])
   associadocadastros AssociadoCadastro[] @relation()
-  eventos           EventoVeiculo[]
+  eventos            EventoVeiculo[]
 }
 
 model AssociadoCadastro {
@@ -136,8 +136,9 @@ model Evento {
 }
 
 model EventoVeiculo {
-  eventoId  Int
-  chassi    String
+  eventoId   Int
+  chassi     String
+  isTerceiro Boolean @default(false)
 
   evento  Evento  @relation(fields: [eventoId], references: [protocolo], onDelete: Cascade)
   veiculo Veiculo @relation(fields: [chassi], references: [chassi], onDelete: Cascade)
