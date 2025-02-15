@@ -55,13 +55,13 @@ function NovoVeiculo() {
     esp_numero_motor: "",
     cod_fipe: "",
     mensalidade: "",
-    codModelo: undefined,
+    codModelo: undefined
   });
   const [formDataAss, setFormDataAss] = useState<VeiculoAssForm>({
     matricula: "",
     chassi: "",
     matriculaFuncionario: 1,
-    taxaAdesao: "123",
+    taxaAdesao: "123"
   });
 
   const handleVeiculoChange = (field: string, value: string) => {
@@ -152,7 +152,7 @@ function NovoVeiculo() {
     if (associadoEncontrado) {
       setFormDataAss({
         ...formDataAss,
-        matricula: associadoEncontrado.matricula,
+        matricula: associadoEncontrado.matricula
       });
     } else {
       console.log("Associado não encontrado.");
