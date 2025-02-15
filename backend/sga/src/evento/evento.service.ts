@@ -8,24 +8,22 @@ export class EventoService {
   private prisma = new PrismaClient();
 
   async create(data: CreateEventoDto) {
-  
     const { veiculos, ...eventoData } = data;
-  
-    // Criar evento SEM o campo chassi
+
     const evento = await this.prisma.evento.create({
-      data: eventoData, // Aqui não deve incluir o campo 'chassi'
+      data: eventoData,
     });
-  
-    // Criar relacionamentos na tabela `eventoVeiculo`
+
     if (veiculos?.length) {
       await this.prisma.eventoVeiculo.createMany({
-        data: veiculos.map((chassi) => ({
-          eventoId: evento.protocolo, // Usando a chave primária do evento
+        data: veiculos.map(({ chassi, isTerceiro }) => ({
+          eventoId: evento.protocolo,
           chassi,
+          isTerceiro,
         })),
       });
     }
-  
+
     return evento;
   }
 
@@ -55,11 +53,14 @@ export class EventoService {
   }
 
   async update(id: number, data: UpdateEventoDto) {
-    const { veiculos, ...eventoData } = data;
+    const { veiculos, data_evento, ...eventoData } = data;
 
     const evento = await this.prisma.evento.update({
       where: { protocolo: id },
-      data: eventoData,
+      data: {
+        ...eventoData,
+        data_evento: data_evento ? new Date(data_evento) : undefined,
+      },
     });
 
     if (veiculos) {
@@ -68,9 +69,10 @@ export class EventoService {
       });
 
       await this.prisma.eventoVeiculo.createMany({
-        data: veiculos.map((chassi) => ({
+        data: veiculos.map(({ chassi, isTerceiro }) => ({
           eventoId: id,
           chassi,
+          isTerceiro,
         })),
       });
     }
@@ -79,10 +81,12 @@ export class EventoService {
   }
 
   async remove(id: number) {
+    // Remove os registros associados em eventoVeiculo
     await this.prisma.eventoVeiculo.deleteMany({
       where: { eventoId: id },
     });
 
+    // Remove o evento
     return this.prisma.evento.delete({
       where: { protocolo: id },
     });
