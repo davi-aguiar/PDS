@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import Select from "react-select";
 import "./styles.css";
-import { IoCloudUploadOutline } from "react-icons/io5";
 import DropDownInput from "../dropdownInput/page";
 import React from "react";
 import Autocomplete from "../select/page";
@@ -86,35 +84,81 @@ export default function DropDown({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    onChange(name, value); // Atualiza o valor sem validação imediata
+    let formattedValue = value;
+    if (name === "cpf_cnpj") {
+      formattedValue = value.replace(/\D/g, ""); // Remove tudo que não for número
+
+      if (formattedValue.length <= 11) {
+        // Formatação para CPF: 000.000.000-00
+        formattedValue = formattedValue
+          .replace(/^(\d{3})(\d)/, "$1.$2")
+          .replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
+          .replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3-$4");
+      } else {
+        // Formatação para CNPJ: 00.000.000/0000-00
+        formattedValue = formattedValue
+          .replace(/^(\d{2})(\d)/, "$1.$2")
+          .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+          .replace(/^(\d{2})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3/$4")
+          .replace(/^(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d)/, "$1.$2.$3/$4-$5");
+      }
+
+      if (formattedValue.length > 18) {
+        formattedValue = formattedValue.slice(0, 18); // Limita o tamanho máximo
+      }
+    }
+    // Aplica a formatação somente para o campo de data
+    if (name === "data_nascimento" || name === "data_evento") {
+      formattedValue = value.replace(/\D/g, ""); // Remove tudo que não for número
+
+      if (formattedValue.length > 8) {
+        formattedValue = formattedValue.slice(0, 8); // Limita a 8 dígitos
+      }
+
+      if (formattedValue.length > 4) {
+        formattedValue = formattedValue.replace(
+          /(\d{2})(\d{2})(\d{0,4})/,
+          "$1/$2/$3"
+        );
+      } else if (formattedValue.length > 2) {
+        formattedValue = formattedValue.replace(/(\d{2})(\d{0,2})/, "$1/$2");
+      }
+    }
+
+    onChange(name, formattedValue); // Atualiza o estado do formulário
   };
 
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     let errorMessage = "";
-  
+
     switch (name) {
       case "cpf_cnpj": {
         const numericValueCpfCnpj = value.replace(/\D/g, "");
-        if (numericValueCpfCnpj.length !== 11 && numericValueCpfCnpj.length !== 14) {
-          errorMessage = "CPF ou CNPJ inválido (deve ter 11 dígitos para CPF ou 14 dígitos para CNPJ)";
+        if (
+          numericValueCpfCnpj.length !== 11 &&
+          numericValueCpfCnpj.length !== 14
+        ) {
+          errorMessage =
+            "CPF ou CNPJ inválido (deve ter 11 dígitos para CPF ou 14 dígitos para CNPJ)";
         }
         break;
       }
       case "data_nascimento":
-      if (!/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
-        errorMessage = "Formato inválido (DD/MM/AAAA)";
-      }
-      break;
+        if (!/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+          errorMessage = "Formato inválido (DD/MM/AAAA)";
+        }
+        break;
       case "data_evento":
-      if (!/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
-        errorMessage = "Formato inválido (DD/MM/AAAA)";
-      }
-      break;
+        if (!/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+          errorMessage = "Formato inválido (DD/MM/AAAA)";
+        }
+        break;
       case "telefone": {
         const numericValueTelefone = value.replace(/\D/g, "");
         if (numericValueTelefone.length !== 11) {
-          errorMessage = "Telefone inválido (deve ter 11 dígitos numéricos incluindo o DDD)";
+          errorMessage =
+            "Telefone inválido (deve ter 11 dígitos numéricos incluindo o DDD)";
         }
         break;
       }
@@ -133,7 +177,7 @@ export default function DropDown({
       default:
         errorMessage = "";
     }
-  
+
     setErrors((prevErrors) => {
       const newErrors = { ...prevErrors, [name]: errorMessage };
       onErrorsChange?.(newErrors); // Notifica o componente pai sobre os erros
@@ -325,15 +369,6 @@ export default function DropDown({
                   error={errors[field.name]} // Passando o erro específico do campo
                 />
               ))}
-              <div className="info2">
-                <p>Upload Documentação</p>
-                <div className="uploadInput">
-                  <input type="file" id="file-input" />
-                  <label htmlFor="file-input">
-                    <IoCloudUploadOutline size={60} />
-                  </label>
-                </div>
-              </div>
             </div>
           )}
           {type === "modelo_veiculo" && (
@@ -387,15 +422,6 @@ export default function DropDown({
                     error={errors[field.name]} // Passando o erro específico do campo
                   />
                 ))}
-                <div className="info2">
-                  <p>Imagens</p>
-                  <div className="uploadInput">
-                    <input type="file" id="file-input" />
-                    <label htmlFor="file-input">
-                      <IoCloudUploadOutline size={60} />
-                    </label>
-                  </div>
-                </div>
               </div>
             </>
           )}
