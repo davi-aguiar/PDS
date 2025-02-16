@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./pages/app/App.tsx";
 import "./index.css";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
 import Associado from "./pages/associado/Associado.tsx";
 import Cadastro from "./pages/cadastro/cadastro.tsx";
 import NovoAssociado from "./pages/novoAssociado/NovoAssociado.tsx";
@@ -21,8 +21,8 @@ import EditarEvento from "./pages/editarEvento/EditarEvento.tsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
+    path: "/", 
+    element: <Navigate to="/associado" />,
   },
   {
     path: "/associado",

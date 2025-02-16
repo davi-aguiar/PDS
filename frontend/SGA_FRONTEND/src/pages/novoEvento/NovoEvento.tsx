@@ -157,37 +157,41 @@ const NovoEvento: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
+      // Adicionar o chassis de terceiros ao array de chassis, se existir
+      const updatedChassis = chassiTercc
+        ? [...formData.chassi, chassiTercc] // Adiciona chassiTercc ao array
+        : formData.chassi;
+  
       const [day, month, year] = formData.data_evento.split("/");
       const formattedDate = new Date(`${year}-${month}-${day}`).toISOString();
       const matriculaFuncionario = formData.matriculaFuncionario
         ? Number(formData.matriculaFuncionario)
         : undefined;
-
+  
       const convertedData = {
         data_evento: formattedDate,
         tipo_ocorrencia: formData.tipo_ocorrencia,
         endereco_evento: formData.endereco_evento,
-        veiculos: Array.isArray(formData.chassi)
-          ? formData.chassi
-          : [formData.chassi], // Renomear para 'veiculos'
+        veiculos: updatedChassis, // Usar o array atualizado
         matriculaAssociado: formData.matriculaAssociado,
         matriculaFuncionario,
       };
-
-      console.log("Dados enviados ao backend:", convertedData); // Adicione este log
-
+  
+      console.log("Dados enviados ao backend:", convertedData);
+  
       const response = await axios.post(
         "http://localhost:3000/eventos/cadastrar",
         convertedData
       );
-
+  
       if (response.status !== 201) {
         console.error("Erro na resposta do servidor:", response.data);
         return;
       }
-
+  
       console.log("Resposta do servidor:", response.data);
-
+  
+      // Limpar os campos após o envio
       setFormData({
         data_evento: "",
         tipo_ocorrencia: "",
@@ -196,7 +200,7 @@ const NovoEvento: React.FC = () => {
         matriculaAssociado: "",
         matriculaFuncionario: 1,
       });
-
+      setChassiTercc(""); // Limpar o campo de chassis de terceiros
       setShowModal(true);
     } catch (err) {
       console.error("Erro ao conectar com o servidor:", err);

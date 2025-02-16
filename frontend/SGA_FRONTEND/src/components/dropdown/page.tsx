@@ -66,6 +66,7 @@ export default function DropDown({
   formData,
 }: Props) {
   const [clicked, setClicked] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [marcas, setMarcas] = useState<{ value: number; label: string }[]>([]);
   const [modelos, setModelos] = useState<ModeloVeiculo[]>([]);
   const [tiposDeOcorrencia] = useState<string[]>([
@@ -83,7 +84,56 @@ export default function DropDown({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    onChange(name, value);
+    onChange(name, value); // Atualiza o valor sem validação imediata
+  };
+
+  const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    let errorMessage = "";
+
+    switch (name) {
+      case "cpf_cnpj": {
+        // Remove qualquer caractere não numérico para validação
+        const numericValueCpfCnpj = value.replace(/\D/g, "");
+        if (
+          numericValueCpfCnpj.length !== 11 &&
+          numericValueCpfCnpj.length !== 14
+        ) {
+          errorMessage =
+            "CPF ou CNPJ inválido (deve ter 11 dígitos para CPF ou 14 dígitos para CNPJ)";
+        }
+        break;
+      }
+
+      case "telefone": {
+        // Remove qualquer caractere não numérico para validação
+        const numericValueTelefone = value.replace(/\D/g, "");
+        if (numericValueTelefone.length !== 11) {
+          errorMessage =
+            "Telefone inválido (deve ter 11 dígitos numéricos incluindo o DDD)";
+        }
+        break;
+      }
+
+      case "end_cep": {
+        // Remove qualquer caractere não numérico para validação
+        const numericValueCep = value.replace(/\D/g, "");
+        if (numericValueCep.length !== 8) {
+          errorMessage = "CEP inválido (deve ter 8 dígitos numéricos)";
+        }
+        break;
+      }
+      case "placa":
+        if (!/^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/.test(value)) {
+          errorMessage = "Placa inválida (Ex: BRA2E19)";
+        }
+        break;
+
+      default:
+        errorMessage = "";
+    }
+
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
   };
 
   const marcasLabels = marcas.map((marca) => marca.label);
@@ -157,7 +207,7 @@ export default function DropDown({
       label: "Data de Nascimento",
       name: "data_nascimento",
       placeholder: "Ex: 13/05/2000",
-      type: "date",
+      type: "text",
     },
     { label: "CNH", name: "cnh", placeholder: "Ex: 38348213128", type: "text" },
     { label: "RG", name: "rg", placeholder: "Ex: 8839992341", type: "text" },
@@ -230,7 +280,7 @@ export default function DropDown({
       placeholder: "Ex: Corolla",
       type: "text",
     },
-    { label: "Tipo", name: "tipo", placeholder: "Ex: Carro", type: "text" },
+    { label: "Tipo", name: "tipo", placeholder: "Ex: Sedan", type: "text" },
   ];
 
   const eventoData = [
@@ -238,7 +288,7 @@ export default function DropDown({
       label: "Data do Evento",
       name: "data_evento",
       placeholder: "Selecione a data",
-      type: "datetime-local",
+      type: "text",
     },
     {
       label: "Endereço do Evento",
@@ -266,6 +316,8 @@ export default function DropDown({
                   type={field.type}
                   value={formData[field.name as keyof typeof formData] || ""}
                   onChange={handleInputChange}
+                  onBlur={handleInputBlur}
+                  error={errors[field.name]} // Passando o erro específico do campo
                 />
               ))}
               <div className="info2">
@@ -290,6 +342,8 @@ export default function DropDown({
                   type={field.type}
                   value={formData[field.name as keyof typeof formData] || ""}
                   onChange={handleInputChange}
+                  onBlur={handleInputBlur}
+                  error={errors[field.name]} // Passando o erro específico do campo
                 />
               ))}
               {type2 === "edit" ? (
@@ -324,6 +378,8 @@ export default function DropDown({
                     type={field.type}
                     value={formData[field.name as keyof typeof formData] || ""}
                     onChange={handleInputChange}
+                    onBlur={handleInputBlur}
+                    error={errors[field.name]} // Passando o erro específico do campo
                   />
                 ))}
                 <div className="info2">
@@ -349,6 +405,8 @@ export default function DropDown({
                   type={field.type}
                   value={formData[field.name as keyof typeof formData] || ""}
                   onChange={handleInputChange}
+                  onBlur={handleInputBlur}
+                  error={errors[field.name]} // Passando o erro específico do campo
                 />
               ))}
               <div className="selectInput">
