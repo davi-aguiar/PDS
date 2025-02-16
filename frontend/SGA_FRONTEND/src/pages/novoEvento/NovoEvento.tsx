@@ -43,6 +43,7 @@ const NovoEvento: React.FC = () => {
   const [chassisTercc, setChassisTercc] = useState<Veiculo[]>([]);
   const [associados, setAssociados] = useState<Associado[]>([]);
   const [veicAssociados, setVeicAssociados] = useState<VeicAssociados[]>([]);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState<EventoForm>({
     data_evento: "",
     tipo_ocorrencia: "",
@@ -53,6 +54,10 @@ const NovoEvento: React.FC = () => {
   });
 
   const [veiculosFiltrados, setVeiculosFiltrados] = useState<Veiculo[]>([]);
+
+  const handleErrorsChange = (errors: Record<string, string>) => {
+    setFormErrors(errors);
+  };
 
   useEffect(() => {
     const fetchAssociados = async () => {
@@ -157,6 +162,12 @@ const NovoEvento: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
+      // Verifica se há erros no formulário
+    const hasErrors = Object.values(formErrors).some((error) => error !== "");
+    if (hasErrors) {
+      setMessage("Por favor, corrija os erros no formulário antes de enviar.");
+      return;
+    }
       // Adicionar o chassis de terceiros ao array de chassis, se existir
       const updatedChassis = chassiTercc
         ? [...formData.chassi, chassiTercc] // Adiciona chassiTercc ao array
@@ -221,6 +232,7 @@ const NovoEvento: React.FC = () => {
               handleChange(field as keyof EventoForm, value)
             }
             formData={formData}
+            onErrorsChange={handleErrorsChange}
           />
           <br />
           <div className="searchAssDiv">

@@ -46,6 +46,7 @@ function NovoVeiculo() {
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [message, setMessage] = useState("");
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const navigate = useNavigate();
   const [formData, setFormData] = useState<VeiculoForm>({
     chassi: "",
@@ -66,6 +67,9 @@ function NovoVeiculo() {
 
   const handleVeiculoChange = (field: string, value: string) => {
     setFormData({ ...formData, [field]: value });
+  };
+  const handleErrorsChange = (errors: Record<string, string>) => {
+    setFormErrors(errors);
   };
 
   useEffect(() => {
@@ -104,6 +108,12 @@ function NovoVeiculo() {
 
   const handleSubmit = async () => {
     try {
+      // Verifica se há erros no formulário
+    const hasErrors = Object.values(formErrors).some((error) => error !== "");
+    if (hasErrors) {
+      setMessage("Por favor, corrija os erros no formulário antes de enviar.");
+      return;
+    }
       const response = await axios.post(
         "http://localhost:3000/veiculos/register",
         formData
@@ -186,6 +196,7 @@ function NovoVeiculo() {
             type="veiculo"
             onChange={handleVeiculoChange}
             formData={formData}
+            onErrorsChange={handleErrorsChange}
           />
           <br />
           <div className="searchAssDiv">

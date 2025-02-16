@@ -11,6 +11,7 @@ interface Props {
   title: string;
   type2?: string;
   type: string;
+  onErrorsChange?: (errors: Record<string, string>) => void;
   onChange: (field: string, value: any) => void;
   formData: {
     nome?: string;
@@ -63,6 +64,7 @@ export default function DropDown({
   type,
   type2,
   onChange,
+  onErrorsChange,
   formData,
 }: Props) {
   const [clicked, setClicked] = useState(false);
@@ -90,33 +92,33 @@ export default function DropDown({
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     let errorMessage = "";
-
+  
     switch (name) {
       case "cpf_cnpj": {
-        // Remove qualquer caractere não numérico para validação
         const numericValueCpfCnpj = value.replace(/\D/g, "");
-        if (
-          numericValueCpfCnpj.length !== 11 &&
-          numericValueCpfCnpj.length !== 14
-        ) {
-          errorMessage =
-            "CPF ou CNPJ inválido (deve ter 11 dígitos para CPF ou 14 dígitos para CNPJ)";
+        if (numericValueCpfCnpj.length !== 11 && numericValueCpfCnpj.length !== 14) {
+          errorMessage = "CPF ou CNPJ inválido (deve ter 11 dígitos para CPF ou 14 dígitos para CNPJ)";
         }
         break;
       }
-
+      case "data_nascimento":
+      if (!/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+        errorMessage = "Formato inválido (DD/MM/AAAA)";
+      }
+      break;
+      case "data_evento":
+      if (!/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+        errorMessage = "Formato inválido (DD/MM/AAAA)";
+      }
+      break;
       case "telefone": {
-        // Remove qualquer caractere não numérico para validação
         const numericValueTelefone = value.replace(/\D/g, "");
         if (numericValueTelefone.length !== 11) {
-          errorMessage =
-            "Telefone inválido (deve ter 11 dígitos numéricos incluindo o DDD)";
+          errorMessage = "Telefone inválido (deve ter 11 dígitos numéricos incluindo o DDD)";
         }
         break;
       }
-
       case "end_cep": {
-        // Remove qualquer caractere não numérico para validação
         const numericValueCep = value.replace(/\D/g, "");
         if (numericValueCep.length !== 8) {
           errorMessage = "CEP inválido (deve ter 8 dígitos numéricos)";
@@ -128,12 +130,15 @@ export default function DropDown({
           errorMessage = "Placa inválida (Ex: BRA2E19)";
         }
         break;
-
       default:
         errorMessage = "";
     }
-
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
+  
+    setErrors((prevErrors) => {
+      const newErrors = { ...prevErrors, [name]: errorMessage };
+      onErrorsChange?.(newErrors); // Notifica o componente pai sobre os erros
+      return newErrors;
+    });
   };
 
   const marcasLabels = marcas.map((marca) => marca.label);

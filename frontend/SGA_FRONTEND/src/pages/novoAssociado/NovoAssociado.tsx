@@ -26,6 +26,7 @@ function NovoAssociado() {
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const navigate = useNavigate();
 
   // Função para converter a data para o formato YYYY/MM/DD
@@ -38,12 +39,25 @@ function NovoAssociado() {
     setAssociado({ ...associado, [field]: value });
   };
 
+  const handleErrorsChange = (errors: Record<string, string>) => {
+    setFormErrors(errors);
+  };
+
   const handleSubmit = async () => {
+    // Verifica se há erros no formulário
+    const hasErrors = Object.values(formErrors).some((error) => error !== "");
+    if (hasErrors) {
+      setMessage("Por favor, corrija os erros no formulário antes de enviar.");
+      return;
+    }
+
     try {
       // Converte a data de nascimento antes de enviar os dados
       const associadoParaEnviar = {
         ...associado,
-        data_nascimento: associado.data_nascimento ? convertToServerDate(associado.data_nascimento) : "",
+        data_nascimento: associado.data_nascimento
+          ? convertToServerDate(associado.data_nascimento)
+          : "",
       };
 
       await axios.post(
@@ -51,6 +65,7 @@ function NovoAssociado() {
         associadoParaEnviar,
         { headers: { "Content-Type": "application/json" } }
       );
+
       setShowModal(true);
       setMessage("");
     } catch (error) {
@@ -76,6 +91,7 @@ function NovoAssociado() {
             type="associado"
             onChange={handleAssociadoChange}
             formData={associado}
+            onErrorsChange={handleErrorsChange}
           />
           {message && <p>{message}</p>}
         </div>
