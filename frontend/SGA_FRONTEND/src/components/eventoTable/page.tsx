@@ -61,7 +61,7 @@ export default function DenseTableEventos() {
       }
     };
     fetchEventos();
-  }, []);
+  }, [eventos]);
 
   const handleSort = () => {
     const sorted = [...eventos].sort((a, b) =>
